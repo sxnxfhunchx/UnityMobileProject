@@ -16,7 +16,8 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         float moveSpeed = (data != null) ? data.speed : 15f;
-        transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
+
+       transform.Translate(Vector3.back * moveSpeed * Time.deltaTime, Space.World);
 
         if (transform.position.z < -10f)
         {
