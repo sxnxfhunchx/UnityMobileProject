@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ae8a123de53e544d9c5384f5b64c9d5, type: 3}
-  m_Name: SceletonData
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: Sceleton
-  health: 30
-  speed: 15
-  scoreValue: 10
+  m_Script: {fileID: 11500000, guid: f0e5499404a890a4f817a2bd5e525b79, type: 3}
+  m_Name: Level07
+  m_EditorClassIdentifier: Assembly-CSharp::LevelSettings
+  levelNumber: 7
+  spawnInterval: 1.5
+  levelDuration: 20
+  enemySpeedMultiplier: 1.7

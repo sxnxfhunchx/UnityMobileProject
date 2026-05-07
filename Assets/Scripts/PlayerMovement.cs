@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerMovementNew : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float sensitivity = 0.5f;
-    public Vector2 minBounds = new Vector2(-5, 0.5f);
-    public Vector2 maxBounds = new Vector2(5, 8);
+    public float sensitivity = 10f; 
+    public float minX = -5f;
+    public float maxX = 5f;
 
     private Vector2 moveInput;
 
@@ -26,11 +26,9 @@ public class PlayerMovementNew : MonoBehaviour
     private void MovePlayer(Vector2 delta)
     {
         float newX = transform.position.x + delta.x * sensitivity * Time.deltaTime;
-        float newY = transform.position.y + delta.y * sensitivity * Time.deltaTime;
 
-        newX = Mathf.Clamp(newX, minBounds.x, maxBounds.x);
-        newY = Mathf.Clamp(newY, minBounds.y, maxBounds.y);
+        newX = Mathf.Clamp(newX, minX, maxX);
 
-        transform.position = new Vector3(newX, newY, transform.position.z);
+        transform.position = new Vector3(newX, transform.position.y, transform.position.z);
     }
 }

@@ -1,23 +1,62 @@
 using UnityEngine;
+using System.Collections;
 
-public class LevelSpawner : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-    public GameObject[] obstaclePrefabs; 
-    public float spawnInterval = 1.5f;
+    public LevelDataContainer levelData;
+    public LevelSpawner spawner;
+    
+    private int currentLevelIndex = 0;
+    private float levelTimer;
+    private bool isTransitioning = false; // Add this line
 
     void Start()
     {
-        InvokeRepeating("SpawnObstacle", 0f, spawnInterval);
+        StartLevel(0);
     }
 
-    void SpawnObstacle()
+    void Update()
     {
-        float randomX = Random.Range(-5f, 5f);
-        Vector3 spawnPos = new Vector3(randomX, -0.09f, transform.position.z);
+        if (isTransitioning) return; 
 
-        GameObject newEnemy = Instantiate(obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)], spawnPos, Quaternion.identity);
-    
-       
-        newEnemy.transform.rotation = Quaternion.Euler(0, 180, 0); 
+        levelTimer += Time.deltaTime;
+
+        if (currentLevelIndex < levelData.levels.Count)
+        {
+            if (levelTimer >= levelData.levels[currentLevelIndex].levelDuration)
+            {
+                EndLevel();
+            }
+        }
     }
+
+    void StartLevel(int index)
+    {
+        isTransitioning = false; 
+        currentLevelIndex = index;
+        levelTimer = 0;
+        spawner.UpdateSettings(levelData.levels[index].spawnInterval);
+        spawner.SetSpawning(true);
+    }
+
+    void EndLevel()
+    {
+        isTransitioning = true; 
+        spawner.SetSpawning(false);
+        
+        spawner.SpawnObstacle(true); 
+        spawner.SpawnObstacle(true); 
+
+        currentLevelIndex++;
+        
+        if (currentLevelIndex < levelData.levels.Count)
+        {
+            Invoke("NextLevel", 3f); 
+        }
+        else
+        {
+        }
+    }
+
+    void NextLevel() => StartLevel(currentLevelIndex);
 }
