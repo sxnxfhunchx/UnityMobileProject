@@ -1,33 +1,36 @@
 using UnityEngine;
+using UnityEngine.InputSystem; 
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementNew : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float sensitivity = 0.05f; 
-    public Vector2 minBounds = new Vector2(-5, 0);
-    public Vector2 maxBounds = new Vector2(5, 8);  
+    public float sensitivity = 0.5f;
+    public Vector2 minBounds = new Vector2(-5, 0.5f);
+    public Vector2 maxBounds = new Vector2(5, 8);
+
+    private Vector2 moveInput;
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+    }
 
     private void Update()
     {
-        HandleTouchInput();
+        if (moveInput != Vector2.zero)
+        {
+            MovePlayer(moveInput);
+        }
     }
 
-    private void HandleTouchInput()
+    private void MovePlayer(Vector2 delta)
     {
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
+        float newX = transform.position.x + delta.x * sensitivity * Time.deltaTime;
+        float newY = transform.position.y + delta.y * sensitivity * Time.deltaTime;
 
-            if (touch.phase == TouchPhase.Moved)
-            {
-                float newX = transform.position.x + touch.deltaPosition.x * sensitivity;
-                float newY = transform.position.y + touch.deltaPosition.y * sensitivity;
+        newX = Mathf.Clamp(newX, minBounds.x, maxBounds.x);
+        newY = Mathf.Clamp(newY, minBounds.y, maxBounds.y);
 
-                newX = Mathf.Clamp(newX, minBounds.x, maxBounds.x);
-                newY = Mathf.Clamp(newY, minBounds.y, maxBounds.y);
-
-                transform.position = new Vector3(newX, newY, transform.position.z);
-            }
-        }
+        transform.position = new Vector3(newX, newY, transform.position.z);
     }
 }
