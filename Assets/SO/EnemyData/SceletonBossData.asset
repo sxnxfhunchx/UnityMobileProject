@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SceletonBossData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: SceletonBoss
-  health: 150
+  health: 70
   speed: 20
   scoreValue: 100

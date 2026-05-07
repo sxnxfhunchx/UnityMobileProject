@@ -57,6 +57,20 @@ public class LevelManager : MonoBehaviour
         {
         }
     }
+    
+    public int GetCurrentLevelNumber()
+    {
+        return currentLevelIndex + 1;
+    }
+
+    public float GetTimeRemaining()
+    {
+        if (currentLevelIndex < levelData.levels.Count)
+        {
+            return levelData.levels[currentLevelIndex].levelDuration - levelTimer;
+        }
+        return 0;
+    }
 
     void NextLevel() => StartLevel(currentLevelIndex);
 }

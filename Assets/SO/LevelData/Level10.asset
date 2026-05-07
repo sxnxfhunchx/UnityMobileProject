@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelSettings
   levelNumber: 10
   spawnInterval: 1
-  levelDuration: 20
+  levelDuration: 15
   enemySpeedMultiplier: 2
