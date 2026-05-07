@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
     public int Score { get; private set; }
     public bool IsGameActive { get; private set; }
 
+    private void Start()
+    {
+        StartGame(); 
+    }
     private void Awake()
     {
         if (Instance == null)
@@ -33,5 +37,6 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         IsGameActive = false;
+        Time.timeScale = 0f; 
     }
 }
