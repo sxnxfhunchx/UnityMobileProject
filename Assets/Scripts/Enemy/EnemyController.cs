@@ -38,8 +38,7 @@ public class EnemyController : MonoBehaviour
     {
         currentHealth -= amount;
 
-        // Get random sound from ScriptableObject and play via SoundManager
-        if (SoundManager.Instance != null && soundData != null)
+         if (SoundManager.Instance != null && soundData != null)
         {
             AudioClip clip = soundData.GetRandomHitSound();
             SoundManager.Instance.PlaySound(clip, transform.position);

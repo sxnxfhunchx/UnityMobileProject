@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
     
     private int currentLevelIndex = 0;
     private float levelTimer;
-    private bool isTransitioning = false; // Add this line
+    private bool isTransitioning = false; 
 
     void Start()
     {
