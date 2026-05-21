@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Projectile
+  - Skeleton
+  - Boss
   layers:
   - Default
   - TransparentFX

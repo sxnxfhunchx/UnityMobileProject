@@ -6,20 +6,32 @@ public class EnemyController : MonoBehaviour
 {
     public EnemyData data;
     public SoundData soundData; 
+    public string poolTag; 
     private int currentHealth;
 
     private Renderer[] renderers;
     private Color[] originalColors;
 
-    void Start()
+    void Awake()
     {
-        if (data != null) currentHealth = data.health;
-
         renderers = GetComponentsInChildren<Renderer>();
         originalColors = new Color[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
         {
             originalColors[i] = renderers[i].material.color;
+        }
+    }
+
+    void OnEnable()
+    {
+        if (data != null) currentHealth = data.health;
+        
+        if (renderers != null && originalColors != null)
+        {
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i] != null) renderers[i].material.color = originalColors[i];
+            }
         }
     }
 
@@ -30,7 +42,7 @@ public class EnemyController : MonoBehaviour
 
         if (transform.position.z < -10f)
         {
-            Destroy(gameObject);
+            ReturnToPool();
         }
     }
 
@@ -38,7 +50,7 @@ public class EnemyController : MonoBehaviour
     {
         currentHealth -= amount;
 
-         if (SoundManager.Instance != null && soundData != null)
+        if (SoundManager.Instance != null && soundData != null)
         {
             AudioClip clip = soundData.GetRandomHitSound();
             SoundManager.Instance.PlaySound(clip, transform.position);
@@ -76,6 +88,18 @@ public class EnemyController : MonoBehaviour
             GameManager.Instance.AddScore(data.scoreValue);
         }
 
-        Destroy(gameObject);
+        ReturnToPool();
+    }
+
+    void ReturnToPool()
+    {
+        if (ObjectPooler.Instance != null)
+        {
+            ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

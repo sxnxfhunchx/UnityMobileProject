@@ -1,72 +1,72 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+    using UnityEngine;
+    using TMPro;
+    using UnityEngine.SceneManagement;
+    using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
-{
-    public TextMeshProUGUI levelText;
-    public TextMeshProUGUI timerText;
-    public TextMeshProUGUI scoreText;
-    public Image healthFillImage;
-    
-    [Header("GameOver Settings")]
-    public GameObject gameOverPanel; 
-
-    private LevelManager levelManager;
-    private PlayerHealth playerHealth;
-
-    void Start()
+    public class UIManager : MonoBehaviour
     {
-        levelManager = FindFirstObjectByType<LevelManager>();
-        playerHealth = FindFirstObjectByType<PlayerHealth>();
+        public TextMeshProUGUI levelText;
+        public TextMeshProUGUI timerText;
+        public TextMeshProUGUI scoreText;
+        public Image healthFillImage;
         
-        if (gameOverPanel != null) gameOverPanel.SetActive(false);
-    }
+        [Header("GameOver Settings")]
+        public GameObject gameOverPanel; 
 
-    void Update()
-    {
-        UpdateUI();
+        private LevelManager levelManager;
+        private PlayerHealth playerHealth;
 
-        if (GameManager.Instance != null && !GameManager.Instance.IsGameActive)
+        void Start()
         {
-            ShowGameOver();
-        }
-    }
-
-    void UpdateUI()
-    {
-        if (levelManager != null)
-        {
-            levelText.text = "Level: " + levelManager.GetCurrentLevelNumber();
-            float timeLeft = levelManager.GetTimeRemaining();
-            timerText.text = "Next Level in: " + (timeLeft > 0 ? timeLeft.ToString("F1") : "0.0") + "s";
+            levelManager = FindFirstObjectByType<LevelManager>();
+            playerHealth = FindFirstObjectByType<PlayerHealth>();
+            
+            if (gameOverPanel != null) gameOverPanel.SetActive(false);
         }
 
-        if (GameManager.Instance != null)
+        void Update()
         {
-            scoreText.text = "Score: " + GameManager.Instance.Score;
+            UpdateUI();
+
+            if (GameManager.Instance != null && !GameManager.Instance.IsGameActive)
+            {
+                ShowGameOver();
+            }
         }
 
-       
-        if (playerHealth != null && healthFillImage != null)
+        void UpdateUI()
         {
-            float healthPercent = (float)playerHealth.GetCurrentHealth() / playerHealth.maxHealth;
-            healthFillImage.fillAmount = healthPercent;
-        }
-    }
+            if (levelManager != null)
+            {
+                levelText.text = "Level: " + levelManager.GetCurrentLevelNumber();
+                float timeLeft = levelManager.GetTimeRemaining();
+                timerText.text = "Next Level in: " + (timeLeft > 0 ? timeLeft.ToString("F1") : "0.0") + "s";
+            }
 
-    public void ShowGameOver()
-    {
-        if (gameOverPanel != null && !gameOverPanel.activeSelf)
-        {
-            gameOverPanel.SetActive(true);
+            if (GameManager.Instance != null)
+            {
+                scoreText.text = "Score: " + GameManager.Instance.Score;
+            }
+
+           
+            if (playerHealth != null && healthFillImage != null)
+            {
+                float healthPercent = (float)playerHealth.GetCurrentHealth() / playerHealth.maxHealth;
+                healthFillImage.fillAmount = healthPercent;
+            }
         }
+
+        public void ShowGameOver()
+        {
+            if (gameOverPanel != null && !gameOverPanel.activeSelf)
+            {
+                gameOverPanel.SetActive(true);
+            }
+        }
+        public void RestartGame()
+        {
+            Time.timeScale = 1f; 
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        
     }
-    public void RestartGame()
-    {
-        Time.timeScale = 1f; 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-    
-}

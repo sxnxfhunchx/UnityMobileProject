@@ -13,7 +13,6 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log("Player HP: " + currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -23,7 +22,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Player Died");
         if (GameManager.Instance != null)
         {
             GameManager.Instance.GameOver();
@@ -37,10 +35,17 @@ public class PlayerHealth : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Test");
             TakeDamage(10);
             
-            Destroy(other.gameObject); 
+            EnemyController enemy = other.GetComponent<EnemyController>();
+            if (enemy != null && ObjectPooler.Instance != null)
+            {
+                ObjectPooler.Instance.ReturnToPool(enemy.poolTag, other.gameObject);
+            }
+            else
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
 

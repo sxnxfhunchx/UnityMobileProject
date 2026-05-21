@@ -3,6 +3,7 @@ using UnityEngine;
 public class MovingObject : MonoBehaviour
 {
     public float speed = 15f;
+    public string poolTag;
 
     void Update()
     {
@@ -10,7 +11,14 @@ public class MovingObject : MonoBehaviour
 
         if (transform.position.z < -10f)
         {
-            Destroy(gameObject);
+            if (ObjectPooler.Instance != null && !string.IsNullOrEmpty(poolTag))
+            {
+                ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

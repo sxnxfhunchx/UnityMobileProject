@@ -223,6 +223,60 @@ Transform:
   - {fileID: 502389546}
   m_Father: {fileID: 534604901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &63696149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 63696150}
+  - component: {fileID: 63696151}
+  m_Layer: 0
+  m_Name: ObjectPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &63696150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63696149}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -109.79037, y: 710.6623, z: -165.1799}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 417220833}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &63696151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63696149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86730395146b0314ca14bf4d4d8a46bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  pools:
+  - tag: Skeleton
+    prefab: {fileID: 7545805580971034065, guid: 1f97c502b8e62a34cba2d7af1b716519, type: 3}
+    size: 15
+  - tag: Boss
+    prefab: {fileID: 7545805580971034065, guid: dc67d6e070e19634294edef9e8a0fff1, type: 3}
+    size: 2
+  - tag: Projectile
+    prefab: {fileID: 5651402458575486093, guid: c95a4dbf1cd3d1e49a2b997c79444d21, type: 3}
+    size: 5
 --- !u!1001 &73095636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1037,7 +1091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92d5ff8cfb519a418b38bc71ab63f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  swordPrefab: {fileID: 5651402458575486093, guid: c95a4dbf1cd3d1e49a2b997c79444d21, type: 3}
+  projectilePoolTag: Projectile
   firePoint: {fileID: 1300174884}
   fireRate: 0.2
 --- !u!54 &252476754
@@ -1875,6 +1929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   speed: 15
+  poolTag: 
 --- !u!1 &367844641
 GameObject:
   m_ObjectHideFlags: 0
@@ -2178,6 +2233,7 @@ Transform:
   - {fileID: 2055132309}
   - {fileID: 998326134}
   - {fileID: 1005696734}
+  - {fileID: 63696150}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &423619346
@@ -9259,9 +9315,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d912afab456310948b2b23e368c199fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  obstaclePrefabs:
-  - {fileID: 7545805580971034065, guid: 1f97c502b8e62a34cba2d7af1b716519, type: 3}
-  bossPrefab: {fileID: 7545805580971034065, guid: dc67d6e070e19634294edef9e8a0fff1, type: 3}
+  obstaclePoolTags:
+  - Skeleton
+  bossPoolTag: Boss
 --- !u!1 &2062620140
 GameObject:
   m_ObjectHideFlags: 0

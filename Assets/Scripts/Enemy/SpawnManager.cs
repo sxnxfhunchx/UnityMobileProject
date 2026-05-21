@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LevelSpawner : MonoBehaviour
 {
-    public GameObject[] obstaclePrefabs; 
-    public GameObject bossPrefab; 
+    public string[] obstaclePoolTags; 
+    public string bossPoolTag; 
     
     private float currentSpawnInterval = 1.5f;
     private float timer;
@@ -36,21 +36,21 @@ public class LevelSpawner : MonoBehaviour
         float randomX = Random.Range(-5f, 5f);
         Vector3 spawnPos = new Vector3(randomX, -0.09f, transform.position.z);
         
-        GameObject prefabToSpawn;
+        string poolTagToSpawn;
 
         if (isBoss)
         {
-            prefabToSpawn = bossPrefab;
+            poolTagToSpawn = bossPoolTag;
         }
         else
         {
-            if (obstaclePrefabs.Length == 0) return;
-            prefabToSpawn = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+            if (obstaclePoolTags.Length == 0) return;
+            poolTagToSpawn = obstaclePoolTags[Random.Range(0, obstaclePoolTags.Length)];
         }
 
-        if (prefabToSpawn != null)
+        if (!string.IsNullOrEmpty(poolTagToSpawn) && ObjectPooler.Instance != null)
         {
-            Instantiate(prefabToSpawn, spawnPos, Quaternion.Euler(0, 180, 0));
+            ObjectPooler.Instance.SpawnFromPool(poolTagToSpawn, spawnPos, Quaternion.Euler(0, 180, 0));
         }
     }
 }

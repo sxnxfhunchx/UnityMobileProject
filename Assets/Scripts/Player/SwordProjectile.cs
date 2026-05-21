@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SwordProjectile : MonoBehaviour
@@ -5,10 +6,27 @@ public class SwordProjectile : MonoBehaviour
     public float speed = 30f;
     public int damage = 1;
     public float lifeTime = 3f;
+    public string poolTag = "Projectile"; 
 
-    void Start()
+    private Coroutine deactivateCoroutine;
+
+    void OnEnable()
     {
-        Destroy(gameObject, lifeTime);
+        deactivateCoroutine = StartCoroutine(DeactivateAfterTime());
+    }
+
+    void OnDisable()
+    {
+        if (deactivateCoroutine != null)
+        {
+            StopCoroutine(deactivateCoroutine);
+        }
+    }
+
+    IEnumerator DeactivateAfterTime()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        ReturnToPool();
     }
 
     void Update()
@@ -20,15 +38,25 @@ public class SwordProjectile : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            
-            Debug.Log("Попал в: " + other.name);
             EnemyController enemy = other.GetComponent<EnemyController>();
 
             if (enemy != null)
             {
                 enemy.TakeDamage(damage); 
-                Destroy(gameObject);      
+                ReturnToPool();  
             }
+        }
+    }
+
+    void ReturnToPool()
+    {
+        if (ObjectPooler.Instance != null)
+        {
+            ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 }

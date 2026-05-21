@@ -504,6 +504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   data: {fileID: 11400000, guid: 5b5a933d24977d74c8afd022fc165291, type: 2}
   soundData: {fileID: 11400000, guid: 3fed13adec3270d4dbcbe16b9ff53054, type: 2}
+  poolTag: Skeleton
 --- !u!136 &3197155242025292068
 CapsuleCollider:
   m_ObjectHideFlags: 0

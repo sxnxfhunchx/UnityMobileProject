@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public GameObject swordPrefab;
+    public string projectilePoolTag; 
     public Transform firePoint;
     public float fireRate = 0.2f; 
 
@@ -35,9 +35,9 @@ public class PlayerShoot : MonoBehaviour
 
     void Shoot()
     {
-        if (swordPrefab != null && firePoint != null)
+        if (!string.IsNullOrEmpty(projectilePoolTag) && firePoint != null && ObjectPooler.Instance != null)
         {
-            Instantiate(swordPrefab, firePoint.position, swordPrefab.transform.rotation);
+            ObjectPooler.Instance.SpawnFromPoolWithPrefabRotation(projectilePoolTag, firePoint.position);
         }
     }
 }
