@@ -88,6 +88,12 @@ public class EnemyController : MonoBehaviour
             GameManager.Instance.AddScore(data.scoreValue);
         }
 
+        if (ObjectPooler.Instance != null)
+        {
+            Vector3 spawnPos = transform.position + Vector3.up * 0.5f;
+            ObjectPooler.Instance.SpawnFromPool("DeathVFX", spawnPos, Quaternion.identity);
+        }
+
         ReturnToPool();
     }
 
