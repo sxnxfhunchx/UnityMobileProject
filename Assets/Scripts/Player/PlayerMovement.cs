@@ -14,12 +14,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]  float maxX = 5f;
     
     [Header("Dash Settings")]
-    [SerializeField] private float dashDistance = 2f;
+    [SerializeField] private float dashSpeed = 20f;
+    [SerializeField] private float dashDuration = 0.1f;
     [SerializeField] private float dashCooldown = 1f;
     
     private Vector2 moveInput;
     private IPlayerInput playerInput;
     private bool canDash = true;
+    private bool isDashing = false;
 
     private void Awake()
     {
@@ -53,7 +55,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (moveInput != Vector2.zero)
         {
-            float x = transform.position.x + moveInput.x * speed * Time.deltaTime;
+            float currentSpeed = isDashing ? dashSpeed : speed;
+            
+            float x = transform.position.x + moveInput.x * currentSpeed * Time.deltaTime;
             x = Mathf.Clamp(x, minX, maxX);
             transform.position = new Vector3(x, transform.position.y, transform.position.z);
         }
@@ -61,22 +65,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dash()
     {
-        if (!canDash && moveInput == Vector2.zero)
+        if (!canDash)
             return;
 
+        if (moveInput == Vector2.zero)
+            return;
+        
         StartCoroutine(DashCoroutine());
     }
     
     private IEnumerator DashCoroutine()
     {
         canDash = false;
+        isDashing = true;
 
-        Debug.Log("Dashing");
-        
-        float x = transform.position.x + moveInput.normalized.x * dashDistance;
-        x = Mathf.Clamp(x, minX, maxX);
-        
-        transform.position = new Vector3(x, transform.position.y, transform.position.z);
+        yield return new WaitForSeconds(dashDuration);
+
+        isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
 

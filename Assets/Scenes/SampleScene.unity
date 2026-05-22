@@ -410,6 +410,9 @@ MonoBehaviour:
   - tag: Boss
     prefab: {fileID: 7545805580971034065, guid: dc67d6e070e19634294edef9e8a0fff1, type: 3}
     size: 5
+  - tag: DeathVFX
+    prefab: {fileID: 1937389293422138625, guid: 79cbf72b4c2a43c4c83e2888ca8a31d1, type: 3}
+    size: 5
 --- !u!1001 &73095636
 PrefabInstance:
   m_ObjectHideFlags: 0
