@@ -7,10 +7,6 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private MonoBehaviour levelProviderSource;
     
-    [Header("Tags")]
-    [SerializeField] string[] enemyPoolTags; 
-    [SerializeField] string bossPoolTag; 
-    
     private ILevelProvider levelProvider;
     private bool bossSpawnedForCurrentLevel = false;
     private float enemySpawnTimer = 0;
@@ -20,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
         levelProvider = levelProviderSource as ILevelProvider;
 
         if (levelProvider == null)
-            Debug.LogError("Level Spawn Provider must implement ILevelSpawnProvider");
+            Debug.LogError("Level Spawn Provider must implement ILevelProvider");
     }
     
     private void Update()
@@ -52,23 +48,31 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnRegularEnemy()
     {
-        if (enemyPoolTags.Length == 0) return;
-        string tag = enemyPoolTags[Random.Range(0, enemyPoolTags.Length)];
+        SpawnSettings spawnSettings = levelProvider.CurrentLevelSettings.spawnSettings;
+        EnemyData enemyData = spawnSettings.GetRandomEnemy();
         
-        SpawnEnemy(tag);
+        if (enemyData == null) return;
+
+        SpawnEnemy(enemyData.enemyName);
     }
 
     private void SpawnBosses(LevelSettings settings)
     {
-        // TODO: add number of bosses to level settings
-        for (int i = 0; i < settings.levelNumber; i++)
+        Debug.Log("Spawning Bosses");
+        SpawnSettings spawnSettings = levelProvider.CurrentLevelSettings.spawnSettings;
+        
+        Debug.Log($"Spawning Bosses : {spawnSettings.bossesCount}");
+
+        for (int i = 0; i < spawnSettings.bossesCount; i++)
         {
-            SpawnEnemy(bossPoolTag);
+            EnemyData enemyData = spawnSettings.GetRandomBoss();
+            SpawnEnemy(enemyData.enemyName);
         }
     }
     
     private void SpawnEnemy(string tag)
     {
+        Debug.Log($"Spawning {tag}");
         Vector3 spawnPos = GetSpawnPosition();
         
         if (string.IsNullOrEmpty(tag))

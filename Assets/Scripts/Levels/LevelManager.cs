@@ -1,16 +1,15 @@
 using UnityEngine;
-using System.Collections;
 using Interfaces;
 
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : MonoBehaviour, ILevelProvider
 {
     public LevelDataContainer levelData;
-    public LevelSpawner spawner;
     
     private int currentLevelIndex = 0;
     private float levelTimer;
-    private bool isTransitioning = false; 
+    
+    private bool isBossPhaseActive = false;
 
     void Start()
     {
@@ -19,7 +18,7 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        if (isTransitioning) return; 
+        if (isBossPhaseActive) return; 
 
         levelTimer += Time.deltaTime;
 
@@ -34,20 +33,14 @@ public class LevelManager : MonoBehaviour
 
     void StartLevel(int index)
     {
-        isTransitioning = false; 
         currentLevelIndex = index;
         levelTimer = 0;
-        spawner.UpdateSettings(levelData.levels[index].spawnInterval);
-        spawner.SetSpawning(true);
+        isBossPhaseActive = false;
     }
 
     void EndLevel()
     {
-        isTransitioning = true; 
-        spawner.SetSpawning(false);
-        
-        spawner.SpawnObstacle(true); 
-        spawner.SpawnObstacle(true); 
+        isBossPhaseActive = true;
 
         currentLevelIndex++;
         
@@ -75,4 +68,28 @@ public class LevelManager : MonoBehaviour
     }
 
     void NextLevel() => StartLevel(currentLevelIndex);
+
+    public LevelSettings CurrentLevelSettings
+    {
+        get
+        {
+            return levelData.levels[currentLevelIndex];
+        }
+    }
+
+    public bool IsRegularEnemyPhaseActive
+    {
+        get
+        {
+            return !isBossPhaseActive;
+        }
+    }
+
+    public bool IsBossPhaseActive
+    {
+        get
+        {
+            return isBossPhaseActive;
+        }
+    }
 }

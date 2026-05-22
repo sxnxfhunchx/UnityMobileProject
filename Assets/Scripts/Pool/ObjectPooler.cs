@@ -53,8 +53,6 @@ public class ObjectPooler : MonoBehaviour
         {
             return null;
         }
-
-        Debug.Log(poolDictionary[tag].Count);
         
         if (poolDictionary[tag].Count == 0)
         {

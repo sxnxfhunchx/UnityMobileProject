@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae8a123de53e544d9c5384f5b64c9d5, type: 3}
   m_Name: SceletonBossData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: SceletonBoss
+  enemyName: SkeletonBoss
   health: 70
   speed: 20
   scoreValue: 100

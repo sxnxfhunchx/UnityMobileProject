@@ -16,3 +16,14 @@ MonoBehaviour:
   spawnInterval: 1.5
   levelDuration: 15
   enemySpeedMultiplier: 1.75
+  spawnSettings:
+    enemies:
+    - {fileID: 11400000, guid: 5b5a933d24977d74c8afd022fc165291, type: 2}
+    enemySpawnInterval: 1.5
+    bosses:
+    - {fileID: 11400000, guid: 691e0166ead8b554eae0a138a5facf2e, type: 2}
+    bossesCount: 2
+    bonuses:
+    - {fileID: 11400000, guid: 61bacde72e188494d8029b2d92f42d96, type: 2}
+    bonusSpawnInterval: 3
+    bonusSpawnChance: 0.8

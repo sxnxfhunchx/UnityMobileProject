@@ -7,4 +7,7 @@ public class LevelSettings : ScriptableObject
     public float spawnInterval = 1.5f;
     public float levelDuration = 20f;
     public float enemySpeedMultiplier = 1.0f;
+    
+    public SpawnSettings spawnSettings;
+    
 }

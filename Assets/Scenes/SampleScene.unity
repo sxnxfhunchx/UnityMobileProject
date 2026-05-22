@@ -407,7 +407,7 @@ MonoBehaviour:
   - tag: Skeleton
     prefab: {fileID: 7545805580971034065, guid: 1f97c502b8e62a34cba2d7af1b716519, type: 3}
     size: 30
-  - tag: Boss
+  - tag: SkeletonBoss
     prefab: {fileID: 7545805580971034065, guid: dc67d6e070e19634294edef9e8a0fff1, type: 3}
     size: 5
   - tag: DeathVFX
@@ -417,7 +417,7 @@ MonoBehaviour:
     prefab: {fileID: 3037235248243610724, guid: ad9f42beeae78254196730d1014200a2, type: 3}
     size: 10
   - tag: BonusVFX
-    prefab: {fileID: 1937389293422138625, guid: 80b12e45f9772da48b061f842356612b, type: 3}
+    prefab: {fileID: 7072814104702594052, guid: 80b12e45f9772da48b061f842356612b, type: 3}
     size: 2
 --- !u!1001 &73095636
 PrefabInstance:
@@ -832,9 +832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59d3bef2a77c594ebde20b11d83f84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  bonusPrefab: {fileID: 3037235248243610724, guid: ad9f42beeae78254196730d1014200a2, type: 3}
-  spawnChance: 0.8
-  bonusSpawnInterval: 3
+  levelProvider: {fileID: 1005696735}
 --- !u!1 &188728914
 GameObject:
   m_ObjectHideFlags: 0
@@ -4260,7 +4258,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 766576556}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0807a4c9ff92ef24b9a00750e530a538, type: 3}
   m_Name: 
@@ -5475,7 +5473,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   levelData: {fileID: 11400000, guid: 47191e99499f8b3478660760cdc5ed46, type: 2}
-  spawner: {fileID: 2055132310}
 --- !u!1 &1024851482
 GameObject:
   m_ObjectHideFlags: 0
@@ -11050,7 +11047,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2055132308}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d912afab456310948b2b23e368c199fd, type: 3}
   m_Name: 
@@ -11070,10 +11067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abe99091a21be547ab18a9e7195c363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  levelProviderSource: {fileID: 766576558}
-  enemyPoolTags:
-  - Skeleton
-  bossPoolTag: Boss
+  levelProviderSource: {fileID: 1005696735}
 --- !u!1 &2062620140
 GameObject:
   m_ObjectHideFlags: 0
