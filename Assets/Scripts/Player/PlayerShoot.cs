@@ -1,43 +1,78 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
+    [Header("Input Settings")]
+    [SerializeField] MonoBehaviour inputSource;
+    
+    [Header("Shoot Settings")]
     public string projectilePoolTag; 
     public Transform firePoint;
     public float fireRate = 0.2f; 
 
     private float nextFireTime;
     private bool isShooting = false;
-
-    public void OnMove(InputAction.CallbackContext context)
+    private IPlayerInput playerInput;
+    
+    
+    private void Awake()
     {
-        Vector2 moveInput = context.ReadValue<Vector2>();
+        playerInput = inputSource as IPlayerInput;
+        
+        if (playerInput == null)
+        {
+            Debug.LogWarning("PlayerInput is not set");
+            return;
+        }
 
-        if (moveInput.sqrMagnitude > 0) 
-        {
-            isShooting = true;
-        }
-        else if (context.canceled) 
-        {
-            isShooting = false;
-        }
+        playerInput.OnShootInput += ToggleShooting;
     }
 
-    void Update()
+    private void Update()
     {
-        if (isShooting && Time.time >= nextFireTime)
+        if (isShooting && Time.time > nextFireTime)
         {
             Shoot();
             nextFireTime = Time.time + fireRate;
         }
     }
 
-    void Shoot()
+    private void ToggleShooting(bool state)
     {
-        if (!string.IsNullOrEmpty(projectilePoolTag) && firePoint != null && ObjectPooler.Instance != null)
+        isShooting = state;
+    }
+
+    private void Shoot()
+    {
+        if (string.IsNullOrEmpty(projectilePoolTag))
+            return;
+        
+        if (!firePoint)
+            return;
+        
+        if (!ObjectPooler.Instance)
+            return;
+        
+        ObjectPooler.Instance.SpawnFromPoolWithPrefabRotation(projectilePoolTag, 
+                                                            firePoint.position);
+    }
+    
+    private void OnDestroy()
+    {
+        if (playerInput == null)
+            return;
+        
+        playerInput.OnShootInput -= ToggleShooting;
+    }
+    
+    private void OnValidate()
+    {
+        if (inputSource != null && inputSource is not IPlayerInput)
         {
-            ObjectPooler.Instance.SpawnFromPoolWithPrefabRotation(projectilePoolTag, firePoint.position);
+            Debug.LogWarning("Input source must implement IPlayerInput");
+            inputSource = null;
         }
     }
 }

@@ -27,7 +27,7 @@ public class PlayerHealth : MonoBehaviour
             GameManager.Instance.GameOver();
         }
         
-        PlayerMovementNew movement = GetComponent<PlayerMovementNew>();
+        PlayerMovement movement = GetComponent<PlayerMovement>();
         if (movement != null) movement.enabled = false;
     }
 

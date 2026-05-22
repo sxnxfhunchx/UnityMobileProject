@@ -1,34 +1,62 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem; 
 
-public class PlayerMovementNew : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
+    [Header("Input Settings")]
+    [SerializeField] MonoBehaviour inputSource;
+    
     [Header("Movement Settings")]
-    public float sensitivity = 10f; 
-    public float minX = -5f;
-    public float maxX = 5f;
-
+    [SerializeField] float speed;
+    [SerializeField]  float minX = -5f;
+    [SerializeField]  float maxX = 5f;
+    
     private Vector2 moveInput;
+    private IPlayerInput playerInput;
 
-    public void OnMove(InputAction.CallbackContext context)
+    private void Awake()
     {
-        moveInput = context.ReadValue<Vector2>();
+        playerInput = inputSource as IPlayerInput;
+        
+        if (playerInput == null)
+        {
+            Debug.LogWarning("PlayerInput is not set");
+            return;
+        }
+
+        playerInput.OnMoveInput += SetMoveInput;
+    }
+
+    private void OnDestroy()
+    {
+        if (playerInput == null)
+            return;
+        
+        playerInput.OnMoveInput -= SetMoveInput;
+    }
+
+    private void SetMoveInput(Vector3 input)
+    {
+        moveInput = input;
     }
 
     private void Update()
     {
         if (moveInput != Vector2.zero)
         {
-            MovePlayer(moveInput);
+            float x = transform.position.x + moveInput.x * speed * Time.deltaTime;
+            x = Mathf.Clamp(x, minX, maxX);
+            transform.position = new Vector3(x, transform.position.y, transform.position.z);
         }
     }
-
-    private void MovePlayer(Vector2 delta)
+    
+    private void OnValidate()
     {
-        float newX = transform.position.x + delta.x * sensitivity * Time.deltaTime;
-
-        newX = Mathf.Clamp(newX, minX, maxX);
-
-        transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+        if (inputSource != null && inputSource is not IPlayerInput)
+        {
+            Debug.LogWarning("Input source must implement IPlayerInput");
+            inputSource = null;
+        }
     }
 }
