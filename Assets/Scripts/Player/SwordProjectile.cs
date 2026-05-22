@@ -31,14 +31,14 @@ public class SwordProjectile : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.forward * (speed * Time.deltaTime), Space.World);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            EnemyController enemy = other.GetComponent<EnemyController>();
+            EnemyMovement enemy = other.GetComponent<EnemyMovement>();
 
             if (enemy != null)
             {

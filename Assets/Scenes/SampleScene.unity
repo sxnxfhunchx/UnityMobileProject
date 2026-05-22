@@ -404,6 +404,12 @@ MonoBehaviour:
   - tag: Projectile
     prefab: {fileID: 5651402458575486093, guid: c95a4dbf1cd3d1e49a2b997c79444d21, type: 3}
     size: 30
+  - tag: Skeleton
+    prefab: {fileID: 7545805580971034065, guid: 1f97c502b8e62a34cba2d7af1b716519, type: 3}
+    size: 30
+  - tag: Boss
+    prefab: {fileID: 7545805580971034065, guid: dc67d6e070e19634294edef9e8a0fff1, type: 3}
+    size: 5
 --- !u!1001 &73095636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10971,7 +10977,7 @@ Transform:
   m_GameObject: {fileID: 2055132308}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.333, z: 50}
+  m_LocalPosition: {x: 0, y: -0.333, z: 75.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
