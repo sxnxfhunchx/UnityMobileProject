@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class SwordProjectile : MonoBehaviour
 {
-    public float speed = 30f;
-    public int damage = 1;
-    public float lifeTime = 3f;
-    public string poolTag = "Projectile"; 
+    [SerializeField] private float speed = 30f;
+    [SerializeField] private int damage = 1;
+    [SerializeField] private float lifeTime = 3f;
+    [SerializeField] private string poolTag = "Projectile"; 
 
     private Coroutine deactivateCoroutine;
 
@@ -22,6 +22,11 @@ public class SwordProjectile : MonoBehaviour
             StopCoroutine(deactivateCoroutine);
         }
     }
+    
+    void Update()
+    {
+        transform.Translate(Vector3.forward * (speed * Time.deltaTime), Space.World);
+    }
 
     IEnumerator DeactivateAfterTime()
     {
@@ -29,34 +34,23 @@ public class SwordProjectile : MonoBehaviour
         ReturnToPool();
     }
 
-    void Update()
-    {
-        transform.Translate(Vector3.forward * (speed * Time.deltaTime), Space.World);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
-        {
-            EnemyMovement enemy = other.GetComponent<EnemyMovement>();
-
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage); 
-                ReturnToPool();  
-            }
-        }
+        if (!other.CompareTag("Enemy"))
+            return;
+        
+        if (!other.TryGetComponent(out EnemyMovement enemy))
+            return;
+        
+        enemy.TakeDamage(damage); 
+        ReturnToPool();  
     }
 
     void ReturnToPool()
     {
-        if (ObjectPooler.Instance != null)
-        {
-            ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (ObjectPooler.Instance == null)
+            return;
+        
+        ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
     }
 }

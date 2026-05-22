@@ -16,3 +16,4 @@ MonoBehaviour:
   health: 70
   speed: 20
   scoreValue: 100
+  damage: 20

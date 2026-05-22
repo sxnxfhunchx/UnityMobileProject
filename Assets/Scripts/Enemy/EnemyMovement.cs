@@ -115,4 +115,14 @@ public class EnemyMovement : MonoBehaviour
         }
     }
     
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.TryGetComponent(out PlayerHealth player))
+            return;
+
+        player.TakeDamage(data.damage);
+
+        ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
+    }
+    
 }

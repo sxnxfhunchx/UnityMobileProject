@@ -1,33 +1,39 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+
 
 public class PlayerShoot : MonoBehaviour
 {
     [Header("Input Settings")]
-    [SerializeField] MonoBehaviour inputSource;
+    [SerializeField] private MonoBehaviour inputSource;
     
     [Header("Shoot Settings")]
-    public string projectilePoolTag; 
-    public Transform firePoint;
-    public float fireRate = 0.2f; 
+    [SerializeField] private string projectilePoolTag; 
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private float fireRate = 0.2f; 
 
     private float nextFireTime;
     private bool isShooting = false;
     private IPlayerInput playerInput;
     
-    
-    private void Awake()
+    private void OnEnable()
     {
         playerInput = inputSource as IPlayerInput;
         
         if (playerInput == null)
         {
-            Debug.LogWarning("PlayerInput is not set");
+            Debug.LogWarning("Input source must implement IPlayerInput");
             return;
         }
 
-        playerInput.OnShootInput += ToggleShooting;
+        playerInput.OnShootInput += SetShooting;
+    }
+    
+    private void OnDisable()
+    {
+        if (playerInput == null)
+            return;
+        
+        playerInput.OnShootInput -= SetShooting;
     }
 
     private void Update()
@@ -39,7 +45,7 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    private void ToggleShooting(bool state)
+    private void SetShooting(bool state)
     {
         isShooting = state;
     }
@@ -55,16 +61,7 @@ public class PlayerShoot : MonoBehaviour
         if (!ObjectPooler.Instance)
             return;
         
-        ObjectPooler.Instance.SpawnFromPoolWithPrefabRotation(projectilePoolTag, 
-                                                            firePoint.position);
-    }
-    
-    private void OnDestroy()
-    {
-        if (playerInput == null)
-            return;
-        
-        playerInput.OnShootInput -= ToggleShooting;
+        ObjectPooler.Instance.SpawnFromPoolWithPrefabRotation(projectilePoolTag, firePoint.position);
     }
     
     private void OnValidate()

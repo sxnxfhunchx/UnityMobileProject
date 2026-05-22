@@ -788,51 +788,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 892200857}
   m_SourcePrefab: {fileID: 100100000, guid: d424aa78c9a73cd499e3bf4b7455b741, type: 3}
---- !u!1 &165688470
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 165688471}
-  - component: {fileID: 165688472}
-  m_Layer: 0
-  m_Name: BonusSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &165688471
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165688470}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 417220833}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &165688472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165688470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d59d3bef2a77c594ebde20b11d83f84a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  levelProvider: {fileID: 1005696735}
 --- !u!1 &188728914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2564,8 +2519,6 @@ Transform:
   - {fileID: 1005696734}
   - {fileID: 63696150}
   - {fileID: 612352236}
-  - {fileID: 766576557}
-  - {fileID: 165688471}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &423619346
@@ -4219,51 +4172,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02e48aea181058a47acc4c8a06b88f13, type: 3}
---- !u!1 &766576556
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 766576557}
-  - component: {fileID: 766576558}
-  m_Layer: 0
-  m_Name: TestSpawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &766576557
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 766576556}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 417220833}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &766576558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 766576556}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0807a4c9ff92ef24b9a00750e530a538, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  testSettings: {fileID: 11400000, guid: e5928e1c889eedb44828db7505bb4fd7, type: 2}
 --- !u!1 &784177765
 GameObject:
   m_ObjectHideFlags: 0
@@ -11016,8 +10924,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2055132309}
-  - component: {fileID: 2055132310}
   - component: {fileID: 2055132311}
+  - component: {fileID: 2055132312}
   m_Layer: 0
   m_Name: SpawnManager
   m_TagString: Untagged
@@ -11040,21 +10948,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 417220833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2055132310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2055132308}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d912afab456310948b2b23e368c199fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  obstaclePoolTags:
-  - Skeleton
-  bossPoolTag: Boss
 --- !u!114 &2055132311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11068,6 +10961,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   levelProviderSource: {fileID: 1005696735}
+--- !u!114 &2055132312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055132308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d59d3bef2a77c594ebde20b11d83f84a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BonusSpawner
+  levelProvider: {fileID: 1005696735}
 --- !u!1 &2062620140
 GameObject:
   m_ObjectHideFlags: 0
