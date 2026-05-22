@@ -69,8 +69,6 @@ public class EnemySpawner : MonoBehaviour
     
     private void SpawnEnemy(string tag)
     {
-        Debug.Log($"Spawnin {tag}");
-        
         Vector3 spawnPos = GetSpawnPosition();
         
         if (string.IsNullOrEmpty(tag))
@@ -79,7 +77,6 @@ public class EnemySpawner : MonoBehaviour
         if (ObjectPooler.Instance == null)
             return;
         
-        Debug.Log($"Asking pooler for {tag}");
         ObjectPooler.Instance.SpawnFromPool(tag, spawnPos, Quaternion.Euler(0, 180, 0));
     }
     

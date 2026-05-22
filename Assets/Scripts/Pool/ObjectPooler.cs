@@ -54,6 +54,8 @@ public class ObjectPooler : MonoBehaviour
             return null;
         }
 
+        Debug.Log(poolDictionary[tag].Count);
+        
         if (poolDictionary[tag].Count == 0)
         {
             GameObject obj = Instantiate(prefabDictionary[tag]);
@@ -67,7 +69,7 @@ public class ObjectPooler : MonoBehaviour
         objectToSpawn.SetActive(true);
         objectToSpawn.transform.position = position;
         objectToSpawn.transform.rotation = rotation;
-
+        
         return objectToSpawn;
     }
 

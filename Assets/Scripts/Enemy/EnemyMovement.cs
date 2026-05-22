@@ -62,7 +62,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (SoundManager.Instance != null && soundData != null)
         {
-            AudioClip clip = soundData.GetRandomHitSound();
+            AudioClip clip = soundData.GetRandomSound();
             SoundManager.Instance.PlaySound(clip, transform.position);
         }
 
@@ -78,8 +78,7 @@ public class EnemyMovement : MonoBehaviour
             // TODO: think about it
             GameManager.Instance.AddScore(data.scoreValue);
         }
-
-        // TODO: find out
+        
         if (ObjectPooler.Instance != null)
         {
             Vector3 spawnPos = transform.position + Vector3.up * 0.5f;

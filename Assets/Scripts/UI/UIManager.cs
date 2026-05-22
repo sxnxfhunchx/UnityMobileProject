@@ -8,6 +8,7 @@
         public TextMeshProUGUI levelText;
         public TextMeshProUGUI timerText;
         public TextMeshProUGUI scoreText;
+        public TextMeshProUGUI timeText;
         public Image healthFillImage;
         
         [Header("GameOver Settings")]
@@ -46,6 +47,10 @@
             if (GameManager.Instance != null)
             {
                 scoreText.text = "Score: " + GameManager.Instance.Score;
+                
+                int minutes = Mathf.FloorToInt(GameManager.Instance.GetSurvivalTime / 60f);
+                int seconds = Mathf.FloorToInt(GameManager.Instance.GetSurvivalTime % 60f);
+                timeText.text = $"TIME: {minutes:00}:{seconds:00}";
             }
 
            
@@ -63,6 +68,7 @@
                 gameOverPanel.SetActive(true);
             }
         }
+        
         public void RestartGame()
         {
             Time.timeScale = 1f; 

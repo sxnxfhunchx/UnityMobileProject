@@ -5,7 +5,7 @@ public class SoundData : ScriptableObject
 {
     public AudioClip[] hitSounds; 
 
-    public AudioClip GetRandomHitSound()
+    public AudioClip GetRandomSound()
     {
         if (hitSounds.Length == 0) return null;
         int randomIndex = Random.Range(0, hitSounds.Length);

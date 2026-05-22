@@ -1,12 +1,29 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    private int enemyKilledScore;
     public static GameManager Instance { get; private set; }
 
-    public int Score { get; private set; }
+    public int Score
+    {
+        get
+        {
+            return Mathf.FloorToInt(GetSurvivalTime) + enemyKilledScore;
+        }
+
+        private set
+        {
+            
+        }
+    }
+
     public bool IsGameActive { get; private set; }
 
+    public float GetSurvivalTime { get; private set; }
+    
     private void Start()
     {
         StartGame(); 
@@ -25,9 +42,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (IsGameActive)
+            GetSurvivalTime +=  Time.deltaTime;
+    }
+
     public void AddScore(int value)
     {
-        Score += value;
+        enemyKilledScore += value;
     }
 
     public void StartGame()

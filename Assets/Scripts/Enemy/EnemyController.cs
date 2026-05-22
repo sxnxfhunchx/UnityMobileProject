@@ -52,7 +52,7 @@ public class EnemyController : MonoBehaviour
 
         if (SoundManager.Instance != null && soundData != null)
         {
-            AudioClip clip = soundData.GetRandomHitSound();
+            AudioClip clip = soundData.GetRandomSound();
             SoundManager.Instance.PlaySound(clip, transform.position);
         }
 
