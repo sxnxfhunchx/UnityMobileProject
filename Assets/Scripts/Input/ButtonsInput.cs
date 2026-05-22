@@ -5,7 +5,8 @@ public class ButtonsInput : MonoBehaviour, IPlayerInput
 {
     public event Action<Vector3> OnMoveInput;
     public event Action<bool> OnShootInput;
-    
+    public event Action OnDashInput;
+
     public void MoveLeft()
     {
         OnMoveInput?.Invoke(Vector3.left);
@@ -29,5 +30,10 @@ public class ButtonsInput : MonoBehaviour, IPlayerInput
     public void StopShooting()
     {
         OnShootInput?.Invoke(false);
+    }
+
+    public void Dash()
+    {
+        OnDashInput?.Invoke();
     }
 }
