@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     {
         StartGame(); 
     }
+    
     private void Awake()
     {
         if (Instance == null)
