@@ -25,6 +25,9 @@ public class EnemySpawner : MonoBehaviour
 
         LevelSettings settings = levelProvider.CurrentLevelSettings;
         
+        if (settings == null)
+            return;
+        
         if (levelProvider.IsRegularEnemyPhaseActive)
         {
             HandleRegularEnemySpawning(settings.spawnSettings);

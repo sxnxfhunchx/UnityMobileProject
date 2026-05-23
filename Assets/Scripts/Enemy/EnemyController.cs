@@ -1,4 +1,5 @@
 using System.Collections;
+using Interfaces;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -11,9 +12,13 @@ public class EnemyController : MonoBehaviour
     private int currentHealth;
     private Renderer[] renderers;
     private Color[] originalColors;
+    
+    private ILevelProvider levelProvider;
 
     void Awake()
     {
+        levelProvider = FindFirstObjectByType<LevelManager>();
+        
         renderers = GetComponentsInChildren<Renderer>();
         originalColors = new Color[renderers.Length];
         
@@ -36,7 +41,14 @@ public class EnemyController : MonoBehaviour
         if (data == null)
             return;
         
-        transform.Translate(Vector3.back * (data.speed * Time.deltaTime), Space.World);
+        float speedMultiplier = 1f;
+
+        if (levelProvider != null)
+        {
+            speedMultiplier = levelProvider.CurrentLevelSettings.enemySpeedMultiplier;
+        }
+
+        transform.Translate(Vector3.back * (data.speed * speedMultiplier * Time.deltaTime), Space.World);
 
         if (transform.position.z < destroyOnZ)
         {

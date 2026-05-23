@@ -24,6 +24,9 @@ public class BonusSpawner : MonoBehaviour
 
         SpawnSettings spawnSettings = levelProvider.CurrentLevelSettings.spawnSettings;
         
+        if (spawnSettings == null)
+            return;
+        
         HandleBonusSpawning(spawnSettings);
     }
 

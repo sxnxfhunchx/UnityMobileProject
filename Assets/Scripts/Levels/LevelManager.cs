@@ -10,7 +10,16 @@ public class LevelManager : MonoBehaviour, ILevelProvider
     private float levelTimer;
     private bool isBossPhaseActive = false;
 
-    public LevelSettings CurrentLevelSettings => levelData.levels[currentLevelIndex];
+    public LevelSettings CurrentLevelSettings
+    {
+        get
+        {
+            if (currentLevelIndex < levelData.levels.Count)
+                return levelData.levels[currentLevelIndex];
+            
+            return null;
+        }
+    }
 
     public bool IsRegularEnemyPhaseActive => !isBossPhaseActive;
 
@@ -55,9 +64,13 @@ public class LevelManager : MonoBehaviour, ILevelProvider
     {
         isBossPhaseActive = true;
         
-        if (currentLevelIndex < levelData.levels.Count)
+        if (currentLevelIndex < levelData.levels.Count - 1)
         {
             Invoke("NextLevel", 3f); 
+        }
+        else
+        {
+            Invoke("RepeatLastLevel", 3f);
         }
     }
     
@@ -76,5 +89,10 @@ public class LevelManager : MonoBehaviour, ILevelProvider
     }
 
     void NextLevel() => StartLevel(currentLevelIndex + 1);
+    
+    private void RepeatLastLevel()
+    {
+        StartLevel(currentLevelIndex);
+    }
     
 }
