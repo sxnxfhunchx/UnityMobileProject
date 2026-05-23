@@ -4,5 +4,6 @@
 public class BonusData : ScriptableObject
 {
     public string bonusName;
+    public string poolTag;
     public int scoreValue = 25;
 }

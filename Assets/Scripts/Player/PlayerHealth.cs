@@ -5,6 +5,9 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 50;
     private int currentHealth;
 
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
+    
     void Start()
     {
         currentHealth = maxHealth;
@@ -31,8 +34,4 @@ public class PlayerHealth : MonoBehaviour
         if (movement != null) movement.enabled = false;
     }
 
-    public int GetCurrentHealth()
-    {
-        return currentHealth;
-    }
 }

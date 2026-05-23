@@ -4,21 +4,34 @@ using Interfaces;
 
 public class LevelManager : MonoBehaviour, ILevelProvider
 {
-    public LevelDataContainer levelData;
+    [SerializeField] private LevelDataContainer levelData;
     
     private int currentLevelIndex = 0;
     private float levelTimer;
-    
     private bool isBossPhaseActive = false;
 
+    public LevelSettings CurrentLevelSettings => levelData.levels[currentLevelIndex];
+
+    public bool IsRegularEnemyPhaseActive => !isBossPhaseActive;
+
+    public bool IsBossPhaseActive => isBossPhaseActive;
+    
     void Start()
     {
+        if (levelData == null || levelData.levels.Count == 0)
+        {
+            Debug.LogError("Level data is missing or empty");
+            enabled = false;
+            return;
+        }
+        
         StartLevel(0);
     }
 
     void Update()
     {
-        if (isBossPhaseActive) return; 
+        if (isBossPhaseActive) 
+            return; 
 
         levelTimer += Time.deltaTime;
 
@@ -41,15 +54,10 @@ public class LevelManager : MonoBehaviour, ILevelProvider
     void EndLevel()
     {
         isBossPhaseActive = true;
-
-        currentLevelIndex++;
         
         if (currentLevelIndex < levelData.levels.Count)
         {
             Invoke("NextLevel", 3f); 
-        }
-        else
-        {
         }
     }
     
@@ -67,29 +75,6 @@ public class LevelManager : MonoBehaviour, ILevelProvider
         return 0;
     }
 
-    void NextLevel() => StartLevel(currentLevelIndex);
-
-    public LevelSettings CurrentLevelSettings
-    {
-        get
-        {
-            return levelData.levels[currentLevelIndex];
-        }
-    }
-
-    public bool IsRegularEnemyPhaseActive
-    {
-        get
-        {
-            return !isBossPhaseActive;
-        }
-    }
-
-    public bool IsBossPhaseActive
-    {
-        get
-        {
-            return isBossPhaseActive;
-        }
-    }
+    void NextLevel() => StartLevel(currentLevelIndex + 1);
+    
 }

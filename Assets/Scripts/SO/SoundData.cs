@@ -7,7 +7,9 @@ public class SoundData : ScriptableObject
 
     public AudioClip GetRandomSound()
     {
-        if (hitSounds.Length == 0) return null;
+        if (hitSounds == null || hitSounds.Length == 0) 
+            return null;
+        
         int randomIndex = Random.Range(0, hitSounds.Length);
         return hitSounds[randomIndex];
     }

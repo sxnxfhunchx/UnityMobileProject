@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: SceletonData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Skeleton
+  poolTag: Skeleton
   health: 30
   speed: 15
   scoreValue: 10
+  damage: 10

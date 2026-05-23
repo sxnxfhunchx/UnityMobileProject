@@ -1151,10 +1151,16 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 252476749}
+      addedObject: {fileID: 252476751}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 252476751}
+      addedObject: {fileID: 252476754}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 252476756}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 252476749}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
       insertIndex: -1
       addedObject: {fileID: 252476752}
@@ -1164,12 +1170,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
       insertIndex: -1
       addedObject: {fileID: 252476755}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 252476754}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 252476756}
   m_SourcePrefab: {fileID: 100100000, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
 --- !u!4 &252476747 stripped
 Transform:
@@ -6526,6 +6526,8 @@ MonoBehaviour:
   timeText: {fileID: 2094980539}
   healthFillImage: {fileID: 804549201}
   gameOverPanel: {fileID: 925773865}
+  levelManager: {fileID: 1005696735}
+  playerHealth: {fileID: 252476755}
 --- !u!1001 &1169753826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10973,7 +10975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59d3bef2a77c594ebde20b11d83f84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BonusSpawner
-  levelProvider: {fileID: 1005696735}
+  levelProviderSource: {fileID: 1005696735}
 --- !u!1 &2062620140
 GameObject:
   m_ObjectHideFlags: 0

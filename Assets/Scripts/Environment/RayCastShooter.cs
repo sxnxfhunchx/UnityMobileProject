@@ -22,7 +22,7 @@ public class PlayerShooter : MonoBehaviour
             if (hit.collider.CompareTag("Enemy"))
             {
                 Destroy(hit.collider.gameObject);
-                GameManager.Instance.AddScore(10);
+                GameManager.Instance.AddEnemyKillScore(10);
             }
             
             SpawnVisualSword(hit.point);

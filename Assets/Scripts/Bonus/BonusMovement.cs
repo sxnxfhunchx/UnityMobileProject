@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BonusMovement : MonoBehaviour
 {
-
+    [SerializeField] private BonusData bonusData;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float destroyZ = -10f;
 
@@ -12,7 +12,18 @@ public class BonusMovement : MonoBehaviour
 
         if (transform.position.z <= destroyZ)
         {
-            gameObject.SetActive(false);
+            ReturnToPool();
         }
+    }
+    
+    private void ReturnToPool()
+    {
+        if (ObjectPooler.Instance == null || bonusData == null)
+            return;
+
+        ObjectPooler.Instance.ReturnToPool(
+            bonusData.poolTag,
+            gameObject
+        );
     }
 }

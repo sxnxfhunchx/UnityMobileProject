@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: DiamondBonus
   m_EditorClassIdentifier: Assembly-CSharp::BonusData
   bonusName: Diamond
+  poolTag: Diamond
   scoreValue: 25

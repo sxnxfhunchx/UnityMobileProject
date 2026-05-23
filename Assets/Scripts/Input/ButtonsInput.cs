@@ -1,3 +1,4 @@
+
 using System;
 using UnityEngine;
 
@@ -37,3 +38,4 @@ public class ButtonsInput : MonoBehaviour, IPlayerInput
         OnDashInput?.Invoke();
     }
 }
+

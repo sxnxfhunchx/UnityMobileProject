@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public string enemyName;
+    public string poolTag;
     public int health = 1;
     public float speed = 15f;
     public int scoreValue = 10;

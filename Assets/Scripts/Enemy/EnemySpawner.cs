@@ -1,4 +1,3 @@
-using System;
 using Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -28,66 +27,70 @@ public class EnemySpawner : MonoBehaviour
         
         if (levelProvider.IsRegularEnemyPhaseActive)
         {
-            enemySpawnTimer += Time.deltaTime;
-            
-            if (enemySpawnTimer < settings.spawnInterval)
-                return;
-            
-            enemySpawnTimer = 0f;
-            
-            SpawnRegularEnemy();
+            HandleRegularEnemySpawning(settings.spawnSettings);
             bossSpawnedForCurrentLevel = false;
         }
 
         if (levelProvider.IsBossPhaseActive && !bossSpawnedForCurrentLevel)
         {
-            SpawnBosses(settings);
+            SpawnBosses(settings.spawnSettings);
             bossSpawnedForCurrentLevel = true;
         }
     }
 
-    private void SpawnRegularEnemy()
+    private void HandleRegularEnemySpawning(SpawnSettings spawnSettings)
     {
-        SpawnSettings spawnSettings = levelProvider.CurrentLevelSettings.spawnSettings;
-        EnemyData enemyData = spawnSettings.GetRandomEnemy();
-        
-        if (enemyData == null) return;
-
-        SpawnEnemy(enemyData.enemyName);
+        enemySpawnTimer += Time.deltaTime;
+            
+        if (enemySpawnTimer < spawnSettings.spawnInterval)
+            return;
+            
+        enemySpawnTimer = 0f;
+            
+        SpawnRegularEnemy(spawnSettings);
     }
 
-    private void SpawnBosses(LevelSettings settings)
+    private void SpawnRegularEnemy(SpawnSettings spawnSettings)
     {
-        Debug.Log("Spawning Bosses");
-        SpawnSettings spawnSettings = levelProvider.CurrentLevelSettings.spawnSettings;
+        EnemyData enemyData = spawnSettings.GetRandomEnemy();
         
-        Debug.Log($"Spawning Bosses : {spawnSettings.bossesCount}");
+        if (enemyData == null) 
+            return;
 
+        SpawnEnemy(enemyData.poolTag, spawnSettings);
+    }
+
+    private void SpawnBosses(SpawnSettings spawnSettings)
+    {
         for (int i = 0; i < spawnSettings.bossesCount; i++)
         {
             EnemyData enemyData = spawnSettings.GetRandomBoss();
-            SpawnEnemy(enemyData.enemyName);
+            SpawnEnemy(enemyData.poolTag, spawnSettings);
         }
     }
     
-    private void SpawnEnemy(string tag)
+    private void SpawnEnemy(string tag, SpawnSettings spawnSettings)
     {
-        Debug.Log($"Spawning {tag}");
-        Vector3 spawnPos = GetSpawnPosition();
-        
         if (string.IsNullOrEmpty(tag))
             return;
 
         if (ObjectPooler.Instance == null)
             return;
         
+        Vector3 spawnPos = GetSpawnPosition(spawnSettings);
+        
         ObjectPooler.Instance.SpawnFromPool(tag, spawnPos, Quaternion.Euler(0, 180, 0));
     }
     
-    private Vector3 GetSpawnPosition()
+    private Vector3 GetSpawnPosition(SpawnSettings spawnSettings)
     {
-        float randomX = Random.Range(-5f, 5f);
-        Vector3 spawnPos = new Vector3(randomX, transform.position.y + 0.05f, transform.position.z);
+        float randomX = Random.Range(
+            -spawnSettings.spawnXRange,
+            spawnSettings.spawnXRange);
+        
+        Vector3 spawnPos = new Vector3(randomX, 
+            spawnSettings.spawnY, 
+            transform.position.z);
 
         return spawnPos;
     }

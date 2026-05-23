@@ -1,48 +1,86 @@
-using System;
 using Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class BonusSpawner : MonoBehaviour
 {
-    [SerializeField] private MonoBehaviour levelProvider;
+    [SerializeField] private MonoBehaviour levelProviderSource;
 
+    private ILevelProvider levelProvider;
     private float bonusTimer;
-    private ILevelProvider LevelProvider;
-    
+
     private void Awake()
     {
-        LevelProvider = levelProvider as ILevelProvider;
+        levelProvider = levelProviderSource as ILevelProvider;
 
-        if (LevelProvider == null)
+        if (levelProvider == null)
             Debug.LogError("Level Spawn Provider must implement ILevelProvider");
     }
     
-    public void SpawnBonus(BonusData bonusData)
+    private void Update()
+    {
+        if (levelProvider == null)
+            return;
+
+        SpawnSettings spawnSettings = levelProvider.CurrentLevelSettings.spawnSettings;
+        
+        HandleBonusSpawning(spawnSettings);
+    }
+
+    private void HandleBonusSpawning(SpawnSettings spawnSettings)
+    {
+        bonusTimer += Time.deltaTime;
+        
+        if (bonusTimer < spawnSettings.bonusSpawnInterval)
+            return;
+        
+        bonusTimer = 0f;
+
+        if (Random.value > spawnSettings.bonusSpawnChance)
+            return;
+
+        BonusData bonusData = spawnSettings.GetRandomBonus();
+        
+        if (bonusData == null)
+            return;
+        
+        SpawnBonus(bonusData, spawnSettings);
+    }
+
+    public void SpawnBonus(BonusData bonusData, SpawnSettings spawnSettings)
     {
         if (ObjectPooler.Instance == null)
             return;
         
-        float randomX = Random.Range(-5f, 5f);
-        Vector3 spawnPos = new Vector3(randomX, 1, transform.position.z);
-        
-        ObjectPooler.Instance.SpawnFromPool(bonusData.bonusName, spawnPos, Quaternion.Euler(0, 180, 0));
+        if (string.IsNullOrEmpty(bonusData.poolTag))
+            return;
+
+        Vector3 spawnPosition = GetSpawnPosition(spawnSettings);
+
+        ObjectPooler.Instance.SpawnFromPool(bonusData.bonusName,
+            spawnPosition, Quaternion.Euler(0, 180, 0));
     }
 
-    private void Update()
+    private Vector3 GetSpawnPosition(SpawnSettings spawnSettings)
     {
-        bonusTimer += Time.deltaTime;
+        float randomX = Random.Range(
+            -spawnSettings.spawnXRange,
+            spawnSettings.spawnXRange
+        );
 
-        SpawnSettings spawnSettings = LevelProvider.CurrentLevelSettings.spawnSettings;
-        
-        if (bonusTimer >= spawnSettings.bonusSpawnInterval)
+        return new Vector3(
+            randomX,
+            spawnSettings.bonusSpawnY,
+            transform.position.z
+        );
+    }
+    
+    private void OnValidate()
+    {
+        if (levelProviderSource != null && levelProviderSource is not ILevelProvider)
         {
-            bonusTimer = 0f;
-
-            if (Random.value <= spawnSettings.bonusSpawnChance)
-            {
-                SpawnBonus(spawnSettings.GetRandomBonus());
-            }
+            Debug.LogWarning("Level provider must implement ILevelProvider");
+            levelProviderSource = null;
         }
     }
 }

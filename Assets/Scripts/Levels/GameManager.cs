@@ -1,61 +1,59 @@
-using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
-    private int enemyKilledScore;
     public static GameManager Instance { get; private set; }
-
-    public int Score
-    {
-        get
-        {
-            return Mathf.FloorToInt(GetSurvivalTime) + enemyKilledScore;
-        }
-
-        private set
-        {
-            
-        }
-    }
-
+    
+    private int bonusScore;
+    private int enemiesKilledScore;
+    
+    public int Score =>  Mathf.FloorToInt(SurvivalTime) + enemiesKilledScore + bonusScore;
+    
     public bool IsGameActive { get; private set; }
+    public float SurvivalTime { get; private set; }
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-    public float GetSurvivalTime { get; private set; }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
     
     private void Start()
     {
         StartGame(); 
     }
-    
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     private void Update()
     {
-        if (IsGameActive)
-            GetSurvivalTime +=  Time.deltaTime;
+        if (!IsGameActive)
+            return;
+        
+        SurvivalTime +=  Time.deltaTime;
     }
 
-    public void AddScore(int value)
+    public void AddEnemyKillScore(int value)
     {
-        enemyKilledScore += value;
+        enemiesKilledScore += value;
+    }
+    
+    public void AddBonusScore(int value)
+    {
+        bonusScore += value;
     }
 
     public void StartGame()
     {
+        Time.timeScale = 1f;
         IsGameActive = true;
+        SurvivalTime = 0f;
+        enemiesKilledScore = 0;
+        bonusScore = 0;
     }
 
     public void GameOver()

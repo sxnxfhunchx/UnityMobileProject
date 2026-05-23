@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   bonusData: {fileID: 11400000, guid: 61bacde72e188494d8029b2d92f42d96, type: 2}
   soundData: {fileID: 11400000, guid: cd245e017d225ea4ba63dbdd065772db, type: 2}
+  pickupVfxPoolTag: BonusVFX
 --- !u!114 &7629242886466012202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e96ca15d3adb5b438f94948a6142db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  bonusData: {fileID: 11400000, guid: 61bacde72e188494d8029b2d92f42d96, type: 2}
   moveSpeed: 15
   destroyZ: -10
 --- !u!114 &-8671011555306898188

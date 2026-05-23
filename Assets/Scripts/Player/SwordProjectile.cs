@@ -39,7 +39,7 @@ public class SwordProjectile : MonoBehaviour
         if (!other.CompareTag("Enemy"))
             return;
         
-        if (!other.TryGetComponent(out EnemyMovement enemy))
+        if (!other.TryGetComponent(out EnemyController enemy))
             return;
         
         enemy.TakeDamage(damage); 
