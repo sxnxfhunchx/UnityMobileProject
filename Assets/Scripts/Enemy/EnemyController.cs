@@ -111,7 +111,6 @@ public class EnemyController : MonoBehaviour
         if (ObjectPooler.Instance == null || data == null)
             return;
         
-        
         ObjectPooler.Instance.ReturnToPool(data.poolTag, gameObject);
     }
 
