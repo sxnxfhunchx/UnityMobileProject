@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private EnemyData data;
+    [SerializeField] public EnemyData data;
     [SerializeField] private SoundData soundData;
     [SerializeField] private string deathVfxPoolTag = "DeathVFX";
     [SerializeField] float destroyOnZ;
@@ -125,6 +125,8 @@ public class EnemyController : MonoBehaviour
 
         RestoreOriginalColors();
     }
+    
+    public int GetCurrentHealth() => currentHealth;
     
     private void RestoreOriginalColors()
     {

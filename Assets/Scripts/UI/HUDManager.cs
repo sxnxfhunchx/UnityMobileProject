@@ -85,6 +85,24 @@ public class HUDManager : MonoBehaviour
         }
     }
     
+    public void OnSaveButtonPressed()
+    {
+        if (SaveLoadManager.Instance != null)
+        {
+            SaveLoadManager.Instance.SaveGame();
+        }
+    }
+
+    public void OnLoadButtonPressed()
+    {
+        if (SaveLoadManager.Instance != null)
+        {
+            SaveLoadManager.Instance.LoadGame();
+        
+            if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        }
+    }
+    
     public void RestartGame()
     {
         Time.timeScale = 1f; 

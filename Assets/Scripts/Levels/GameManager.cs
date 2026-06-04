@@ -42,6 +42,18 @@ public class GameManager : MonoBehaviour
         enemiesKilledScore += value;
     }
     
+    public int GetBonusScore() => bonusScore;
+    public int GetEnemiesKilledScore() => enemiesKilledScore;
+
+    public void LoadSavedStats(int savedBonus, int savedKills, float savedTime)
+    {
+        Time.timeScale = 1f;
+        IsGameActive = true;
+        bonusScore = savedBonus;
+        enemiesKilledScore = savedKills;
+        SurvivalTime = savedTime;
+    }
+    
     public void AddBonusScore(int value)
     {
         bonusScore += value;

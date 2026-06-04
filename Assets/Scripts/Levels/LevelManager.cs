@@ -59,6 +59,16 @@ public class LevelManager : MonoBehaviour, ILevelProvider
         levelTimer = 0;
         isBossPhaseActive = false;
     }
+    
+    public int GetCurrentLevelIndex() => currentLevelIndex;
+    public float GetLevelTimer() => levelTimer;
+
+    public void LoadSavedLevel(int index, float timer, bool bossPhase)
+    {
+        currentLevelIndex = index;
+        levelTimer = timer;
+        isBossPhaseActive = bossPhase;
+    }
 
     void EndLevel()
     {
