@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,14 +13,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxX = 5f;
     
     [Header("Dash Settings")]
-    [SerializeField] private float dashSpeed = 20f;
-    [SerializeField] private float dashDuration = 0.1f;
+    [SerializeField] private float dashDistance = 2f;
+    [SerializeField] private float dashDuration = 0.15f;
     [SerializeField] private float dashCooldown = 1f;
     
     private Vector3 moveInput;
+    private float lastInputX;
     private IPlayerInput playerInput;
+    
     private bool canDash = true;
-    private bool isDashing = false;
+    private bool isDashing;
+    private Coroutine dashCoroutine;
+    
+    public event Action<bool> OnDashAvailabilityChanged;
 
     private void OnEnable()
     {
@@ -47,16 +53,19 @@ public class PlayerMovement : MonoBehaviour
     private void SetMoveInput(Vector3 input)
     {
         moveInput = input;
+        if (input.x != 0)
+            lastInputX = input.x;
     }
 
     private void Update()
     {
+        if (isDashing)
+            return;
+        
         if (moveInput == Vector3.zero)
             return;
         
-        float currentSpeed = isDashing ? dashSpeed : speed;
-        
-        float x = transform.position.x + moveInput.x * currentSpeed * Time.deltaTime;
+        float x = transform.position.x + moveInput.x * speed * Time.deltaTime;
         x = Mathf.Clamp(x, minX, maxX);
         
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
@@ -64,27 +73,55 @@ public class PlayerMovement : MonoBehaviour
 
     private void Dash()
     {
-        if (!canDash)
+        if (!canDash || isDashing)
             return;
 
-        if (moveInput == Vector3.zero)
-            return;
-        
-        StartCoroutine(DashCoroutine());
+        //if (moveInput == Vector3.zero)
+            //return;
+
+        dashCoroutine = StartCoroutine(DashCoroutine(lastInputX));
     }
     
-    private IEnumerator DashCoroutine()
+    private IEnumerator DashCoroutine(float directionX)
     {
-        canDash = false;
+        SetCanDash(false);
         isDashing = true;
 
-        yield return new WaitForSeconds(dashDuration);
+        float startX = transform.position.x;
+        float targetX = startX + directionX * dashDistance;
+        targetX = Mathf.Clamp(targetX, minX, maxX);
+
+        float timer = 0f;
+
+        while (timer < dashDuration)
+        {
+            timer += Time.deltaTime;
+
+            float t = timer / dashDuration;
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            float x = Mathf.Lerp(startX, targetX, t);
+
+            transform.position = new Vector3(
+                x,
+                transform.position.y,
+                transform.position.z
+            );
+
+            yield return null;
+        }
+
+        transform.position = new Vector3(
+            targetX,
+            transform.position.y,
+            transform.position.z
+        );
 
         isDashing = false;
 
         yield return new WaitForSeconds(dashCooldown);
 
-        canDash = true;
+        SetCanDash(true);
     }
     
     private void OnValidate()
@@ -94,5 +131,14 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogWarning("Input source must implement IPlayerInput");
             inputSource = null;
         }
+    }
+    
+    private void SetCanDash(bool value)
+    {
+        if (canDash == value)
+            return;
+
+        canDash = value;
+        OnDashAvailabilityChanged?.Invoke(canDash);
     }
 }

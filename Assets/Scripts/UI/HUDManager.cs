@@ -21,6 +21,21 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private PlayerHealth playerHealth;
     
+    [Header("Dash")]
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private Button dashButton;
+
+    private void OnEnable()
+    {
+        playerMovement.OnDashAvailabilityChanged += SetVisible;
+        SetVisible(true);
+    }
+
+    private void OnDisable()
+    {
+        playerMovement.OnDashAvailabilityChanged -= SetVisible;
+    }
+    
     void Start()
     {
         if (gameOverPanel != null) 
@@ -89,5 +104,10 @@ public class HUDManager : MonoBehaviour
     {
         Time.timeScale = 1f; 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
+    private void SetVisible(bool canDash)
+    {
+        dashButton.interactable = canDash;
     }
 }
