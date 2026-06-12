@@ -73,12 +73,12 @@ public class HUDManager : MonoBehaviour
         if (GameManager.Instance == null)
             return;
         
-        scoreText.text = "Score: " + GameManager.Instance.Score;
+        scoreText.text = "SCORE: " + GameManager.Instance.Score;
         
         int minutes = Mathf.FloorToInt(GameManager.Instance.SurvivalTime / 60f);
         int seconds = Mathf.FloorToInt(GameManager.Instance.SurvivalTime % 60f);
         
-        timeText.text = $"Time: {minutes:00}:{seconds:00}";
+        timeText.text = $"TIME: {minutes:00}:{seconds:00}";
     }
 
     private void UpdateLevelUI()
@@ -86,10 +86,10 @@ public class HUDManager : MonoBehaviour
         if (levelManager == null)
             return;
         
-        levelText.text = "Level: " + levelManager.GetCurrentLevelNumber();
+        levelText.text = "LVL " + levelManager.GetCurrentLevelNumber();
        
         float timeLeft = Mathf.Max(0f, levelManager.GetTimeRemaining());
-        timerText.text = "Next Level in: " + (timeLeft > 0 ? timeLeft.ToString("F1") : "0.0") + "s";
+        timerText.text = "NEXT IN: " + (timeLeft > 0 ? timeLeft.ToString("F1") : "0.0") + "s";
     }
 
     public void ShowGameOver()
