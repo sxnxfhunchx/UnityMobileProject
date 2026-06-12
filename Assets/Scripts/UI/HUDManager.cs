@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Ability;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -25,15 +26,21 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private Button dashButton;
 
+    [Header("Ability")]
+    [SerializeField] private PlayerAbilityController abilityController;
+    [SerializeField] private Button button;
+
     private void OnEnable()
     {
-        playerMovement.OnDashAvailabilityChanged += SetVisible;
-        SetVisible(true);
+        abilityController.OnAbilityAvailabilityChanged += ToggleAbilityAvailability;
+        playerMovement.OnDashAvailabilityChanged += ToggleDashAvailability;
+        ToggleDashAvailability(true);
     }
 
     private void OnDisable()
     {
-        playerMovement.OnDashAvailabilityChanged -= SetVisible;
+        abilityController.OnAbilityAvailabilityChanged -= ToggleAbilityAvailability;
+        playerMovement.OnDashAvailabilityChanged -= ToggleDashAvailability;
     }
     
     void Start()
@@ -106,8 +113,13 @@ public class HUDManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
-    private void SetVisible(bool canDash)
+    private void ToggleDashAvailability(bool canDash)
     {
         dashButton.interactable = canDash;
+    }
+    
+    private void ToggleAbilityAvailability(bool available)
+    {
+        button.interactable = available;
     }
 }

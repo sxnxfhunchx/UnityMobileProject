@@ -6,6 +6,7 @@ public class KeyboardInput : MonoBehaviour, IPlayerInput
     public event Action<Vector3> OnMoveInput;
     public event Action<bool> OnShootInput;
     public event Action OnDashInput;
+    public event Action OnAbilityInput;
 
     [SerializeField] private KeyCode leftKey = KeyCode.A;
     [SerializeField] private KeyCode rightKey = KeyCode.D;

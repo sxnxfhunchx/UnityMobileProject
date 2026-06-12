@@ -25,7 +25,7 @@ public class SwordProjectile : MonoBehaviour
     
     void Update()
     {
-        transform.Translate(Vector3.forward * (speed * Time.deltaTime), Space.World);
+        transform.position += transform.forward * (speed * Time.deltaTime);
     }
 
     IEnumerator DeactivateAfterTime()

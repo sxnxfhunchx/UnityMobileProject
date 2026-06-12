@@ -7,6 +7,7 @@ public class InputController : MonoBehaviour, IPlayerInput
     public event Action<Vector3> OnMoveInput;
     public event Action<bool> OnShootInput;
     public event Action OnDashInput;
+    public event Action OnAbilityInput;
 
     private InputSystem_Actions inputActions;
     
@@ -18,6 +19,7 @@ public class InputController : MonoBehaviour, IPlayerInput
         inputActions.Player.Attack.performed += Shoot;
         inputActions.Player.Attack.canceled += StopShooting;
         inputActions.Player.Dash.performed += Dash;
+        inputActions.Player.Ability.performed += UseAbility;
         inputActions.Enable();
     }
 
@@ -39,5 +41,10 @@ public class InputController : MonoBehaviour, IPlayerInput
     public void Dash(InputAction.CallbackContext context)
     {
         OnDashInput?.Invoke();
+    }
+
+    public void UseAbility(InputAction.CallbackContext context)
+    {
+        OnAbilityInput?.Invoke();
     }
 }

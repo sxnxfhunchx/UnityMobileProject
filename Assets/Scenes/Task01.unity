@@ -1202,6 +1202,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
       insertIndex: -1
       addedObject: {fileID: 252476755}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 252476757}
   m_SourcePrefab: {fileID: 100100000, guid: 043d51a16b04dc042b4eb4450ebc5164, type: 3}
 --- !u!4 &252476747 stripped
 Transform:
@@ -1270,6 +1273,7 @@ MonoBehaviour:
   projectilePoolTag: Projectile
   firePoint: {fileID: 1300174884}
   fireRate: 0.2
+  tripleShotAbility: {fileID: 0}
 --- !u!54 &252476754
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1333,6 +1337,20 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 1.02, z: 0}
+--- !u!114 &252476757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252476748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8620b14291ae488eaec99d5341af42d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ability.PlayerAbilityController
+  defaultAbilitySource: {fileID: 649831024}
+  inputSource: {fileID: 1548236864}
 --- !u!1 &255102773
 GameObject:
   m_ObjectHideFlags: 0
@@ -3841,6 +3859,52 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &649831022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 649831023}
+  - component: {fileID: 649831024}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &649831023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649831022}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1671618348}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &649831024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649831022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b2a04782bdd48e0abfde2de56e11c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ability.TripleShotAbility
+  duration: 5
+  cooldown: 10
 --- !u!1 &667967934 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1854086869558207525, guid: d424aa78c9a73cd499e3bf4b7455b741, type: 3}
@@ -3965,6 +4029,7 @@ GameObject:
   - component: {fileID: 696128816}
   - component: {fileID: 696128815}
   - component: {fileID: 696128814}
+  - component: {fileID: 696128818}
   m_Layer: 5
   m_Name: AbilityButton
   m_TagString: Untagged
@@ -4094,6 +4159,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696128812}
   m_CullTransparentMesh: 1
+--- !u!114 &696128818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696128812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.OnScreen.OnScreenButton
+  m_ControlPath: <Gamepad>/buttonNorth
 --- !u!4 &705981592 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 02e48aea181058a47acc4c8a06b88f13, type: 3}
@@ -6638,6 +6716,8 @@ MonoBehaviour:
   playerHealth: {fileID: 252476755}
   playerMovement: {fileID: 252476749}
   dashButton: {fileID: 42658833}
+  abilityController: {fileID: 252476757}
+  button: {fileID: 696128815}
 --- !u!114 &1166862241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9105,6 +9185,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 252476747}
+  - {fileID: 649831023}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1679125338

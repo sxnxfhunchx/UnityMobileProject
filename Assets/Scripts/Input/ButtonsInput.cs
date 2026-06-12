@@ -7,6 +7,7 @@ public class ButtonsInput : MonoBehaviour, IPlayerInput
     public event Action<Vector3> OnMoveInput;
     public event Action<bool> OnShootInput;
     public event Action OnDashInput;
+    public event Action OnAbilityInput;
 
     public void MoveLeft()
     {
