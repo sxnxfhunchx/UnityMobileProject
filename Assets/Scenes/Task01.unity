@@ -454,6 +454,9 @@ MonoBehaviour:
   - tag: BonusVFX
     prefab: {fileID: 7072814104702594052, guid: 80b12e45f9772da48b061f842356612b, type: 3}
     size: 2
+  - tag: BlastVFX
+    prefab: {fileID: 3220654680325800360, guid: 30a42db93b6b1924bbed8bb126b03a63, type: 3}
+    size: 2
 --- !u!1001 &73095636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1468,7 +1471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8620b14291ae488eaec99d5341af42d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ability.PlayerAbilityController
-  defaultPowerUp: {fileID: 11400000, guid: b12bac03d3d0d824093bcd544c575c2c, type: 2}
+  defaultPowerUp: {fileID: 11400000, guid: 2eaa2328dcad3a14ea647a1f22014fa6, type: 2}
   inputSource: {fileID: 1548236864}
 --- !u!114 &252476758
 MonoBehaviour:

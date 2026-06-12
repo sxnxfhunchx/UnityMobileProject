@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8787592195dc4dd288e02688f8fafd21, type: 3}
+  m_Name: EnergyBlastData
+  m_EditorClassIdentifier: Assembly-CSharp::SO.PowerUps.EnergyBlastPowerUpData
+  DisplayName: Energy Blast
+  Icon: {fileID: 0}
+  Duration: 0
+  Cooldown: 10
+  Radius: 10
+  Damage: 999
+  BlastEffectPrefab: {fileID: 3220654680325800360, guid: 30a42db93b6b1924bbed8bb126b03a63, type: 3}
