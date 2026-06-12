@@ -1,7 +1,10 @@
+using Ability;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] private PlayerAbilityController abilityController;
+    
     public int maxHealth = 50;
     private int currentHealth;
 
@@ -15,6 +18,13 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (abilityController.TryGetCurrentAbility<ShieldAbility>(out var shield)
+            && shield.TryBlockDamage())
+        {
+            Debug.Log("Damage blocked by shield");
+            return;
+        }
+        
         currentHealth -= damage;
 
         if (currentHealth <= 0)

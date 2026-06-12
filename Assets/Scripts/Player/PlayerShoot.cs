@@ -12,7 +12,7 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 0.2f; 
     
-    [SerializeField] private TripleShotAbility tripleShotAbility;
+    [SerializeField] private PlayerAbilityController abilityController;
     
     private float nextFireTime;
     private bool isShooting = false;
@@ -64,21 +64,31 @@ public class PlayerShoot : MonoBehaviour
         if (!ObjectPooler.Instance)
             return;
         
-        if (tripleShotAbility != null && tripleShotAbility.IsActive)
+        if (abilityController.TryGetCurrentAbility<TripleShotAbility>(out var tripleShot)
+            && tripleShot.IsActive)
         {
-            ShootTriple();
+            ShootTriple(tripleShot.ProjectileCount, tripleShot.SpreadAngle);
+            return;
         }
-        else
-        {
-            ShootSingle();
-        }
+
+        ShootSingle();
     }
 
-    private void ShootTriple()
+    private void ShootTriple(int count, float angle)
     {
-        SpawnProjectile(0f);
-        SpawnProjectile(-10f);
-        SpawnProjectile(10f);
+        if (count <= 1)
+        {
+            ShootSingle();
+            return;
+        }
+
+        float startAngle = -angle * (count - 1) / 2f;
+
+        for (int i = 0; i < count; i++)
+        {
+            float currentAngle = startAngle + angle * i;
+            SpawnProjectile(currentAngle);
+        }
     }
 
     private void ShootSingle()

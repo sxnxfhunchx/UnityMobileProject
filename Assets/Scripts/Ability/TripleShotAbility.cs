@@ -1,43 +1,41 @@
 ﻿using System;
 using System.Collections;
 using Interfaces;
+using SO.PowerUps;
 using UnityEngine;
 
 namespace Ability
 {
-    public class TripleShotAbility : MonoBehaviour, IPlayerAbility
+    public class TripleShotAbility : PlayerAbility
     {
-        [SerializeField] private float duration = 5f;
-        [SerializeField] private float cooldown = 10f;
-        
-        public bool IsActive { get; private set; }
-        public bool CanUse { get; private set; } = true;
+        private readonly TripleShotPowerUpData tripleShotData;
 
-        public event Action StateChanged;
+        public int ProjectileCount => tripleShotData.ProjectileCount;
+        public float SpreadAngle => tripleShotData.SpreadAngle;
+
+        public TripleShotAbility(TripleShotPowerUpData data, MonoBehaviour coroutineRunner)
+            : base(data, coroutineRunner)
+        {
+            tripleShotData = data;
+        }
         
-        public void Use()
+        public override void Use()
         {
             if (!CanUse)
                 return;
-            
-            StartCoroutine(AbilityCoroutine());
+
+            coroutineRunner.StartCoroutine(DurationCoroutine());
         }
-        
-        private IEnumerator AbilityCoroutine()
+
+        private IEnumerator DurationCoroutine()
         {
             CanUse = false;
             IsActive = true;
-            StateChanged?.Invoke();
+            RaiseStateChanged();
 
-            yield return new WaitForSeconds(duration);
+            yield return new WaitForSeconds(data.Duration);
 
-            IsActive = false;
-            StateChanged?.Invoke();
-
-            yield return new WaitForSeconds(cooldown);
-            
-            CanUse = true;
-            StateChanged?.Invoke();
+            StartCooldown();
         }
     }
 }
