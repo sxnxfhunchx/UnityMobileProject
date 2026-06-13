@@ -7,6 +7,7 @@ namespace SO.PowerUps
     {
         [Header("Base Settings")]
         public string DisplayName;
+        public string poolTag;
         public Sprite Icon;
 
         public float Duration = 5f;

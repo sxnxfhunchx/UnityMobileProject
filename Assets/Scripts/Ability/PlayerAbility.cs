@@ -15,6 +15,7 @@ namespace Ability
         public bool IsActive { get; protected set; }
 
         public event Action StateChanged;
+        public event Action<float> CooldownStarted;
 
         protected PlayerAbility(PowerUpData data, MonoBehaviour coroutineRunner)
         {
@@ -38,6 +39,7 @@ namespace Ability
             CanUse = false;
             RaiseStateChanged();
 
+            CooldownStarted?.Invoke(data.Cooldown);
             coroutineRunner.StartCoroutine(CooldownCoroutine());
         }
 

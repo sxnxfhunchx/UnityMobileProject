@@ -1,4 +1,5 @@
 ﻿using System;
+using SO.PowerUps;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -23,6 +24,17 @@ public class SpawnSettings
     public float bonusSpawnInterval;
     [Range(0f, 1f)]
     public float bonusSpawnChance;
+    
+    [Header("PowerUps")]
+    public PowerUpData[] powerUps;
+    public float powerUpSpawnInterval;
+    [Range(0f, 1f)]
+    public float powerUpSpawnChance;
+    
+    public PowerUpData GetRandomPowerUp()
+    { 
+        return GetRandomData(powerUps) as PowerUpData;
+    }
     
     public BonusData GetRandomBonus()
     { 

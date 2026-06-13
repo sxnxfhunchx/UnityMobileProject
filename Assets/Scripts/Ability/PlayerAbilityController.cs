@@ -13,11 +13,15 @@ namespace Ability
         [SerializeField] private MonoBehaviour inputSource;
         
         private IPlayerAbility currentAbility;
-        
+        private PowerUpData currentPowerUpData;
+
         public event Action<bool> OnAbilityAvailabilityChanged;
         public event Action OnAbilityChanged;
+        public event Action<float> OnAbilityCooldownStarted;
 
         private IPlayerInput playerInput;
+        
+        public PowerUpData CurrentPowerUpData => currentPowerUpData;
 
         private void OnEnable()
         {
@@ -52,12 +56,21 @@ namespace Ability
         public void SetAbility(PowerUpData powerUpData)
         {
             if (currentAbility != null)
+            {
                 currentAbility.StateChanged -= NotifyAvailability;
-
-            currentAbility = powerUpData.CreateAbility(this);
+                currentAbility.CooldownStarted -= NotifyCooldownStarted;
+            }
+            
+            currentPowerUpData = powerUpData;
+            currentAbility = powerUpData != null 
+                ? powerUpData.CreateAbility(this) 
+                : null;
 
             if (currentAbility != null)
+            {
                 currentAbility.StateChanged += NotifyAvailability;
+                currentAbility.CooldownStarted += NotifyCooldownStarted;
+            }
 
             NotifyAvailability();
             OnAbilityChanged?.Invoke();
@@ -79,6 +92,11 @@ namespace Ability
         {
             bool canUse = currentAbility != null && currentAbility.CanUse;
             OnAbilityAvailabilityChanged?.Invoke(canUse);
+        }
+        
+        private void NotifyCooldownStarted(float duration)
+        {
+            OnAbilityCooldownStarted?.Invoke(duration);
         }
         
         public bool TryGetCurrentAbility<T>(out T ability) where T : class

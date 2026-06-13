@@ -8,6 +8,7 @@ namespace Interfaces
         bool IsActive { get; }
         
         event Action StateChanged;
+        event Action<float> CooldownStarted;
 
         void Use();
     }

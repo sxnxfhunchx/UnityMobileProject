@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShieldData
   m_EditorClassIdentifier: Assembly-CSharp::SO.PowerUps.ShieldPowerUpData
   DisplayName: Shield
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 239fed3ec5162a546bb3367b570b55d4, type: 3}
   Duration: 20
   Cooldown: 20
   ShieldHealth: 1
