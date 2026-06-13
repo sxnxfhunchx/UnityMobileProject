@@ -30,6 +30,7 @@ namespace Ability
         private void Blast()
         {
             ObjectPooler.Instance.SpawnFromPool(BlastEffectTag, origin.position, Quaternion.identity);
+            SoundManager.Instance?.PlaySound(blastData.BlastSound, origin.position);
             
             Collider[] hits = Physics.OverlapSphere(origin.position, blastData.Radius);
             

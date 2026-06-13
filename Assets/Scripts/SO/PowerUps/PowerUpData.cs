@@ -13,6 +13,9 @@ namespace SO.PowerUps
         public float Duration = 5f;
         public float Cooldown = 10f;
         
+        [Header("Audio")]
+        public AudioClip BlockSound;
+        
         public abstract IPlayerAbility CreateAbility(MonoBehaviour coroutineRunner);
     }
 }

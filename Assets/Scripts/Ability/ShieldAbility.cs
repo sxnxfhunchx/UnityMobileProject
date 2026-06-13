@@ -35,7 +35,8 @@ namespace Ability
                 return false;
 
             shieldCharges--;
-
+            SoundManager.Instance?.PlaySound(shieldData.BlockSound, coroutineRunner.transform.position);
+            
             if (shieldCharges <= 0)
                 StartCooldown();
             else

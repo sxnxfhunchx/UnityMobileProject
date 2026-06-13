@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private PlayerAbilityController abilityController;
+    [SerializeField] private AudioClip damageSound;
+    [SerializeField] private AudioClip deathSound;
     
     public int maxHealth = 50;
     private int currentHealth;
@@ -26,7 +28,8 @@ public class PlayerHealth : MonoBehaviour
         }
         
         currentHealth -= damage;
-
+        SoundManager.Instance?.PlaySound(damageSound, transform.position);
+        
         if (currentHealth <= 0)
         {
             Die();
@@ -35,6 +38,8 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
+        SoundManager.Instance?.PlaySound(deathSound, transform.position);
+        
         if (GameManager.Instance != null)
         {
             GameManager.Instance.GameOver();

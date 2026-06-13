@@ -9,6 +9,9 @@ namespace SO.PowerUps
     {
         public float Radius = 6f;
         public int Damage = 999;
+        
+        [Header("Audio")]
+        public AudioClip BlastSound;
 
         public override IPlayerAbility CreateAbility(MonoBehaviour coroutineRunner)
         {

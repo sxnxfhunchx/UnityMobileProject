@@ -70,6 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   visualRenderer: {fileID: 7807123272889157851}
   poolTag: PowerUp
+  pickupSound: {fileID: 8300000, guid: 26f503aed3509894bae97d0feb0c2545, type: 3}
 --- !u!114 &-6140451524725153375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,3 +213,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpPickup
   visualRenderer: {fileID: 7807123272889157851}
   poolTag: PowerUp
+  pickupSound: {fileID: 0}

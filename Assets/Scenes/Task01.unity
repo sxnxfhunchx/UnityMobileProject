@@ -1397,6 +1397,7 @@ MonoBehaviour:
   projectilePoolTag: Projectile
   firePoint: {fileID: 1300174884}
   fireRate: 0.2
+  shootSound: {fileID: 8300000, guid: 0e71779202a335b408f80f9941d91266, type: 3}
   abilityController: {fileID: 252476757}
 --- !u!54 &252476754
 Rigidbody:
@@ -1438,6 +1439,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   abilityController: {fileID: 252476757}
+  damageSound: {fileID: 8300000, guid: 1a8907c8d42cae54f8afd61e9de43a95, type: 3}
+  deathSound: {fileID: 8300000, guid: 44f3c83090aa1bb4a840842e815d4884, type: 3}
   maxHealth: 50
 --- !u!136 &252476756
 CapsuleCollider:

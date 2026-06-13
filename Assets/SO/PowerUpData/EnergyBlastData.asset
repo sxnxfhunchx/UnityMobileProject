@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: EnergyBlastData
   m_EditorClassIdentifier: Assembly-CSharp::SO.PowerUps.EnergyBlastPowerUpData
   DisplayName: Energy Blast
+  poolTag: 
   Icon: {fileID: 21300000, guid: b4b58ced856a76746abee3648ea8cc25, type: 3}
   Duration: 0
   Cooldown: 10
+  BlockSound: {fileID: 0}
   Radius: 10
   Damage: 999
+  BlastSound: {fileID: 8300000, guid: 630d3fdb17d61e84c8b1422bf4d222fd, type: 3}

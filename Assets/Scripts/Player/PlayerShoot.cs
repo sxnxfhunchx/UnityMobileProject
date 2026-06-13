@@ -12,6 +12,8 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 0.2f; 
     
+    [SerializeField] private AudioClip shootSound;
+    
     [SerializeField] private PlayerAbilityController abilityController;
     
     private float nextFireTime;
@@ -107,6 +109,7 @@ public class PlayerShoot : MonoBehaviour
         projectile.transform.rotation = firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
 
         projectile.SetActive(true);
+        SoundManager.Instance?.PlaySound(shootSound, transform.position);
     }
 
     private void OnValidate()

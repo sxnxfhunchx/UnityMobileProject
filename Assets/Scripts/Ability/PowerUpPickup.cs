@@ -6,7 +6,7 @@ public class PowerUpPickup : MonoBehaviour
 {
     [SerializeField] private MeshRenderer visualRenderer;
     [SerializeField] private string poolTag = "PowerUp";
-
+    [SerializeField] private AudioClip pickupSound;
     private PowerUpData powerUpData;
 
     public void Initialize(PowerUpData data)
@@ -34,6 +34,7 @@ public class PowerUpPickup : MonoBehaviour
             return;
 
         abilityController.SetAbility(powerUpData);
+        SoundManager.Instance?.PlaySound(pickupSound, transform.position);
 
         ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
     }
