@@ -40,7 +40,7 @@ public class EnemyController : MonoBehaviour
     {
         if (data == null)
             return;
-        
+    
         float speedMultiplier = 1f;
 
         if (levelProvider != null)
@@ -48,14 +48,21 @@ public class EnemyController : MonoBehaviour
             speedMultiplier = levelProvider.CurrentLevelSettings.enemySpeedMultiplier;
         }
 
-        transform.Translate(Vector3.back * (data.speed * speedMultiplier * Time.deltaTime), Space.World);
+        int difficulty = PlayerPrefs.GetInt("GameDifficulty", 2);
+        float difficultyMultiplier = 1f;
+
+        if (difficulty == 1) difficultyMultiplier = 0.75f; 
+        if (difficulty == 3) difficultyMultiplier = 1.35f; 
+
+        float finalSpeed = data.speed * speedMultiplier * difficultyMultiplier;
+
+        transform.Translate(Vector3.back * (finalSpeed * Time.deltaTime), Space.World);
 
         if (transform.position.z < destroyOnZ)
         {
             ReturnToPool();
         }
     }
-    
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;

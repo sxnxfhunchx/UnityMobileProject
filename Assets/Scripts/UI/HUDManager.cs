@@ -29,6 +29,10 @@ public class HUDManager : MonoBehaviour
     [Header("Ability")]
     [SerializeField] private PlayerAbilityController abilityController;
     [SerializeField] private Button button;
+    
+    [Header("Options Menu")]
+    [SerializeField] private GameObject optionsMenuPanel;
+    [SerializeField] private Button optionsMenuButton;
 
     private void OnEnable()
     {
@@ -64,6 +68,27 @@ public class HUDManager : MonoBehaviour
         UpdateLevelUI();
         UpdateScoreUI();
         UpdateHealthUI();
+    }
+    
+    public void OpenOptionsMenu()
+    {
+        if (optionsMenuPanel != null)
+        {
+            optionsMenuPanel.SetActive(true);
+            Time.timeScale = 0f; 
+        }
+    }
+
+    public void CloseOptionsMenu()
+    {
+        if (optionsMenuPanel != null)
+        {
+            optionsMenuPanel.SetActive(false);
+            if (GameManager.Instance != null && GameManager.Instance.IsGameActive)
+            {
+                Time.timeScale = 1f;
+            }
+        }
     }
 
     private void UpdateHealthUI()
