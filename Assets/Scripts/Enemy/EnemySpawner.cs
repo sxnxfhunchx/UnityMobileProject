@@ -5,7 +5,9 @@ using Random = UnityEngine.Random;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private MonoBehaviour levelProviderSource;
-    
+    [SerializeField] private GameObject targetProviderSource;
+
+    private ITargetProvider targetProvider;
     private ILevelProvider levelProvider;
     private bool bossSpawnedForCurrentLevel = false;
     private float enemySpawnTimer = 0;
@@ -13,9 +15,12 @@ public class EnemySpawner : MonoBehaviour
     private void Awake()
     {
         levelProvider = levelProviderSource as ILevelProvider;
-
         if (levelProvider == null)
             Debug.LogError("Level Spawn Provider must implement ILevelProvider");
+        
+        targetProvider = targetProviderSource.GetComponent<ITargetProvider>();
+        if (targetProvider == null)
+            Debug.LogError("Target provider must implement ITargetProvider");
     }
     
     private void Update()
@@ -88,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
         {
             if (spawnedObj.TryGetComponent(out EnemyController enemyController))
             {
-                enemyController.Initialize(enemyData);
+                enemyController.Initialize(enemyData, targetProvider);
             }
         }
     }

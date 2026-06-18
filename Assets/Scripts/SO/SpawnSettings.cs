@@ -1,4 +1,5 @@
 ﻿using System;
+using SO;
 using SO.PowerUps;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,12 +13,8 @@ public class SpawnSettings
     public float bonusSpawnY = 1f;
     
     [Header("Enemies")]
-    public EnemyData[] enemies;
+    public EnemySpawnEntry[] enemies;
     public float spawnInterval;
-
-    [Range(0f, 1f)]
-    public float berserkSpawnChance = 0.1f; 
-    [SerializeField] private EnemyData berserkData; 
 
     [Header("Bosses")]
     public EnemyData[] bosses;
@@ -47,11 +44,31 @@ public class SpawnSettings
     
     public EnemyData GetRandomEnemy()
     {
-        if (berserkData != null && UnityEngine.Random.value <= berserkSpawnChance)
+        if (enemies == null || enemies.Length == 0)
+            return null;
+
+        float totalWeight = 0f;
+
+        foreach (EnemySpawnEntry entry in enemies)
         {
-            return berserkData;
+            if (entry?.enemyData != null)
+                totalWeight += entry.spawnWeight;
         }
-        return GetRandomData(enemies) as EnemyData;
+
+        float roll = Random.Range(0f, totalWeight);
+
+        foreach (EnemySpawnEntry entry in enemies)
+        {
+            if (entry?.enemyData == null)
+                continue;
+
+            roll -= entry.spawnWeight;
+
+            if (roll <= 0f)
+                return entry.enemyData;
+        }
+
+        return null;
     }
     
     public EnemyData GetRandomBoss()

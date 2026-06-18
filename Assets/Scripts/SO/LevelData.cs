@@ -6,6 +6,8 @@ public class LevelSettings : ScriptableObject
     public int levelNumber;
     public float levelDuration = 20f;
     public float enemySpeedMultiplier = 1.0f;
+    public float enemyHealthMultiplier = 1.0f;
+    public float enemyDamageMultiplier = 1.0f;
     
     public SpawnSettings spawnSettings;
     

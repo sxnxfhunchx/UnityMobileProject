@@ -14,15 +14,25 @@ public class EnemyController : MonoBehaviour
     private Color[] originalColors;
     
     private ILevelProvider levelProvider;
+    private ITargetProvider targetProvider;
+    
+    private Vector3 moveDirection = Vector3.back;
+    private bool hasLockedTarget;
 
-    public void Initialize(EnemyData newData)
+    public void Initialize(EnemyData newData, ITargetProvider targetProvider)
     {
         data = newData;
 
         if (data == null)
             return;
 
-        currentHealth = data.health;
+        float healthMultiplier = levelProvider != null
+            ? healthMultiplier = levelProvider.CurrentLevelSettings.enemyHealthMultiplier
+            : 1f;
+
+        currentHealth = Mathf.RoundToInt(data.health * healthMultiplier);
+        
+        this.targetProvider = targetProvider;
 
         RestoreOriginalColors();
 
@@ -33,6 +43,9 @@ public class EnemyController : MonoBehaviour
                 if (r != null) r.material.color = data.berserkColorTint;
             }
         }
+        
+        hasLockedTarget = false;
+        moveDirection = Vector3.back;
     }
 
     void OnEnable()
@@ -57,6 +70,8 @@ public class EnemyController : MonoBehaviour
         if (data == null)
             return;
     
+        UpdateBerserkDirection();
+        
         float speedMultiplier = 1f;
 
         if (levelProvider != null)
@@ -72,7 +87,7 @@ public class EnemyController : MonoBehaviour
 
         float finalSpeed = data.speed * speedMultiplier * difficultyMultiplier;
 
-        transform.Translate(Vector3.back * (finalSpeed * Time.deltaTime), Space.World);
+        transform.Translate(moveDirection * (finalSpeed * Time.deltaTime), Space.World);
 
         if (transform.position.z < destroyOnZ)
         {
@@ -172,9 +187,48 @@ public class EnemyController : MonoBehaviour
         if (!other.TryGetComponent(out PlayerHealth player))
             return;
 
-        player.TakeDamage(data.damage);
+        float damageMultiplier = levelProvider != null ? 
+            levelProvider.CurrentLevelSettings.enemyDamageMultiplier : 
+            1f;
+
+        int finalDamage = Mathf.RoundToInt(data.damage * damageMultiplier);
+
+        player.TakeDamage(finalDamage);
 
         ObjectPooler.Instance.ReturnToPool(data.poolTag, gameObject);
     }
     
+    private void UpdateBerserkDirection()
+    {
+        if (data == null)
+            return;
+
+        if (!data.isBerserkMode)
+            return;
+
+        if (hasLockedTarget)
+            return;
+
+        if (targetProvider?.Target == null)
+            return;
+        
+        float zDistanceToTarget = transform.position.z - targetProvider.Target.position.z;
+
+        if (zDistanceToTarget > data.berserkDetectionDistance)
+            return;
+        
+        if (zDistanceToTarget < 0.5f)
+            return;
+
+        Vector3 direction = targetProvider.Target.position - transform.position;
+
+        direction.y = 0f;
+
+        if (direction == Vector3.zero)
+            return;
+
+        moveDirection = direction.normalized;
+        hasLockedTarget = true;
+    }
+
 }

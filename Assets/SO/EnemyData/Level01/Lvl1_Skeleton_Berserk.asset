@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Skeleton
   poolTag: Skeleton
+  spawnChance: 0.1
   health: 30
   speed: 15
   damage: 10
   scoreValue: 10
   isBerserkMode: 0
   berserkColorTint: {r: 0.7803922, g: 0.08235294, b: 0.5215687, a: 1}
+  berserkDetectionDistance: 9

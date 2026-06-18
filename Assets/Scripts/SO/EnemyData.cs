@@ -14,5 +14,6 @@ public class EnemyData : ScriptableObject
 
     [Header("Berserk Variant Settings")]
     public bool isBerserkMode = false; 
-    public Color berserkColorTint = Color.mediumVioletRed; 
+    public Color berserkColorTint = Color.mediumVioletRed;
+    public float berserkDetectionDistance = 9f;
 }
