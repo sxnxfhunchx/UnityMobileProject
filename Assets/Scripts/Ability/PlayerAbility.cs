@@ -45,7 +45,6 @@ namespace Ability
 
         protected void RaiseStateChanged()
         {
-            Debug.Log("Raise StateChanged");
             StateChanged?.Invoke();
         }
     }

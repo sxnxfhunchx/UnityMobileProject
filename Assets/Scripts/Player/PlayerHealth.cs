@@ -23,7 +23,6 @@ public class PlayerHealth : MonoBehaviour
         if (abilityController.TryGetCurrentAbility<ShieldAbility>(out var shield)
             && shield.TryBlockDamage())
         {
-            Debug.Log("Damage blocked by shield");
             return;
         }
         

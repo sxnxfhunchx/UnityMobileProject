@@ -437,7 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   pools:
   - tag: Projectile
-    prefab: {fileID: 5651402458575486093, guid: c95a4dbf1cd3d1e49a2b997c79444d21, type: 3}
+    prefab: {fileID: 4472270531634837245, guid: b9d39da9b977c5349b38f69d98921b62, type: 3}
     size: 30
   - tag: Skeleton
     prefab: {fileID: 7545805580971034065, guid: 1f97c502b8e62a34cba2d7af1b716519, type: 3}
