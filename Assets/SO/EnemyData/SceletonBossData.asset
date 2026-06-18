@@ -16,5 +16,7 @@ MonoBehaviour:
   poolTag: SkeletonBoss
   health: 70
   speed: 20
-  scoreValue: 100
   damage: 20
+  scoreValue: 100
+  isBerserkMode: 0
+  berserkColorTint: {r: 0.7803922, g: 0.08235294, b: 0.5215687, a: 1}

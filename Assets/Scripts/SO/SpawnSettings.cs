@@ -15,6 +15,10 @@ public class SpawnSettings
     public EnemyData[] enemies;
     public float spawnInterval;
 
+    [Range(0f, 1f)]
+    public float berserkSpawnChance = 0.1f; 
+    [SerializeField] private EnemyData berserkData; 
+
     [Header("Bosses")]
     public EnemyData[] bosses;
     public int bossesCount;
@@ -42,7 +46,11 @@ public class SpawnSettings
     }
     
     public EnemyData GetRandomEnemy()
-    { 
+    {
+        if (berserkData != null && UnityEngine.Random.value <= berserkSpawnChance)
+        {
+            return berserkData;
+        }
         return GetRandomData(enemies) as EnemyData;
     }
     

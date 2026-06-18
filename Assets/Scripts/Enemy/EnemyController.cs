@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private EnemyData data;
+    private EnemyData data; 
     [SerializeField] private SoundData soundData;
     [SerializeField] private string deathVfxPoolTag = "DeathVFX";
     [SerializeField] float destroyOnZ;
@@ -15,6 +15,29 @@ public class EnemyController : MonoBehaviour
     
     private ILevelProvider levelProvider;
 
+    public void Initialize(EnemyData newData)
+    {
+        data = newData;
+
+        if (data == null)
+            return;
+
+        currentHealth = data.health;
+
+        RestoreOriginalColors();
+
+        if (data.isBerserkMode && renderers != null)
+        {
+            foreach (var r in renderers)
+            {
+                if (r != null) r.material.color = data.berserkColorTint;
+            }
+        }
+    }
+
+    void OnEnable()
+    { }
+
     void Awake()
     {
         levelProvider = FindFirstObjectByType<LevelManager>();
@@ -24,16 +47,9 @@ public class EnemyController : MonoBehaviour
         
         for (int i = 0; i < renderers.Length; i++)
         {
-            originalColors[i] = renderers[i].material.color;
+            if (renderers[i] != null)
+                originalColors[i] = renderers[i].material.color;
         }
-    }
-
-    void OnEnable()
-    {
-        if (data != null) 
-            currentHealth = data.health;
-
-        RestoreOriginalColors();
     }
     
     private void Update()
@@ -113,12 +129,16 @@ public class EnemyController : MonoBehaviour
         SoundManager.Instance.PlaySound(clip, transform.position);
     }
     
-   private void ReturnToPool()
+    private void ReturnToPool()
     {
         if (ObjectPooler.Instance == null || data == null)
             return;
         
-        ObjectPooler.Instance.ReturnToPool(data.poolTag, gameObject);
+        string tagToReturn = data.poolTag;
+        
+        data = null; 
+        
+        ObjectPooler.Instance.ReturnToPool(tagToReturn, gameObject);
     }
 
     private IEnumerator HitFlash()

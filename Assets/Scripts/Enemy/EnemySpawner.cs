@@ -60,7 +60,7 @@ public class EnemySpawner : MonoBehaviour
         if (enemyData == null) 
             return;
 
-        SpawnEnemy(enemyData.poolTag, spawnSettings);
+        SpawnEnemy(enemyData, spawnSettings);
     }
 
     private void SpawnBosses(SpawnSettings spawnSettings)
@@ -68,21 +68,29 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < spawnSettings.bossesCount; i++)
         {
             EnemyData enemyData = spawnSettings.GetRandomBoss();
-            SpawnEnemy(enemyData.poolTag, spawnSettings);
+            SpawnEnemy(enemyData, spawnSettings);
         }
     }
     
-    private void SpawnEnemy(string tag, SpawnSettings spawnSettings)
+    private void SpawnEnemy(EnemyData enemyData, SpawnSettings spawnSettings)
     {
-        if (string.IsNullOrEmpty(tag))
+        if (enemyData == null || string.IsNullOrEmpty(enemyData.poolTag))
             return;
 
         if (ObjectPooler.Instance == null)
             return;
-        
+    
         Vector3 spawnPos = GetSpawnPosition(spawnSettings);
-        
-        ObjectPooler.Instance.SpawnFromPool(tag, spawnPos, Quaternion.Euler(0, 180, 0));
+    
+        GameObject spawnedObj = ObjectPooler.Instance.SpawnFromPool(enemyData.poolTag, spawnPos, Quaternion.Euler(0, 180, 0));
+    
+        if (spawnedObj != null)
+        {
+            if (spawnedObj.TryGetComponent(out EnemyController enemyController))
+            {
+                enemyController.Initialize(enemyData);
+            }
+        }
     }
     
     private Vector3 GetSpawnPosition(SpawnSettings spawnSettings)

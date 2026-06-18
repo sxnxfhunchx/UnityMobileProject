@@ -12,10 +12,7 @@ public class EnemyData : ScriptableObject
     public int damage = 10;
     public int scoreValue = 10;
 
-    [Header("Tier / Weapon Modifiers")]
-    public float rotationSpeedY = 180f; 
-    public float fireRateModifier = 1.0f; 
-    
-    [Header("Status")]
+    [Header("Berserk Variant Settings")]
     public bool isBerserkMode = false; 
+    public Color berserkColorTint = Color.mediumVioletRed; 
 }

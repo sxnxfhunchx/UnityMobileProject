@@ -20,8 +20,10 @@ MonoBehaviour:
     spawnY: 0.05
     bonusSpawnY: 1
     enemies:
-    - {fileID: 11400000, guid: 5b5a933d24977d74c8afd022fc165291, type: 2}
+    - {fileID: 11400000, guid: dcbcecc422adfd54a8e38ef8e90ed604, type: 2}
     spawnInterval: 1.35
+    berserkSpawnChance: 0.1
+    berserkData: {fileID: 11400000, guid: a561d4c0af8458d4f9b42dab671e72d8, type: 2}
     bosses:
     - {fileID: 11400000, guid: 691e0166ead8b554eae0a138a5facf2e, type: 2}
     bossesCount: 2
