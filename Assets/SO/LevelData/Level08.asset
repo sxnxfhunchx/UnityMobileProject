@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Level08
   m_EditorClassIdentifier: Assembly-CSharp::LevelSettings
   levelNumber: 8
-  spawnInterval: 1.5
   levelDuration: 15
   enemySpeedMultiplier: 1.75
   spawnSettings:
@@ -30,3 +29,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 61bacde72e188494d8029b2d92f42d96, type: 2}
     bonusSpawnInterval: 3
     bonusSpawnChance: 0.8
+    powerUps:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    powerUpSpawnInterval: 2.1
+    powerUpSpawnChance: 0.69
