@@ -40,7 +40,9 @@ public class PowerUpSpawner : MonoBehaviour
 
         powerUpTimer = 0f;
 
-        if (Random.value > spawnSettings.powerUpSpawnChance)
+        float difficultyMultiplier = GameManager.Instance.GetDifficultyPowerUpMultiplier();
+        
+        if (Random.value > spawnSettings.powerUpSpawnChance * difficultyMultiplier)
             return;
 
         PowerUpData powerUpData = spawnSettings.GetRandomPowerUp();

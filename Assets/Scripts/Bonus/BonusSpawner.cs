@@ -39,7 +39,8 @@ public class BonusSpawner : MonoBehaviour
         
         bonusTimer = 0f;
 
-        if (Random.value > spawnSettings.bonusSpawnChance)
+        float difficultyMultiplier = GameManager.Instance.GetDifficultyPowerUpMultiplier();
+        if (Random.value > spawnSettings.bonusSpawnChance * difficultyMultiplier)
             return;
 
         BonusData bonusData = spawnSettings.GetRandomBonus();

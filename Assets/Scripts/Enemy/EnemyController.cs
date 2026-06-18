@@ -79,11 +79,7 @@ public class EnemyController : MonoBehaviour
             speedMultiplier = levelProvider.CurrentLevelSettings.enemySpeedMultiplier;
         }
 
-        int difficulty = PlayerPrefs.GetInt("GameDifficulty", 2);
-        float difficultyMultiplier = 1f;
-
-        if (difficulty == 1) difficultyMultiplier = 0.75f; 
-        if (difficulty == 3) difficultyMultiplier = 1.35f; 
+        float difficultyMultiplier = GameManager.Instance.GetDifficultyEnemySpeedMultiplier();
 
         float finalSpeed = data.speed * speedMultiplier * difficultyMultiplier;
 
@@ -190,8 +186,10 @@ public class EnemyController : MonoBehaviour
         float damageMultiplier = levelProvider != null ? 
             levelProvider.CurrentLevelSettings.enemyDamageMultiplier : 
             1f;
-
-        int finalDamage = Mathf.RoundToInt(data.damage * damageMultiplier);
+        
+        float difficultyMultiplier = GameManager.Instance.GetDifficultyEnemyDamageMultiplier();
+        
+        int finalDamage = Mathf.RoundToInt(data.damage * damageMultiplier * difficultyMultiplier);
 
         player.TakeDamage(finalDamage);
 
