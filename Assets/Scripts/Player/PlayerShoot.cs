@@ -100,7 +100,7 @@ public class PlayerShoot : MonoBehaviour
     
     private void SpawnProjectile(float angle)
     {
-        GameObject projectile = ObjectPooler.Instance.SpawnFromPoolWithPrefabRotation(projectilePoolTag, firePoint.position);
+        GameObject projectile = ObjectPooler.Instance.SpawnFromPool(projectilePoolTag, firePoint.position, Quaternion.identity);
 
         if (projectile == null)
             return;
