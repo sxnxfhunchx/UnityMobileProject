@@ -13,6 +13,12 @@ public class PowerUpPickup : MonoBehaviour
     {
         powerUpData = data;
         UpdateVisual();
+
+        if (TryGetComponent(out PooledObjectMovement movement))
+        {
+            string uniqueTag = string.IsNullOrEmpty(data.poolTag) ? data.name : data.poolTag;
+            movement.SetPoolTag(uniqueTag);
+        }
     }
 
     private void UpdateVisual()
@@ -36,6 +42,6 @@ public class PowerUpPickup : MonoBehaviour
         abilityController.SetAbility(powerUpData);
         SoundManager.Instance?.PlaySound(pickupSound, transform.position);
 
-        ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
-    }
+        string currentTag = string.IsNullOrEmpty(powerUpData.poolTag) ? powerUpData.name : powerUpData.poolTag;
+        ObjectPooler.Instance.ReturnToPool(currentTag, gameObject);    }
 }

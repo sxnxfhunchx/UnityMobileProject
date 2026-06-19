@@ -10,6 +10,9 @@ namespace SO.PowerUps
         public string poolTag;
         public Sprite Icon;
         public Texture2D PickupTexture;
+        
+        [Header("Visual Prefab")]
+        public GameObject Prefab;
 
         public float Duration = 5f;
         public float Cooldown = 10f;

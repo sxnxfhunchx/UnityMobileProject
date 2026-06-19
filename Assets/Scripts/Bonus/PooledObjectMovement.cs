@@ -4,7 +4,12 @@ public class PooledObjectMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 15f;
     [SerializeField] private float destroyZ = -10f;
-    [SerializeField] private string poolTag;
+    private string currentPoolTag;
+
+    public void SetPoolTag(string tag)
+    {
+        currentPoolTag = tag;
+    }
 
     private void Update()
     {
@@ -18,9 +23,9 @@ public class PooledObjectMovement : MonoBehaviour
     
     private void ReturnToPool()
     {
-        if (ObjectPooler.Instance == null || poolTag == null)
+        if (ObjectPooler.Instance == null || string.IsNullOrEmpty(currentPoolTag))
             return;
 
-        ObjectPooler.Instance.ReturnToPool(poolTag, gameObject);
+        ObjectPooler.Instance.ReturnToPool(currentPoolTag, gameObject);
     }
 }

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: ShieldData
   m_EditorClassIdentifier: Assembly-CSharp::SO.PowerUps.ShieldPowerUpData
   DisplayName: Shield
-  poolTag: 
+  poolTag: Shield
   Icon: {fileID: 21300000, guid: 239fed3ec5162a546bb3367b570b55d4, type: 3}
   PickupTexture: {fileID: 2800000, guid: 239fed3ec5162a546bb3367b570b55d4, type: 3}
+  Prefab: {fileID: 3197138226386298833, guid: f918ebaf4b2309a4db936045161ce61b, type: 3}
   Duration: 20
   Cooldown: 20
   BlockSound: {fileID: 8300000, guid: 3a445dea8109f244fa21f26280cb4964, type: 3}

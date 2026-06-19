@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: EnergyBlastData
   m_EditorClassIdentifier: Assembly-CSharp::SO.PowerUps.EnergyBlastPowerUpData
   DisplayName: Energy Blast
-  poolTag: 
+  poolTag: Lightning
   Icon: {fileID: 21300000, guid: b4b58ced856a76746abee3648ea8cc25, type: 3}
   PickupTexture: {fileID: 2800000, guid: b4b58ced856a76746abee3648ea8cc25, type: 3}
+  Prefab: {fileID: 7541892174402670091, guid: 6b67cf1b52a95fd4d9329552fc0c4671, type: 3}
   Duration: 0
   Cooldown: 10
-  BlockSound: {fileID: 0}
+  BlockSound: {fileID: 8300000, guid: 630d3fdb17d61e84c8b1422bf4d222fd, type: 3}
   Radius: 10
   Damage: 999
   BlastSound: {fileID: 8300000, guid: 630d3fdb17d61e84c8b1422bf4d222fd, type: 3}

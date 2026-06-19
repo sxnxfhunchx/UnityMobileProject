@@ -92,4 +92,32 @@ public class ObjectPooler : MonoBehaviour
     
         return SpawnFromPool(tag, position, prefabRotation);
     }
+    
+    public GameObject SpawnWithDynamicPrefab(string tag, GameObject prefab, Vector3 position, Quaternion rotation)
+    {
+        if (!poolDictionary.ContainsKey(tag))
+        {
+            poolDictionary.Add(tag, new Queue<GameObject>());
+            if (!prefabDictionary.ContainsKey(tag))
+            {
+                prefabDictionary.Add(tag, prefab);
+            }
+        }
+    
+        if (poolDictionary[tag].Count == 0)
+        {
+            GameObject obj = Instantiate(prefab);
+            obj.SetActive(false);
+            obj.transform.SetParent(transform);
+            poolDictionary[tag].Enqueue(obj);
+        }
+
+        GameObject objectToSpawn = poolDictionary[tag].Dequeue();
+
+        objectToSpawn.SetActive(true);
+        objectToSpawn.transform.position = position;
+        objectToSpawn.transform.rotation = rotation;
+
+        return objectToSpawn;
+    }
 }

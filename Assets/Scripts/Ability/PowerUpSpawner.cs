@@ -55,11 +55,25 @@ public class PowerUpSpawner : MonoBehaviour
 
     private void SpawnPowerUp(SpawnSettings spawnSettings, PowerUpData powerUpData)
     {
-        GameObject obj = ObjectPooler.Instance.SpawnFromPool(powerUpPoolTag, GetSpawnPosition(spawnSettings), Quaternion.identity);
-        
+        if (powerUpData == null || powerUpData.Prefab == null)
+        {
+            return;
+        }
+
+        string uniqueTag = string.IsNullOrEmpty(powerUpData.poolTag) ? powerUpData.name : powerUpData.poolTag;
+
+        Quaternion spawnRotation = powerUpData.Prefab.transform.rotation; 
+
+        GameObject obj = ObjectPooler.Instance.SpawnWithDynamicPrefab(
+            uniqueTag, 
+            powerUpData.Prefab, 
+            GetSpawnPosition(spawnSettings), 
+            spawnRotation
+        );
+    
         if (obj == null)
             return;
-        
+    
         if (obj.TryGetComponent(out PowerUpPickup pickup))
             pickup.Initialize(powerUpData);
     }
