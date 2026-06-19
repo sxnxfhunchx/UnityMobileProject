@@ -37,5 +37,5 @@ MonoBehaviour:
     powerUps:
     - {fileID: 11400000, guid: 2eaa2328dcad3a14ea647a1f22014fa6, type: 2}
     - {fileID: 11400000, guid: b12bac03d3d0d824093bcd544c575c2c, type: 2}
-    powerUpSpawnInterval: 8
-    powerUpSpawnChance: 0.4
+    powerUpSpawnInterval: 6
+    powerUpSpawnChance: 0.8

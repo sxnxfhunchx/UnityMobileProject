@@ -83,6 +83,17 @@ public class EnemyController : MonoBehaviour
 
         float finalSpeed = data.speed * speedMultiplier * difficultyMultiplier;
 
+        if (hasLockedTarget)
+        {
+            float zDistanceToTarget = transform.position.z - targetProvider.Target.position.z;
+
+            if (zDistanceToTarget <= 0f)
+            {
+                moveDirection = Vector3.back;
+                hasLockedTarget = false;
+            }
+        }
+        
         transform.Translate(moveDirection * (finalSpeed * Time.deltaTime), Space.World);
 
         if (transform.position.z < destroyOnZ)

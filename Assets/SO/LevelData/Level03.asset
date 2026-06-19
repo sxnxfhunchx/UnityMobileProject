@@ -36,5 +36,5 @@ MonoBehaviour:
     bonusSpawnChance: 0.6
     powerUps:
     - {fileID: 11400000, guid: 84ec0431916739b488930cc96310318c, type: 2}
-    powerUpSpawnInterval: 8
-    powerUpSpawnChance: 0.4
+    powerUpSpawnInterval: 5
+    powerUpSpawnChance: 0.8

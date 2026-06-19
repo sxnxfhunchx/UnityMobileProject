@@ -17,10 +17,10 @@ public class PowerUpPickup : MonoBehaviour
 
     private void UpdateVisual()
     {
-        if (powerUpData == null || powerUpData.Icon == null || visualRenderer == null)
+        if (powerUpData == null || powerUpData.PickupTexture == null || visualRenderer == null)
             return;
 
-        visualRenderer.material.mainTexture = powerUpData.Icon.texture;
+        visualRenderer.material.SetTexture("_BaseMap", powerUpData.PickupTexture);
     }
 
     private void OnTriggerEnter(Collider other)

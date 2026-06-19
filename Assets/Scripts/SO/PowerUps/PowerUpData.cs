@@ -9,6 +9,7 @@ namespace SO.PowerUps
         public string DisplayName;
         public string poolTag;
         public Sprite Icon;
+        public Texture2D PickupTexture;
 
         public float Duration = 5f;
         public float Cooldown = 10f;
