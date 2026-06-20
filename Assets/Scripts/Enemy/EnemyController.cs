@@ -18,6 +18,8 @@ public class EnemyController : MonoBehaviour
     
     private Vector3 moveDirection = Vector3.back;
     private bool hasLockedTarget;
+    
+    private Coroutine hitFlashCoroutine;
 
     public void Initialize(EnemyData newData, ITargetProvider targetProvider)
     {
@@ -34,15 +36,7 @@ public class EnemyController : MonoBehaviour
         
         this.targetProvider = targetProvider;
 
-        RestoreOriginalColors();
-
-        if (data.isBerserkMode && renderers != null)
-        {
-            foreach (var r in renderers)
-            {
-                if (r != null) r.material.color = data.berserkColorTint;
-            }
-        }
+        ApplyDataColors();
         
         hasLockedTarget = false;
         moveDirection = Vector3.back;
@@ -107,10 +101,21 @@ public class EnemyController : MonoBehaviour
 
         PlayHitSound();
 
-        StartCoroutine(HitFlash());
-
-        if (currentHealth <= 0) 
+        if (currentHealth <= 0)
+        {
             Die();
+            return;
+        }
+
+        StartHitFlash();
+    }
+    
+    private void StartHitFlash()
+    {
+        if (hitFlashCoroutine != null)
+            StopCoroutine(hitFlashCoroutine);
+
+        hitFlashCoroutine = StartCoroutine(HitFlash());
     }
 
     private void Die()
@@ -150,16 +155,24 @@ public class EnemyController : MonoBehaviour
         
         SoundManager.Instance.PlaySound(clip, transform.position);
     }
-    
+
     private void ReturnToPool()
     {
         if (ObjectPooler.Instance == null || data == null)
             return;
         
+        if (hitFlashCoroutine != null)
+        {
+            StopCoroutine(hitFlashCoroutine);
+            hitFlashCoroutine = null;
+        }
+
+        RestoreOriginalColors();
+
         string tagToReturn = data.poolTag;
-        
-        data = null; 
-        
+
+        data = null;
+
         ObjectPooler.Instance.ReturnToPool(tagToReturn, gameObject);
     }
 
@@ -172,7 +185,7 @@ public class EnemyController : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        RestoreOriginalColors();
+        ApplyDataColors();
     }
     
     private void RestoreOriginalColors()
@@ -238,6 +251,20 @@ public class EnemyController : MonoBehaviour
 
         moveDirection = direction.normalized;
         hasLockedTarget = true;
+    }
+    
+    private void ApplyDataColors()
+    {
+        RestoreOriginalColors();
+
+        if (data != null && data.isBerserkMode && renderers != null)
+        {
+            foreach (var r in renderers)
+            {
+                if (r != null)
+                    r.material.color = data.berserkColorTint;
+            }
+        }
     }
 
 }
