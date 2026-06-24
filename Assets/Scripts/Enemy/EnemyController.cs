@@ -20,30 +20,27 @@ public class EnemyController : MonoBehaviour
     private bool hasLockedTarget;
     
     private Coroutine hitFlashCoroutine;
+    
+    public EnemyData GetEnemyData() => data;
+    public int GetCurrentHealth() => currentHealth;
 
     public void Initialize(EnemyData newData, ITargetProvider targetProvider)
     {
         data = newData;
+        this.targetProvider = targetProvider;
 
         if (data == null)
             return;
 
         float healthMultiplier = levelProvider != null
-            ? healthMultiplier = levelProvider.CurrentLevelSettings.enemyHealthMultiplier
+            ? levelProvider.CurrentLevelSettings.enemyHealthMultiplier
             : 1f;
 
         currentHealth = Mathf.RoundToInt(data.health * healthMultiplier);
         
-        this.targetProvider = targetProvider;
-
-        ApplyDataColors();
-        
         hasLockedTarget = false;
         moveDirection = Vector3.back;
     }
-
-    void OnEnable()
-    { }
 
     void Awake()
     {
@@ -253,6 +250,26 @@ public class EnemyController : MonoBehaviour
         hasLockedTarget = true;
     }
     
+    public void SetSavedHealth(int savedHealth)
+    {
+        currentHealth = savedHealth;
+    }
+    
+    void OnEnable()
+    {
+        if (data == null) 
+            return;
+
+        ApplyEnemySettings();
+    }
+
+    public void ApplyEnemySettings()
+    {
+        if (data == null) 
+            return;
+
+        ApplyDataColors();
+    }
     private void ApplyDataColors()
     {
         RestoreOriginalColors();
@@ -264,6 +281,7 @@ public class EnemyController : MonoBehaviour
                 if (r != null)
                     r.material.color = data.berserkColorTint;
             }
+            
         }
     }
 

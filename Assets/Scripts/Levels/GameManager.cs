@@ -12,6 +12,18 @@ public class GameManager : MonoBehaviour
     public bool IsGameActive { get; private set; }
     public float SurvivalTime { get; private set; }
     
+    public int GetEnemiesKilledScore() => enemiesKilledScore;
+    public int GetBonusScore() => bonusScore;
+
+    public void RestoreSessionStats(int savedEnemiesScore, int savedBonus, float savedSurvivalTime)
+    {
+        enemiesKilledScore = savedEnemiesScore;
+        bonusScore = savedBonus;
+        SurvivalTime = savedSurvivalTime;
+        IsGameActive = true;
+        Time.timeScale = 1f;
+    }
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)

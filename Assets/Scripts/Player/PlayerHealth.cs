@@ -13,6 +13,11 @@ public class PlayerHealth : MonoBehaviour
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     
+    public void RestoreHealth(int health)
+    {
+        currentHealth = health;
+    }
+    
     void Start()
     {
         currentHealth = maxHealth;

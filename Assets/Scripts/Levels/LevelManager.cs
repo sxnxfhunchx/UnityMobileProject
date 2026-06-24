@@ -9,6 +9,16 @@ public class LevelManager : MonoBehaviour, ILevelProvider
     private int currentLevelIndex = 0;
     private float levelTimer;
     private bool isBossPhaseActive = false;
+    
+    public int GetCurrentLevelIndex() => currentLevelIndex;
+    public float GetLevelTimer() => levelTimer;
+
+    public void RestoreLevelState(int index, float timer)
+    {
+        currentLevelIndex = index;
+        levelTimer = timer;
+        isBossPhaseActive = false;
+    }
 
     public LevelSettings CurrentLevelSettings
     {

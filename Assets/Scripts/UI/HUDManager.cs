@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Collections;
 
 public class HUDManager : MonoBehaviour
 {
@@ -34,6 +36,14 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private GameObject optionsMenuPanel;
     [SerializeField] private Button optionsMenuButton;
 
+    [Header("Save/Load Menu")]
+    [SerializeField] private GameObject saveLoadMenuPanel; 
+    [SerializeField] private Button saveLoadMenuButton;
+    
+    [Header("Save/Load Buttons References")]
+    [SerializeField] private TextMeshProUGUI[] saveButtonsTexts; 
+    [SerializeField] private TextMeshProUGUI[] loadButtonsTexts; 
+    [SerializeField] private Button[] loadButtons;
     private void OnEnable()
     {
         abilityController.OnAbilityAvailabilityChanged += ToggleAbilityAvailability;
@@ -51,6 +61,9 @@ public class HUDManager : MonoBehaviour
     {
         if (gameOverPanel != null) 
             gameOverPanel.SetActive(false);
+        
+        if (saveLoadMenuPanel != null)
+            saveLoadMenuPanel.SetActive(false);
     }
 
     void Update()
@@ -87,6 +100,57 @@ public class HUDManager : MonoBehaviour
             if (GameManager.Instance != null && GameManager.Instance.IsGameActive)
             {
                 Time.timeScale = 1f;
+            }
+        }
+    }
+    
+    public void OpenSaveLoadMenu()
+    {
+        if (saveLoadMenuPanel != null)
+        {
+            saveLoadMenuPanel.SetActive(true);
+            
+            UpdateSlotLabels();
+            
+            Time.timeScale = 0f; 
+        }
+    }
+
+    public void CloseSaveLoadMenu()
+    {
+        if (saveLoadMenuPanel != null)
+        {
+            saveLoadMenuPanel.SetActive(false);
+            if (GameManager.Instance != null && GameManager.Instance.IsGameActive)
+            {
+                Time.timeScale = 1f; 
+            }
+        }
+    }
+    
+    private void UpdateSlotLabels()
+    {
+        for (int i = 1; i <= 3; i++)
+        {
+            string path = Path.Combine(Application.persistentDataPath, $"save_slot_{i}.json");
+            int arrayIndex = i - 1; 
+
+            if (File.Exists(path))
+            {
+                System.DateTime lastWriteTime = File.GetLastWriteTime(path);
+                string formattedDate = lastWriteTime.ToString("dd.MM.yyyy HH:mm");
+
+                saveButtonsTexts[arrayIndex].text = $"Save {i}\n({formattedDate})";
+                loadButtonsTexts[arrayIndex].text = $"Load Save {i}\n({formattedDate})";
+                
+                loadButtons[arrayIndex].interactable = true;
+            }
+            else
+            {
+                saveButtonsTexts[arrayIndex].text = "Empty Slot";
+                loadButtonsTexts[arrayIndex].text = "No Save Data";
+                
+                loadButtons[arrayIndex].interactable = false;
             }
         }
     }
@@ -147,4 +211,45 @@ public class HUDManager : MonoBehaviour
     {
         button.interactable = available;
     }
+    
+    public void SaveGame(int slotIndex)
+    {
+        Debug.LogWarning($"[HUDManager] open save with {slotIndex}");
+        
+        Time.timeScale = 1f;
+        
+        if (SaveLoadManager.Instance != null)
+        {
+            SaveLoadManager.Instance.ExecuteSave(slotIndex);
+        }
+    }
+
+    public void OnSaveFinished()
+    {
+        Time.timeScale = 0f;
+        
+        UpdateSlotLabels();
+    }
+
+    public void LoadGame(int slotIndex)
+    {
+        if (SaveLoadManager.Instance != null)
+        {
+            SaveLoadManager.Instance.ExecuteLoad(slotIndex);
+            CloseSaveLoadMenu();
+        }
+    }
+    
+    public void ClearAllSaveSlots()
+    {
+        if (SaveLoadManager.Instance != null)
+        {
+            SaveLoadManager.Instance.DeleteAllSaves();
+            
+            UpdateSlotLabels();
+        }
+    }
+        
+    [Header("Save/Load Slots UI")]
+    [SerializeField] private Image[] slotThumbnails;
 }
