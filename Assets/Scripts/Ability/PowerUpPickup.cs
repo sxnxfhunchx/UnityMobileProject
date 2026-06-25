@@ -31,17 +31,18 @@ public class PowerUpPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (powerUpData == null)
-            return;
+        if (powerUpData == null) return;
 
         PlayerAbilityController abilityController = other.GetComponentInParent<PlayerAbilityController>();
 
-        if (abilityController == null)
-            return;
+        if (abilityController == null) return;
+        
 
         abilityController.SetAbility(powerUpData);
+    
         SoundManager.Instance?.PlaySound(pickupSound, transform.position);
 
         string currentTag = string.IsNullOrEmpty(powerUpData.poolTag) ? powerUpData.name : powerUpData.poolTag;
-        ObjectPooler.Instance.ReturnToPool(currentTag, gameObject);    }
+        ObjectPooler.Instance.ReturnToPool(currentTag, gameObject);    
+       }
 }
