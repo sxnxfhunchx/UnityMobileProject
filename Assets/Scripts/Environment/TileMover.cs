@@ -16,6 +16,15 @@ public class TileMover : MonoBehaviour
     void Start()
     {
         PopulateTrees();
+    
+      
+        foreach (GameObject tree in spawnedTrees)
+        {
+            if (tree != null)
+            {
+                tree.transform.localScale = Vector3.one;
+            }
+        }
     }
 
     void Update()

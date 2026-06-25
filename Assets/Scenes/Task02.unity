@@ -133,7 +133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8796208502800090701, guid: f1a1bf3b7d5202640a30769bb48f82d7, type: 3}
       propertyPath: m_LocalScale.z
-      value: 90
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8796208502800090701, guid: f1a1bf3b7d5202640a30769bb48f82d7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8796208502800090701, guid: f1a1bf3b7d5202640a30769bb48f82d7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8796208502800090701, guid: f1a1bf3b7d5202640a30769bb48f82d7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4057,7 +4057,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853659067}
-  - component: {fileID: 853659068}
   m_Layer: 0
   m_Name: EnvironmentSpawner
   m_TagString: Untagged
@@ -4080,36 +4079,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 417220833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &853659068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853659066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1affbf2b1cf8494f907b27a3f966556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnvironmentSpawner
-  treeTags:
-  - Tree01
-  - Tree02
-  - Tree03
-  - Tree04
-  - Tree05
-  - Tree06
-  - Tree07
-  - Tree08
-  - Tree09
-  - Tree10
-  spawnIntervalZ: 5
-  spawnZ: 60
-  destroyZ: -10
-  minLeftX: -15
-  maxLeftX: -8
-  minRightX: 8
-  maxRightX: 15
 --- !u!1 &867150371
 GameObject:
   m_ObjectHideFlags: 0
@@ -6240,6 +6209,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 534604901}
     m_Modifications:
+    - target: {fileID: 821177219031007965, guid: f1a1bf3b7d5202640a30769bb48f82d7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -25.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 821177219031007965, guid: f1a1bf3b7d5202640a30769bb48f82d7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.31
+      objectReference: {fileID: 0}
     - target: {fileID: 6012061549590298717, guid: f1a1bf3b7d5202640a30769bb48f82d7, type: 3}
       propertyPath: m_Name
       value: TileCube02
