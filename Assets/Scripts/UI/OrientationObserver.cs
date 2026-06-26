@@ -1,11 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-[ExecuteAlways]
 public class OrientationObserver : UIBehaviour
 {
-    [SerializeField] GameObject horizintalLayout;
+    [SerializeField] GameObject horizontalLayout;
     [SerializeField] GameObject verticalLayout;
     
     private ScreenOrientation lastOrientation;
@@ -19,9 +19,8 @@ public class OrientationObserver : UIBehaviour
     
     private void OnRectTransformDimensionsChange()
     {
-        Debug.Log("OnRectTransformDimensionsChange");
         base.OnRectTransformDimensionsChange();
-
+        
         if (isSwitching) return;
 
         ScreenOrientation currentOrientation = GetCurrentOrientation();
@@ -37,23 +36,22 @@ public class OrientationObserver : UIBehaviour
 
         bool isLandscape = (lastOrientation == ScreenOrientation.LandscapeLeft || 
                             lastOrientation == ScreenOrientation.LandscapeRight);
+        
+        if (horizontalLayout.activeSelf != isLandscape)
+            horizontalLayout.SetActive(isLandscape);
 
-        horizintalLayout.SetActive(isLandscape);
-        verticalLayout.SetActive(!isLandscape);
+        if (verticalLayout.activeSelf == isLandscape)
+            verticalLayout.SetActive(!isLandscape);
 
         isSwitching = false;
     }
     
     private ScreenOrientation GetCurrentOrientation()
     {
-#if UNITY_EDITOR
-        return (Screen.width > Screen.height) ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
-#else
         if (Screen.orientation == ScreenOrientation.Unknown)
         {
             return (Screen.width > Screen.height) ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
         }
         return Screen.orientation;
-#endif
     }
 }

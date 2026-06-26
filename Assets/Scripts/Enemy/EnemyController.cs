@@ -40,6 +40,8 @@ public class EnemyController : MonoBehaviour
         
         hasLockedTarget = false;
         moveDirection = Vector3.back;
+        
+        ApplyEnemySettings();
     }
 
     void Awake()
@@ -254,14 +256,6 @@ public class EnemyController : MonoBehaviour
     {
         currentHealth = savedHealth;
     }
-    
-    void OnEnable()
-    {
-        if (data == null) 
-            return;
-
-        ApplyEnemySettings();
-    }
 
     public void ApplyEnemySettings()
     {
@@ -270,6 +264,7 @@ public class EnemyController : MonoBehaviour
 
         ApplyDataColors();
     }
+    
     private void ApplyDataColors()
     {
         RestoreOriginalColors();
