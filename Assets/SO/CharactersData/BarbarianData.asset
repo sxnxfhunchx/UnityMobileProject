@@ -15,6 +15,6 @@ MonoBehaviour:
   characterId: 0
   characterName: Barbarian
   previewPrefab: {fileID: 299090710250807956, guid: f8c8d3b353ba2684488a9c6e197e7790, type: 3}
-  gameplayPrefab: {fileID: 919132149155446097, guid: 56b4a0ca8daa0154387f58eb3154ab99, type: 3}
+  gameplayPrefab: {fileID: 5414229345177368693, guid: 1650ae6a75c678848a0fe8afbdacff46, type: 3}
   speed: 5
   health: 50

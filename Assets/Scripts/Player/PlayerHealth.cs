@@ -52,5 +52,11 @@ public class PlayerHealth : MonoBehaviour
         PlayerMovement movement = GetComponent<PlayerMovement>();
         if (movement != null) movement.enabled = false;
     }
+    
+    public void SetMaxHealth(int newHealth)
+    {
+        maxHealth = newHealth;
+        currentHealth = maxHealth;
+    }
 
 }

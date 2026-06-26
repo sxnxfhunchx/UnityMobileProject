@@ -21,4 +21,4 @@ MonoBehaviour:
   Cooldown: 10
   BlockSound: {fileID: 0}
   ProjectileCount: 3
-  SpreadAngle: 15
+  SpreadAngle: 10

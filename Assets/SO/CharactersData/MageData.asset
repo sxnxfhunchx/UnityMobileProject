@@ -15,6 +15,6 @@ MonoBehaviour:
   characterId: 0
   characterName: Mage
   previewPrefab: {fileID: 4112004615471147788, guid: a3b762121ea4f4848bfffcae7df4d780, type: 3}
-  gameplayPrefab: {fileID: 919132149155446097, guid: 3dcb7923871a02e4288f8c602d3ab3f3, type: 3}
+  gameplayPrefab: {fileID: 6334469935877564214, guid: 3d3c5649c26aa9e42af69a024493bb8e, type: 3}
   speed: 4
   health: 40

@@ -23,6 +23,7 @@ public class MenuController : MonoBehaviour
 
     public void StartGame()
     {
+        GameManager.Instance.SetSelectedCharacter(controller.CurrentCharacter);
         SceneManager.LoadScene(1);
     }
     

@@ -15,6 +15,6 @@ MonoBehaviour:
   characterId: 0
   characterName: Druid
   previewPrefab: {fileID: 4788169852061698036, guid: 01e1d0d279bc6014a8e5db095a2e7854, type: 3}
-  gameplayPrefab: {fileID: 919132149155446097, guid: 95bff2ae58cd81f4a8c72e949ec3ef60, type: 3}
+  gameplayPrefab: {fileID: 4310660035597209531, guid: 98d9bb8ffd4cb284898a3a540b89eb45, type: 3}
   speed: 5
   health: 35

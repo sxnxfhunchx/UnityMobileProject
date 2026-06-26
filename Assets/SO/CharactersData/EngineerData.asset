@@ -15,6 +15,6 @@ MonoBehaviour:
   characterId: 0
   characterName: Engineer
   previewPrefab: {fileID: 7407643355808206141, guid: b943ff03930c17d48ab8a644affea64a, type: 3}
-  gameplayPrefab: {fileID: 919132149155446097, guid: 6836de3d369291043832cd011ae12520, type: 3}
+  gameplayPrefab: {fileID: 7589657365146466113, guid: 812a71f3514d7754eae4ec38f462cc73, type: 3}
   speed: 4
   health: 40

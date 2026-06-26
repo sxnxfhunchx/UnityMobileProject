@@ -15,6 +15,6 @@ MonoBehaviour:
   characterId: 6
   characterName: Rogue
   previewPrefab: {fileID: 6070804664389583456, guid: 193627b228bcc054c82cb1860a7f797a, type: 3}
-  gameplayPrefab: {fileID: 0}
+  gameplayPrefab: {fileID: 8261803094275493091, guid: 844922e9ee18b8f4cac44d06add20b09, type: 3}
   speed: 6
   health: 40

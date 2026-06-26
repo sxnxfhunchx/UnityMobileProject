@@ -34,7 +34,7 @@ public class AbilityButtonView : MonoBehaviour
         }
 
         PowerUpData data = abilityController.CurrentPowerUpData;
-
+        
         if (data != null && data.Icon != null)
         {
             iconImage.sprite = data.Icon;

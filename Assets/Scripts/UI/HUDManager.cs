@@ -30,7 +30,7 @@ public class HUDManager : MonoBehaviour
 
     [Header("Ability")]
     [SerializeField] private PlayerAbilityController abilityController;
-    [SerializeField] private Button button;
+    [SerializeField] private Button abilityButton;
     
     [Header("Options Menu")]
     [SerializeField] private GameObject optionsMenuPanel;
@@ -198,7 +198,7 @@ public class HUDManager : MonoBehaviour
     
     public void RestartGame()
     {
-        Time.timeScale = 1f; 
+        GameManager.Instance.StartGame();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     
@@ -209,7 +209,7 @@ public class HUDManager : MonoBehaviour
     
     private void ToggleAbilityAvailability(bool available)
     {
-        button.interactable = available;
+        abilityButton.interactable = available;
     }
     
     public void SaveGame(int slotIndex)

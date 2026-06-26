@@ -1,3 +1,4 @@
+using SO;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
     public int GetEnemiesKilledScore() => enemiesKilledScore;
     public int GetBonusScore() => bonusScore;
 
+    public CharacterData SelectedCharacter { get; private set; }
+    
     public void RestoreSessionStats(int savedEnemiesScore, int savedBonus, float savedSurvivalTime)
     {
         enemiesKilledScore = savedEnemiesScore;
@@ -117,5 +120,10 @@ public class GameManager : MonoBehaviour
         if (difficulty == 3) difficultyMultiplier = 1.25f; 
         
         return difficultyMultiplier;
+    }
+    
+    public void SetSelectedCharacter(CharacterData data)
+    {
+        SelectedCharacter = data;
     }
 }

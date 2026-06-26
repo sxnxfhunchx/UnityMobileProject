@@ -15,6 +15,6 @@ MonoBehaviour:
   characterId: 5
   characterName: Ranger
   previewPrefab: {fileID: 1580511484946999952, guid: 6b9a70fd694154641952108f8aa1631c, type: 3}
-  gameplayPrefab: {fileID: 0}
+  gameplayPrefab: {fileID: 4879277673438944571, guid: 4214cac3a134e1743b7ba7282d994a87, type: 3}
   speed: 5
   health: 60

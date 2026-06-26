@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private MonoBehaviour inputSource;
     
     [Header("Movement Settings")]
-    [SerializeField] private float speed;
     [SerializeField] private float minX = -5f;
     [SerializeField] private float maxX = 5f;
     
@@ -17,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashDuration = 0.15f;
     [SerializeField] private float dashCooldown = 1f;
     
+    private float speed = 5f;
     private Vector3 moveInput;
     private float lastInputX;
     private IPlayerInput playerInput;
@@ -140,5 +140,10 @@ public class PlayerMovement : MonoBehaviour
 
         canDash = value;
         OnDashAvailabilityChanged?.Invoke(canDash);
+    }
+    
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
     }
 }

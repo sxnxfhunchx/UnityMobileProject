@@ -15,6 +15,6 @@ MonoBehaviour:
   characterId: 0
   characterName: Knight
   previewPrefab: {fileID: 9065819335660536402, guid: 4324f8dd608ebd04aa46748ae5ada80e, type: 3}
-  gameplayPrefab: {fileID: 919132149155446097, guid: 3b727a3386c29f948bf89db4481e7615, type: 3}
+  gameplayPrefab: {fileID: 2598056513482841663, guid: fef193e127977ad41814e105d2b701b8, type: 3}
   speed: 6
   health: 60
