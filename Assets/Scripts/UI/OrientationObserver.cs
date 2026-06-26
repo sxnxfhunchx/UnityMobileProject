@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class OrientationObserver : UIBehaviour
+public class OrientationObserver : MonoBehaviour
 {
     [SerializeField] GameObject horizontalLayout;
     [SerializeField] GameObject verticalLayout;
@@ -19,8 +19,6 @@ public class OrientationObserver : UIBehaviour
     
     private void OnRectTransformDimensionsChange()
     {
-        base.OnRectTransformDimensionsChange();
-        
         if (isSwitching) return;
 
         ScreenOrientation currentOrientation = GetCurrentOrientation();

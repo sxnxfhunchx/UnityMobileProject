@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e21fd1122e4a0f8f091890e5f5b72a, type: 3}
+  m_Name: BarbarianData
+  m_EditorClassIdentifier: Assembly-CSharp::SO.CharacterData
+  characterId: 0
+  characterName: Barbarian
+  previewPrefab: {fileID: 299090710250807956, guid: f8c8d3b353ba2684488a9c6e197e7790, type: 3}
+  gameplayPrefab: {fileID: 919132149155446097, guid: 56b4a0ca8daa0154387f58eb3154ab99, type: 3}
+  speed: 5
+  health: 50

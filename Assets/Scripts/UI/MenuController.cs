@@ -1,18 +1,24 @@
+using SO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private CharacterSelectionController controller;
+    
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text speedText;
+    [SerializeField] private TMP_Text HealthText;
+    
+    private void OnEnable()
     {
-        
+        controller.OnCharacterSelected += UpdateCharacter;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        controller.OnCharacterSelected -= UpdateCharacter;
     }
 
     public void StartGame()
@@ -29,5 +35,12 @@ public class MenuController : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+
+    private void UpdateCharacter(CharacterData data)
+    {
+        nameText.text = data.characterName;
+        speedText.text = $"Speed: {data.speed}";
+        HealthText.text = $"Health: {data.health}";
     }
 }
