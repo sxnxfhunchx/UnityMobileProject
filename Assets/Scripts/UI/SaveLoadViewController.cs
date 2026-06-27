@@ -1,16 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Save;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SaveLoadViewController : MonoBehaviour
 {
+    public enum SaveLoadMode
+    {
+        LoadOnly,
+        SaveLoad
+    }
+    
+    [SerializeField] private SaveLoadMode mode;
     [SerializeField] private SaveSlotView slotPrefab;
     [SerializeField] private Transform content;
     [SerializeField] private GameObject stub;
     [SerializeField] private GameObject saveLoadPanel;
 
+    [SerializeField] private GameObject saveButton;
     [SerializeField] private Button loadButton;
     [SerializeField] private Button deleteButton;
     
@@ -28,6 +38,21 @@ public class SaveLoadViewController : MonoBehaviour
     private void OnDisable()
     {
         SaveLoadManager.Instance.OnSaveCompleted -= RefreshList;
+    }
+
+    private void Start()
+    {
+        if (saveButton != null)
+        {
+            if (mode == SaveLoadMode.LoadOnly)
+            {
+                saveButton.SetActive(false);
+            }
+            else
+            {
+                saveButton.SetActive(true);
+            }
+        }
     }
 
     private void RefreshList()
@@ -98,8 +123,6 @@ public class SaveLoadViewController : MonoBehaviour
     
     public void SaveGame()
     {
-        
-        
         if (SaveLoadManager.Instance != null)
         {
             SaveLoadManager.Instance.ExecuteSave();
@@ -110,15 +133,27 @@ public class SaveLoadViewController : MonoBehaviour
     {
         if (selectedSlot == null)
             return;
-
+        
         SaveFileData data = selectedSlot.Data;
-
-        Debug.Log("Load save: " + data.SaveFileName);
-
+        
+        GameplaySaveData saveData = SaveLoadManager.Instance.ExecuteLoad(data.SaveFileName);
+        SaveLoadManager.Instance.ExecuteLoad(data.SaveFileName);
+        
         if (saveLoadPanel != null)
             saveLoadPanel.SetActive(false);
         
-        SaveLoadManager.Instance.ExecuteLoad(data.SaveFileName);
+        if (mode == SaveLoadMode.SaveLoad)
+        {
+            GameplayInitializer loader = FindFirstObjectByType<GameplayInitializer>();
+            loader.ApplySave(saveData);
+        }
+        else if (mode == SaveLoadMode.LoadOnly)
+        {
+            GameManager.Instance.SetPendingSave(saveData);
+            SceneManager.LoadScene(1);
+        }
+        
+        Debug.Log("Load save: " + data.SaveFileName);
     }
 
     public void DeleteSelected()

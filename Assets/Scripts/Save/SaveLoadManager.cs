@@ -10,7 +10,7 @@ using SO;
 
 public class SaveLoadManager : MonoBehaviour
 {
-    [SerializeField] private CharactersDatabase characterDatabase;
+    
     
     private static SaveLoadManager _instance;
     public static SaveLoadManager Instance
@@ -37,7 +37,6 @@ public class SaveLoadManager : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else if (_instance != this)
         {
@@ -201,108 +200,31 @@ public class SaveLoadManager : MonoBehaviour
     }
     
     
-    private void Load(string path)
+    private GameplaySaveData Load(string path)
     {
         if (!File.Exists(path))
         {
             Debug.LogWarning($"No save file at {path}");
-            return;
+            return null;
         }
 
         EnsureSaveFolderExists();
         string jsonString = File.ReadAllText(path, Encoding.UTF8);
         GameplaySaveData saveData = JsonUtility.FromJson<GameplaySaveData>(jsonString);
 
-        EnemyController[] currentEnemies = FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
-        foreach (var enemy in currentEnemies)
-        {
-            if (enemy.gameObject.activeSelf && ObjectPooler.Instance != null)
-            {
-                ObjectPooler.Instance.ReturnToPool(enemy.GetEnemyData().poolTag, enemy.gameObject);
-            }
-        }
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RestoreSessionStats(saveData.enemiesKilledScore, saveData.bonusScore, saveData.survivalTime);
-        }
-
-        LevelManager levelManager = FindFirstObjectByType<LevelManager>();
-        if (levelManager != null)
-        {
-            levelManager.RestoreLevelState(saveData.currentLevelIndex, saveData.levelTimer);
-        }
-
-        PlayerHealth player = FindFirstObjectByType<PlayerHealth>();
-        if (player != null)
-        {
-            player.RestoreHealth(saveData.playerHealth);
-            Vector3 pPos = player.transform.position;
-            pPos.x = saveData.playerPosX;
-            player.transform.position = pPos;
-        }
-
-        CharacterData character = characterDatabase.GetById(saveData.characterId);
-        GameManager.Instance.SetSelectedCharacter(character);
-        CharacterInitializer characterInitializer = FindFirstObjectByType<CharacterInitializer>();
-        characterInitializer.Initialize();
-        
-        if (ObjectPooler.Instance != null)
-        {
-            TargetProvider targetProvider = FindFirstObjectByType<TargetProvider>();
-            LevelManager lvlManager = FindFirstObjectByType<LevelManager>();
-
-            foreach (var entity in saveData.activeEnemies)
-            {
-                Vector3 spawnPos = new Vector3(entity.posX, entity.posY, entity.posZ);
-                GameObject enemyObj = ObjectPooler.Instance.SpawnFromPool(entity.poolTag, spawnPos, Quaternion.Euler(0, 180, 0));
-                
-                if (enemyObj != null && enemyObj.TryGetComponent(out EnemyController controller))
-                {
-                    EnemyData foundData = null;
-                    if (lvlManager != null && lvlManager.CurrentLevelSettings != null)
-                    {
-                        foreach (var entry in lvlManager.CurrentLevelSettings.spawnSettings.enemies)
-                        {
-                            if (entry.enemyData != null && entry.enemyData.poolTag == entity.poolTag)
-                            {
-                                foundData = entry.enemyData;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (foundData == null && lvlManager != null && lvlManager.CurrentLevelSettings != null)
-                    {
-                        foreach (var boss in lvlManager.CurrentLevelSettings.spawnSettings.bosses)
-                        {
-                            if (boss != null && boss.poolTag == entity.poolTag)
-                            {
-                                foundData = boss;
-                                break;
-                            }
-                        }
-                    }
-
-                    controller.Initialize(foundData, targetProvider);
-                    
-                    controller.SetSavedHealth(entity.currentHealth);
-                    controller.ApplyEnemySettings();
-                }
-            }
-        }
+        return saveData;
     }
     
-    public void ExecuteLoad(int slotIndex)
+    public GameplaySaveData ExecuteLoad(int slotIndex)
     {
         string path = GetJsonPath(slotIndex);
-        Load(path);
+        return Load(path);
     }
     
-    public void ExecuteLoad(string fileName)
+    public GameplaySaveData ExecuteLoad(string fileName)
     {
         string path = GetJsonPath(fileName);
-        Load(path);
+        return Load(path);
     }
     
     public List<SaveFileData> GetSavedGames()

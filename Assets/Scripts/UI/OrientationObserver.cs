@@ -8,6 +8,9 @@ public class OrientationObserver : MonoBehaviour
     [SerializeField] GameObject horizontalLayout;
     [SerializeField] GameObject verticalLayout;
     
+    public GameObject ActiveLayout => IsLandscape() ? horizontalLayout : verticalLayout;
+    public MenuController ActiveMenu => ActiveLayout.GetComponent<MenuController>();
+    
     private ScreenOrientation lastOrientation;
     private bool isSwitching = false;
 
@@ -51,5 +54,10 @@ public class OrientationObserver : MonoBehaviour
             return (Screen.width > Screen.height) ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
         }
         return Screen.orientation;
+    }
+
+    private bool IsLandscape()
+    {
+        return lastOrientation == ScreenOrientation.LandscapeLeft || lastOrientation == ScreenOrientation.LandscapeRight;
     }
 }

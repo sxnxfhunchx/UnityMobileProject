@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     public CharacterData CurrentCharacter => SelectedCharacter != null ? SelectedCharacter : characterDatabase.GetDefault();
     
+    public GameplaySaveData PendingSave { get; private set; }
     
     public void RestoreSessionStats(int savedEnemiesScore, int savedBonus, float savedSurvivalTime)
     {
@@ -41,7 +42,6 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     
     private void Start()
@@ -55,6 +55,18 @@ public class GameManager : MonoBehaviour
             return;
         
         SurvivalTime +=  Time.deltaTime;
+    }
+    
+    public void SetPendingSave(GameplaySaveData saveData)
+    {
+        PendingSave = saveData;
+    }
+
+    public GameplaySaveData ConsumePendingSave()
+    {
+        GameplaySaveData save = PendingSave;
+        PendingSave = null;
+        return save;
     }
 
     public void AddEnemyKillScore(int value)
