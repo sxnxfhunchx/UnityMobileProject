@@ -10,7 +10,7 @@ public class CharacterInitializer : MonoBehaviour
 
     private void Start()
     {
-        Initialize();
+        StartCoroutine(Initialize());
     }
 
     public IEnumerator Initialize()
@@ -20,7 +20,9 @@ public class CharacterInitializer : MonoBehaviour
         CharacterData data = GameManager.Instance.CurrentCharacter;
 
         if (data == null)
-            yield return null;
+        {
+            yield break;
+        }
 
         ApplyCharacter(data);
     }
