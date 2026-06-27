@@ -3,10 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.IO;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Overlays;
 
 public class HUDManager : MonoBehaviour
 {
@@ -67,6 +64,9 @@ public class HUDManager : MonoBehaviour
         
         if (saveLoadMenuPanel != null)
             saveLoadMenuPanel.SetActive(false);
+        
+        if (optionsMenuPanel != null)
+            optionsMenuPanel.SetActive(false);
     }
 
     void Update()

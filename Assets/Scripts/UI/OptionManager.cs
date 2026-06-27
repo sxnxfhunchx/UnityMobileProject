@@ -1,9 +1,19 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class OptionsManager : MonoBehaviour
 {
+    public enum ScreenMode
+    {
+        MainManu,
+        Game
+    }
+    
+    [SerializeField] private ScreenMode mode;
+    
     [Header("UI Sliders")]
     [SerializeField] private Slider generalSoundSlider;
     [SerializeField] private Slider musicSlider;
@@ -14,6 +24,9 @@ public class OptionsManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mediumLabel;
     [SerializeField] private TextMeshProUGUI hardLabel;
 
+    [Header("Buttons")]
+    [SerializeField] private GameObject mainMenuButton;
+    
     private const string GeneralSoundKey = "GeneralSoundVolume";
     private const string MusicKey = "MusicVolume";
     private const string DifficultyKey = "GameDifficulty";
@@ -32,6 +45,18 @@ public class OptionsManager : MonoBehaviour
         generalSoundSlider.onValueChanged.RemoveListener(OnGeneralSoundChanged);
         musicSlider.onValueChanged.RemoveListener(OnMusicChanged);
         difficultySlider.onValueChanged.RemoveListener(OnDifficultyChanged);
+    }
+
+    private void Start()
+    {
+        if (mode == ScreenMode.MainManu)
+        {
+            mainMenuButton.SetActive(false);
+        }
+        else
+        {
+            mainMenuButton.SetActive(true);
+        }
     }
 
     private void LoadSettings()
@@ -95,5 +120,11 @@ public class OptionsManager : MonoBehaviour
                 hardLabel.color = activeColor;
                 break;
         }
+    }
+    
+    public void BackToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }

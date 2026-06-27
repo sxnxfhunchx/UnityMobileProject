@@ -208,7 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b70e9d2e267395844af42dbff9e07ce4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveLoadManager
-  characterDatabase: {fileID: 11400000, guid: 9ac9dfbe08881a74d85abaae277ae819, type: 2}
 --- !u!1 &1453536391
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,114 +253,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   characterDatabase: {fileID: 11400000, guid: 9ac9dfbe08881a74d85abaae277ae819, type: 2}
---- !u!1 &1522959906
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1522959907}
-  - component: {fileID: 1522959908}
-  m_Layer: 0
-  m_Name: ObjectPooler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1522959907
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522959906}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2095635526}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1522959908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1522959906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dc9bbd60601d234ab568c5344539ee2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  pools:
-  - tag: Projectile
-    prefab: {fileID: 4472270531634837245, guid: b9d39da9b977c5349b38f69d98921b62, type: 3}
-    size: 30
-  - tag: Skeleton
-    prefab: {fileID: 7545805580971034065, guid: 1f97c502b8e62a34cba2d7af1b716519, type: 3}
-    size: 30
-  - tag: SkeletonBoss
-    prefab: {fileID: 7545805580971034065, guid: dc67d6e070e19634294edef9e8a0fff1, type: 3}
-    size: 5
-  - tag: DeathVFX
-    prefab: {fileID: 1937389293422138625, guid: 79cbf72b4c2a43c4c83e2888ca8a31d1, type: 3}
-    size: 5
-  - tag: Diamond
-    prefab: {fileID: 3037235248243610724, guid: ad9f42beeae78254196730d1014200a2, type: 3}
-    size: 10
-  - tag: BonusVFX
-    prefab: {fileID: 7072814104702594052, guid: 80b12e45f9772da48b061f842356612b, type: 3}
-    size: 2
-  - tag: BlastVFX
-    prefab: {fileID: 3220654680325800360, guid: 30a42db93b6b1924bbed8bb126b03a63, type: 3}
-    size: 2
-  - tag: PowerUp
-    prefab: {fileID: 3255274180692718903, guid: a6ceb5d23de2f8a4aac915e1acca7a14, type: 3}
-    size: 10
-  - tag: Lightning
-    prefab: {fileID: 7541892174402670091, guid: 6b67cf1b52a95fd4d9329552fc0c4671, type: 3}
-    size: 10
-  - tag: Shield
-    prefab: {fileID: 3197138226386298833, guid: f918ebaf4b2309a4db936045161ce61b, type: 3}
-    size: 10
-  - tag: TripleShot
-    prefab: {fileID: 6647747853329479042, guid: a9ac1d9b61297614ab85e8281fb948c9, type: 3}
-    size: 10
-  - tag: Tree01
-    prefab: {fileID: 9154215057541871321, guid: 2554008d6447a2540b44e55f0c0b576e, type: 3}
-    size: 10
-  - tag: Tree02
-    prefab: {fileID: 2636820298107493410, guid: a2bd798ea40c7e341aa61ad124d95342, type: 3}
-    size: 10
-  - tag: Tree03
-    prefab: {fileID: 4032642331417584291, guid: e133dac167ef59c40b7678ba58107c6a, type: 3}
-    size: 10
-  - tag: Tree04
-    prefab: {fileID: 6846767348704259191, guid: 273b8f4150121d249ac7e2fd11da7005, type: 3}
-    size: 10
-  - tag: Tree05
-    prefab: {fileID: 3117263940151349026, guid: a9ac4ffc6a6c2f142ba38d31361db74c, type: 3}
-    size: 10
-  - tag: Tree06
-    prefab: {fileID: 5873600470845478545, guid: d845d40a10f66f54db4e10564b449dba, type: 3}
-    size: 10
-  - tag: Tree07
-    prefab: {fileID: 6793725477949315951, guid: 79fef74c2e69c104298c6739982cc212, type: 3}
-    size: 10
-  - tag: Tree08
-    prefab: {fileID: 6519602353689406181, guid: 726982723f02a9c4cbbda92d4dc769d3, type: 3}
-    size: 10
-  - tag: Tree09
-    prefab: {fileID: 8054281883298791771, guid: 093b1a4a94d0fd64782e3542fe349640, type: 3}
-    size: 10
-  - tag: Tree10
-    prefab: {fileID: 5385693753773911570, guid: becd5e544a16b8c4f951b784a6192766, type: 3}
-    size: 10
 --- !u!1 &2095635525
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +286,6 @@ Transform:
   - {fileID: 1453536392}
   - {fileID: 550939763}
   - {fileID: 108359831}
-  - {fileID: 1522959907}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2095635527

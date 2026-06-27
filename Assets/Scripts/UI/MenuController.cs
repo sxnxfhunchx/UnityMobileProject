@@ -14,6 +14,7 @@ public class MenuController : MonoBehaviour
     
     [SerializeField] private Button startButton;
     [SerializeField] private Button loadButton;
+    [SerializeField] private Button settingsButton;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
@@ -52,6 +53,7 @@ public class MenuController : MonoBehaviour
     {
         startButton.interactable = value;
         loadButton.interactable = value;
+        settingsButton.interactable = value;
         exitButton.interactable = value;
 
         leftButton.interactable = value;
