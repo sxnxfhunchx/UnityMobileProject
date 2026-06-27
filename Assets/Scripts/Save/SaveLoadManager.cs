@@ -1,13 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
 using Ability;
+using Save;
+using SO;
 
 public class SaveLoadManager : MonoBehaviour
 {
-
+    [SerializeField] private CharactersDatabase characterDatabase;
+    
     private static SaveLoadManager _instance;
     public static SaveLoadManager Instance
     {
@@ -21,6 +25,13 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
+    public event Action OnSaveCompleted;
+    
+    private string _saveFolderPath;
+    private string _timestampFormat = "yyyy-MM-dd_HH-mm-ss";
+    
+    private byte[] _pendingScreenshot;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -34,41 +45,60 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        _saveFolderPath = Path.Combine(Application.persistentDataPath, $"saves");
+    }
+
     private string GetJsonPath(int slotIndex)
     {
-        return Path.Combine(Application.persistentDataPath, $"save_slot_{slotIndex}.json");
+        return Path.Combine(_saveFolderPath, $"save_slot_{slotIndex}.json");
     }
-
-    public string GetScreenshotPath(int slotIndex)
+    
+    private string GetJsonPath(string fileName)
     {
-        return Path.Combine(Application.persistentDataPath, $"save_slot_{slotIndex}.png");
+        return Path.Combine(_saveFolderPath, $"{fileName}.json");
     }
 
-    public void ExecuteSave(int slotIndex)
+    private string GetScreenshotPath(int slotIndex)
     {
-        HUDManager hud = FindFirstObjectByType<HUDManager>();
-        StartCoroutine(CaptureAndSaveRoutine(slotIndex, hud));
+        return Path.Combine(_saveFolderPath, $"save_slot_{slotIndex}.png");
+    }
+    
+    private string GetScreenshotPath(string fileName)
+    {
+        return Path.Combine(_saveFolderPath, $"{fileName}.png");
     }
 
-    private IEnumerator CaptureAndSaveRoutine(int slotIndex, HUDManager hud)
+    private string CreateFileName(string character, int level, string timestamp)
+    {
+        string baseName = $"save_L{level:00}_{character}_{timestamp}";
+        return baseName;
+    }
+
+    private void ParseFileName(string filePath, out string character, out string level, out string timestamp)
+    {
+        string fileName = Path.GetFileNameWithoutExtension(filePath);
+        // save_L02_Barbarian_2026-06-27_21-45-13
+
+        string[] parts = fileName.Split('_');
+
+        level = parts[1].Replace("L", "Level ");
+        character = parts[2];
+        timestamp = parts[3] + " " + parts[4].Replace("-", ":");
+    }
+    
+    public void ExecuteSave()
+    {
+        StartCoroutine(CaptureAndSaveRoutine());
+    }
+
+    private IEnumerator CaptureAndSaveRoutine()
     {
         yield return new WaitForEndOfFrame();
-
-        int width = Screen.width;
-        int height = Screen.height;
-        Texture2D screenTex = new Texture2D(width, height, TextureFormat.RGB24, false);
         
-        screenTex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-        screenTex.Apply();
-
-        byte[] imageBytes = screenTex.EncodeToPNG();
-        Destroy(screenTex);
-
-        File.WriteAllBytes(GetScreenshotPath(slotIndex), imageBytes);
-
         GameplaySaveData saveData = new GameplaySaveData();
-        saveData.saveSlotID = slotIndex.ToString();
-        saveData.saveDate = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        saveData.saveDate = DateTime.Now.ToString(_timestampFormat);
 
         if (GameManager.Instance != null)
         {
@@ -91,6 +121,8 @@ public class SaveLoadManager : MonoBehaviour
             saveData.playerPosX = player.transform.position.x;
         }
 
+        saveData.characterId = GameManager.Instance.CurrentCharacter.characterId;
+        
         PlayerAbilityController abilityController = FindFirstObjectByType<PlayerAbilityController>();
         if (abilityController != null && abilityController.CurrentPowerUpData != null)
         {
@@ -114,14 +146,23 @@ public class SaveLoadManager : MonoBehaviour
         }
 
         string jsonString = JsonUtility.ToJson(saveData, true);
-        File.WriteAllText(GetJsonPath(slotIndex), jsonString, Encoding.UTF8);
+        
+        string fileName = CreateFileName(GameManager.Instance.CurrentCharacter.characterName,
+            levelManager.CurrentLevelSettings.levelNumber, saveData.saveDate);
 
-        Debug.Log($"Slot {slotIndex} saved with screenshot!");
+        EnsureSaveFolderExists();
+        File.WriteAllText(GetJsonPath(fileName), jsonString, Encoding.UTF8);
+        
+        //Texture2D screenTex = new Texture2D(width, height, TextureFormat.RGB24, false);
 
-        if (hud != null)
+        if (_pendingScreenshot != null)
         {
-            hud.OnSaveFinished();
+            File.WriteAllBytes(GetScreenshotPath(fileName), _pendingScreenshot);
         }
+        
+        Debug.Log($"Game {fileName} saved with screenshot!");
+
+        OnSaveCompleted?.Invoke();
     }
     
     public void DeleteAllSaves()
@@ -143,15 +184,32 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
-    public void ExecuteLoad(int slotIndex)
+    public void DeleteSaveFile(string fileName)
     {
-        string path = GetJsonPath(slotIndex);
+        string jsonPath = GetJsonPath(fileName);
+        string screenshotPath = GetScreenshotPath(fileName);
+
+        if (File.Exists(jsonPath))
+        {
+            File.Delete(jsonPath);
+        }
+
+        if (File.Exists(screenshotPath))
+        {
+            File.Delete(screenshotPath);
+        }
+    }
+    
+    
+    private void Load(string path)
+    {
         if (!File.Exists(path))
         {
-            Debug.LogWarning($"No save file found for slot {slotIndex}");
+            Debug.LogWarning($"No save file at {path}");
             return;
         }
 
+        EnsureSaveFolderExists();
         string jsonString = File.ReadAllText(path, Encoding.UTF8);
         GameplaySaveData saveData = JsonUtility.FromJson<GameplaySaveData>(jsonString);
 
@@ -184,6 +242,9 @@ public class SaveLoadManager : MonoBehaviour
             player.transform.position = pPos;
         }
 
+        CharacterData character = characterDatabase.GetById(saveData.characterId);
+        GameManager.Instance.SetSelectedCharacter(character);
+        
         if (ObjectPooler.Instance != null)
         {
             TargetProvider targetProvider = FindFirstObjectByType<TargetProvider>();
@@ -228,5 +289,73 @@ public class SaveLoadManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    public void ExecuteLoad(int slotIndex)
+    {
+        string path = GetJsonPath(slotIndex);
+        Load(path);
+    }
+    
+    public void ExecuteLoad(string fileName)
+    {
+        string path = GetJsonPath(fileName);
+        Load(path);
+    }
+    
+    public List<SaveFileData> GetSavedGames()
+    {
+        List<SaveFileData> saves = new List<SaveFileData>();
+        
+        if (!Directory.Exists(_saveFolderPath))
+            return saves;
+
+        string[] files = Directory.GetFiles(_saveFolderPath, "*.json");
+
+        foreach (string file in files)
+        {
+            SaveFileData saveData = new SaveFileData();
+            
+            string fileName = Path.GetFileNameWithoutExtension(file);
+            
+            ParseFileName(fileName, out string character, out string level, out string timestamp);
+            saveData.SaveFileName = fileName;
+            saveData.SaveName = $"{level}\n{character}";
+            saveData.Date = File.GetLastWriteTime(file);
+            
+            string thumbnailPath = Path.ChangeExtension(file, ".png");
+            saveData.Thumbnail = LoadThumbnail(thumbnailPath);
+            
+            saves.Add(saveData);
+        }
+        
+        return saves;
+    }
+
+    private Sprite LoadThumbnail(string filePath)
+    {
+        if (!File.Exists(filePath))
+            return null;
+        
+        byte[] bytes = File.ReadAllBytes(filePath);
+        
+        Texture2D texture = new Texture2D(2, 2);
+        
+        if (!texture.LoadImage(bytes))
+            return null;
+        
+        Sprite sprite =  Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
+        return sprite;
+    }
+    
+    private void EnsureSaveFolderExists()
+    {
+        Directory.CreateDirectory(_saveFolderPath);
+    }
+
+    public void SetPendingScreenshot(byte[] screenshot)
+    {
+        _pendingScreenshot = screenshot;
     }
 }

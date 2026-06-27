@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CharacterSelectionController : MonoBehaviour
 {
-    [SerializeField] private CharacterData[] characters;
+    [SerializeField] private CharactersDatabase characterDatabase;
 
     private int currentIndex;
 
     public event Action<CharacterData> OnCharacterSelected;
 
-    public CharacterData CurrentCharacter => characters[currentIndex];
+    public CharacterData CurrentCharacter => characterDatabase.Characters[currentIndex];
 
     private void Start()
     {
@@ -29,17 +29,19 @@ public class CharacterSelectionController : MonoBehaviour
 
     private void SelectCharacter(int index)
     {
-        if (characters == null || characters.Length == 0)
+        if (characterDatabase == null || characterDatabase.Characters == null || characterDatabase.Characters.Length == 0)
             return;
 
         if (index < 0)
-            index = characters.Length - 1;
+            index = characterDatabase.Characters.Length - 1;
 
-        if (index >= characters.Length)
+        if (index >= characterDatabase.Characters.Length)
             index = 0;
 
         currentIndex = index;
 
         OnCharacterSelected?.Invoke(CurrentCharacter);
     }
+    
+    
 }

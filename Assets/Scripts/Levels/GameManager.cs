@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     
+    [SerializeField] private CharactersDatabase characterDatabase;
+    
     private int bonusScore;
     private int enemiesKilledScore;
     
@@ -15,8 +17,11 @@ public class GameManager : MonoBehaviour
     
     public int GetEnemiesKilledScore() => enemiesKilledScore;
     public int GetBonusScore() => bonusScore;
-
+    
     public CharacterData SelectedCharacter { get; private set; }
+
+    public CharacterData CurrentCharacter => SelectedCharacter != null ? SelectedCharacter : characterDatabase.GetDefault();
+    
     
     public void RestoreSessionStats(int savedEnemiesScore, int savedBonus, float savedSurvivalTime)
     {

@@ -1101,6 +1101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd813da2e83f88042bac64248ef9840b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  characterDatabase: {fileID: 11400000, guid: 9ac9dfbe08881a74d85abaae277ae819, type: 2}
 --- !u!4 &413725680
 Transform:
   m_ObjectHideFlags: 0
@@ -2867,7 +2868,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 71.6
+  m_fontSize: 49
   m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3117,14 +3118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b555fd1f01f4f4cbac528e8fd8eb17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  characters:
-  - {fileID: 11400000, guid: 4f494487f0fcb8c4096569523076c491, type: 2}
-  - {fileID: 11400000, guid: 2e042a75d0392a94c82914806408d2c0, type: 2}
-  - {fileID: 11400000, guid: ecdbd02d01d49e8488124a51019083b5, type: 2}
-  - {fileID: 11400000, guid: cf8dd7ce307a64f408b23bd8db964d2b, type: 2}
-  - {fileID: 11400000, guid: b6d7a087852328b4d9693b5c643d992c, type: 2}
-  - {fileID: 11400000, guid: 8526047a1574e4044ae2e8e1e9837a1e, type: 2}
-  - {fileID: 11400000, guid: 96e77b3c0931ce7458ee86d548798885, type: 2}
+  characterDatabase: {fileID: 11400000, guid: 9ac9dfbe08881a74d85abaae277ae819, type: 2}
 --- !u!4 &891372487
 Transform:
   m_ObjectHideFlags: 0

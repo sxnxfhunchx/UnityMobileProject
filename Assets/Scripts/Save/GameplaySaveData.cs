@@ -23,6 +23,7 @@ public class GameplaySaveData
     public int enemiesKilledScore;
     public int bonusScore;
     
+    public string characterId;
     public int playerHealth;
     public float playerPosX;
     public string currentAbilityTag;

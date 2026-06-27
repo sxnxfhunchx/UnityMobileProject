@@ -7,9 +7,9 @@ public class CharacterInitializer : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerHealth playerHealth;
 
-    private void Awake()
+    private void Start()
     {
-        CharacterData data = GameManager.Instance.SelectedCharacter;
+        CharacterData data = GameManager.Instance.CurrentCharacter;
 
         if (data == null)
             return;

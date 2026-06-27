@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.Overlays;
 
 public class HUDManager : MonoBehaviour
 {
@@ -59,6 +61,7 @@ public class HUDManager : MonoBehaviour
     
     void Start()
     {
+        Debug.Log("Hud Manager Start");
         if (gameOverPanel != null) 
             gameOverPanel.SetActive(false);
         
@@ -106,6 +109,24 @@ public class HUDManager : MonoBehaviour
     
     public void OpenSaveLoadMenu()
     {
+        StartCoroutine(OpenSaveMenuRoutine());
+    }
+
+    private IEnumerator OpenSaveMenuRoutine()
+    {
+        yield return new WaitForEndOfFrame();
+
+        int width = Screen.width;
+        int height = Screen.height;
+        Texture2D screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+        screenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        screenshot.Apply();
+
+        byte[] imageBytes = screenshot.EncodeToPNG();
+        Destroy(screenshot);
+
+        SaveLoadManager.Instance.SetPendingScreenshot(imageBytes);
+        
         if (saveLoadMenuPanel != null)
         {
             saveLoadMenuPanel.SetActive(true);
@@ -126,6 +147,7 @@ public class HUDManager : MonoBehaviour
                 Time.timeScale = 1f; 
             }
         }
+        SaveLoadManager.Instance.SetPendingScreenshot(null);
     }
     
     private void UpdateSlotLabels()
@@ -212,34 +234,6 @@ public class HUDManager : MonoBehaviour
         abilityButton.interactable = available;
     }
     
-    public void SaveGame(int slotIndex)
-    {
-        Debug.LogWarning($"[HUDManager] open save with {slotIndex}");
-        
-        Time.timeScale = 1f;
-        
-        if (SaveLoadManager.Instance != null)
-        {
-            SaveLoadManager.Instance.ExecuteSave(slotIndex);
-        }
-    }
-
-    public void OnSaveFinished()
-    {
-        Time.timeScale = 0f;
-        
-        UpdateSlotLabels();
-    }
-
-    public void LoadGame(int slotIndex)
-    {
-        if (SaveLoadManager.Instance != null)
-        {
-            SaveLoadManager.Instance.ExecuteLoad(slotIndex);
-            CloseSaveLoadMenu();
-        }
-    }
-    
     public void ClearAllSaveSlots()
     {
         if (SaveLoadManager.Instance != null)
@@ -249,7 +243,15 @@ public class HUDManager : MonoBehaviour
             UpdateSlotLabels();
         }
     }
-        
-    [Header("Save/Load Slots UI")]
-    [SerializeField] private Image[] slotThumbnails;
+    
+    /*
+    public void LoadGame(int slotIndex)
+    {
+        if (SaveLoadManager.Instance != null)
+        {
+            SaveLoadManager.Instance.ExecuteLoad(slotIndex);
+            CloseSaveLoadMenu();
+        }
+    }
+    */
 }
