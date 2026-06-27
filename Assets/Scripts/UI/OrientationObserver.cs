@@ -3,61 +3,38 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class OrientationObserver : MonoBehaviour
+public class OrientationObserver : UIBehaviour
 {
     [SerializeField] GameObject horizontalLayout;
     [SerializeField] GameObject verticalLayout;
     
-    public GameObject ActiveLayout => IsLandscape() ? horizontalLayout : verticalLayout;
+    public GameObject ActiveLayout => lastIsLandscape == true ? horizontalLayout : verticalLayout;
     public MenuController ActiveMenu => ActiveLayout.GetComponent<MenuController>();
     
-    private ScreenOrientation lastOrientation;
-    private bool isSwitching = false;
-
-    private void Start()
-    {
-        lastOrientation = GetCurrentOrientation();
-        SwitchLayout();
-    }
     
-    private void OnRectTransformDimensionsChange()
+    private bool? lastIsLandscape;
+
+    protected override void Start()
     {
-        if (isSwitching) return;
-
-        ScreenOrientation currentOrientation = GetCurrentOrientation();
-        if (currentOrientation == lastOrientation) return;
-
-        lastOrientation = currentOrientation;
-        SwitchLayout();
+        base.Start();
+        ApplyCurrentLayout();
     }
 
-    private void SwitchLayout()
+    private void Update()
     {
-        isSwitching = true;
-
-        bool isLandscape = (lastOrientation == ScreenOrientation.LandscapeLeft || 
-                            lastOrientation == ScreenOrientation.LandscapeRight);
-        
-        if (horizontalLayout.activeSelf != isLandscape)
-            horizontalLayout.SetActive(isLandscape);
-
-        if (verticalLayout.activeSelf == isLandscape)
-            verticalLayout.SetActive(!isLandscape);
-
-        isSwitching = false;
-    }
-    
-    private ScreenOrientation GetCurrentOrientation()
-    {
-        if (Screen.orientation == ScreenOrientation.Unknown)
-        {
-            return (Screen.width > Screen.height) ? ScreenOrientation.LandscapeLeft : ScreenOrientation.Portrait;
-        }
-        return Screen.orientation;
+        ApplyCurrentLayout();
     }
 
-    private bool IsLandscape()
+    private void ApplyCurrentLayout()
     {
-        return lastOrientation == ScreenOrientation.LandscapeLeft || lastOrientation == ScreenOrientation.LandscapeRight;
+        bool isLandscape = Screen.width > Screen.height;
+
+        if (lastIsLandscape.HasValue && lastIsLandscape.Value == isLandscape)
+            return;
+
+        lastIsLandscape = isLandscape;
+
+        horizontalLayout.SetActive(isLandscape);
+        verticalLayout.SetActive(!isLandscape);
     }
 }
