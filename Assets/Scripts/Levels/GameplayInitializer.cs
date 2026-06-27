@@ -1,3 +1,4 @@
+using System.Collections;
 using SO;
 using UnityEngine;
 
@@ -5,8 +6,10 @@ public class GameplayInitializer : MonoBehaviour
 {
     [SerializeField] private CharactersDatabase characterDatabase;
     
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitUntil(() => GameManager.Instance != null);
+        
         GameplaySaveData pendingSave = GameManager.Instance.ConsumePendingSave();
         
         if (pendingSave != null)

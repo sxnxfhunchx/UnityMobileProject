@@ -1,3 +1,4 @@
+using System.Collections;
 using SO;
 using UnityEngine;
 
@@ -12,12 +13,14 @@ public class CharacterInitializer : MonoBehaviour
         Initialize();
     }
 
-    public void Initialize()
+    public IEnumerator Initialize()
     {
+        yield return new WaitUntil(() => GameManager.Instance != null);
+        
         CharacterData data = GameManager.Instance.CurrentCharacter;
 
         if (data == null)
-            return;
+            yield return null;
 
         ApplyCharacter(data);
     }

@@ -58,7 +58,6 @@ public class HUDManager : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("Hud Manager Start");
         if (gameOverPanel != null) 
             gameOverPanel.SetActive(false);
         
