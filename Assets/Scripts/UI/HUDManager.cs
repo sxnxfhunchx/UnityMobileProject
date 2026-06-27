@@ -130,9 +130,6 @@ public class HUDManager : MonoBehaviour
         if (saveLoadMenuPanel != null)
         {
             saveLoadMenuPanel.SetActive(true);
-            
-            UpdateSlotLabels();
-            
             Time.timeScale = 0f; 
         }
     }
@@ -150,33 +147,6 @@ public class HUDManager : MonoBehaviour
         SaveLoadManager.Instance.SetPendingScreenshot(null);
     }
     
-    private void UpdateSlotLabels()
-    {
-        for (int i = 1; i <= 3; i++)
-        {
-            string path = Path.Combine(Application.persistentDataPath, $"save_slot_{i}.json");
-            int arrayIndex = i - 1; 
-
-            if (File.Exists(path))
-            {
-                System.DateTime lastWriteTime = File.GetLastWriteTime(path);
-                string formattedDate = lastWriteTime.ToString("dd.MM.yyyy HH:mm");
-
-                saveButtonsTexts[arrayIndex].text = $"Save {i}\n({formattedDate})";
-                loadButtonsTexts[arrayIndex].text = $"Load Save {i}\n({formattedDate})";
-                
-                loadButtons[arrayIndex].interactable = true;
-            }
-            else
-            {
-                saveButtonsTexts[arrayIndex].text = "Empty Slot";
-                loadButtonsTexts[arrayIndex].text = "No Save Data";
-                
-                loadButtons[arrayIndex].interactable = false;
-            }
-        }
-    }
-
     private void UpdateHealthUI()
     {
         if (playerHealth == null || healthFillImage == null)
@@ -239,8 +209,6 @@ public class HUDManager : MonoBehaviour
         if (SaveLoadManager.Instance != null)
         {
             SaveLoadManager.Instance.DeleteAllSaves();
-            
-            UpdateSlotLabels();
         }
     }
     
