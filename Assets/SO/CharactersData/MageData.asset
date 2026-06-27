@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e21fd1122e4a0f8f091890e5f5b72a, type: 3}
   m_Name: MageData
   m_EditorClassIdentifier: Assembly-CSharp::SO.CharacterData
-  characterId: 0
+  characterId: 4
   characterName: Mage
   previewPrefab: {fileID: 4112004615471147788, guid: a3b762121ea4f4848bfffcae7df4d780, type: 3}
   gameplayPrefab: {fileID: 6334469935877564214, guid: 3d3c5649c26aa9e42af69a024493bb8e, type: 3}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e21fd1122e4a0f8f091890e5f5b72a, type: 3}
   m_Name: DruidData
   m_EditorClassIdentifier: Assembly-CSharp::SO.CharacterData
-  characterId: 0
+  characterId: 1
   characterName: Druid
   previewPrefab: {fileID: 4788169852061698036, guid: 01e1d0d279bc6014a8e5db095a2e7854, type: 3}
   gameplayPrefab: {fileID: 4310660035597209531, guid: 98d9bb8ffd4cb284898a3a540b89eb45, type: 3}

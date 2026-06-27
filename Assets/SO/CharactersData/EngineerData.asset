@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e21fd1122e4a0f8f091890e5f5b72a, type: 3}
   m_Name: EngineerData
   m_EditorClassIdentifier: Assembly-CSharp::SO.CharacterData
-  characterId: 0
+  characterId: 2
   characterName: Engineer
   previewPrefab: {fileID: 7407643355808206141, guid: b943ff03930c17d48ab8a644affea64a, type: 3}
   gameplayPrefab: {fileID: 7589657365146466113, guid: 812a71f3514d7754eae4ec38f462cc73, type: 3}

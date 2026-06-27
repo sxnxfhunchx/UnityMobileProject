@@ -244,6 +244,8 @@ public class SaveLoadManager : MonoBehaviour
 
         CharacterData character = characterDatabase.GetById(saveData.characterId);
         GameManager.Instance.SetSelectedCharacter(character);
+        CharacterInitializer characterInitializer = FindFirstObjectByType<CharacterInitializer>();
+        characterInitializer.Initialize();
         
         if (ObjectPooler.Instance != null)
         {
@@ -323,8 +325,7 @@ public class SaveLoadManager : MonoBehaviour
             saveData.SaveName = $"{level}\n{character}";
             saveData.Date = File.GetLastWriteTime(file);
             
-            string thumbnailPath = Path.ChangeExtension(file, ".png");
-            saveData.Thumbnail = LoadThumbnail(thumbnailPath);
+            saveData.ThumbnailPath = Path.ChangeExtension(file, ".png");
             
             saves.Add(saveData);
         }

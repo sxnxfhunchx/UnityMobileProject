@@ -9,6 +9,11 @@ public class CharacterInitializer : MonoBehaviour
 
     private void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         CharacterData data = GameManager.Instance.CurrentCharacter;
 
         if (data == null)

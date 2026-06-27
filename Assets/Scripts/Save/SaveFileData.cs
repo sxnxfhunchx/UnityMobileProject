@@ -7,6 +7,6 @@ namespace Save
         public string SaveFileName;
         public string SaveName;
         public System.DateTime Date;
-        public Sprite Thumbnail;
+        public string ThumbnailPath;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Save;
 using UnityEngine;
@@ -12,10 +13,12 @@ public class SaveLoadViewController : MonoBehaviour
 
     [SerializeField] private Button loadButton;
     [SerializeField] private Button deleteButton;
-
+    
     private readonly List<SaveSlotView> slotViews = new();
     private SaveSlotView selectedSlot;
 
+    private Coroutine thumbnailRoutine;
+    
     private void OnEnable()
     {
         RefreshList();
@@ -29,6 +32,12 @@ public class SaveLoadViewController : MonoBehaviour
 
     private void RefreshList()
     {
+        if (thumbnailRoutine != null)
+        {
+            StopCoroutine(thumbnailRoutine);
+            thumbnailRoutine = null;
+        }
+        
         ClearList();
 
         List<SaveFileData> saves = SaveLoadManager.Instance.GetSavedGames();
@@ -42,7 +51,25 @@ public class SaveLoadViewController : MonoBehaviour
         
         SelectSlot(null);
         
+        if (saves.Count > 0)
+        {
+            thumbnailRoutine = StartCoroutine(LoadThumbnailsRoutine());
+        }
+        
         stub.SetActive(saves.Count == 0);
+    }
+    
+    private IEnumerator LoadThumbnailsRoutine()
+    {
+        foreach (SaveSlotView slot in slotViews)
+        {
+            if (slot != null)
+                slot.LoadThumbnail();
+
+            yield return null;
+        }
+
+        thumbnailRoutine = null;
     }
     
     private void ClearList()
