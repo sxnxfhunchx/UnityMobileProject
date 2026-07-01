@@ -132,6 +132,24 @@ public class MenuUIController : MonoBehaviour
             });
         }
     }
+    public void OnAddGoldCheatButtonPressed()
+    {
+        if (QuestManager.Instance != null)
+        {
+            
+            QuestManager.Instance.SpendGold(-100); 
+
+            MetaUIController metaUI = FindFirstObjectByType<MetaUIController>();
+            if (metaUI != null)
+            {
+                metaUI.gameObject.SetActive(false);
+                metaUI.gameObject.SetActive(true);
+            }
+            
+            RefreshStartButton();
+        }
+    }
+    
     
     public void OnResetQuestsButtonPressed()
     {

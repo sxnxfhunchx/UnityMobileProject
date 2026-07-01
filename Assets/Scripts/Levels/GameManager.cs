@@ -106,9 +106,20 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         IsGameActive = false;
-        Time.timeScale = 0f; 
+        Time.timeScale = 0f;
+
+        if (Score >= 100 && QuestManager.Instance != null)
+        {
+            int earnedGold = Mathf.FloorToInt(Score / 100f) * 10;
+
+            if (earnedGold > 0)
+            {
+                QuestManager.Instance.SpendGold(-earnedGold);
+                Debug.Log($"[GameManager] {earnedGold} gold for {Score} points");
+            }
+        }
     }
-    
+
     // TODO: maybe remove it to a separate class?
     public float GetDifficultyPowerUpMultiplier()
     {
