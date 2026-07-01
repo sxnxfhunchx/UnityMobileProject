@@ -143,6 +143,40 @@ public class SaveLoadManager : MonoBehaviour
             };
             saveData.activeEnemies.Add(entityData);
         }
+        
+        BonusController[] activeBonuses = FindObjectsByType<BonusController>(FindObjectsSortMode.None);
+        foreach (var bonus in activeBonuses)
+        {
+            if (!bonus.gameObject.activeSelf) continue;
+            
+            string tag = bonus.gameObject.name.Replace("(Clone)", "").Trim();
+
+            ActiveItemSaveData itemData = new ActiveItemSaveData
+            {
+                poolTag = tag,
+                posX = bonus.transform.position.x,
+                posY = bonus.transform.position.y,
+                posZ = bonus.transform.position.z
+            };
+            saveData.activeItems.Add(itemData);
+        }
+
+        PowerUpPickup[] activePickups = FindObjectsByType<PowerUpPickup>(FindObjectsSortMode.None);
+        foreach (var pickup in activePickups)
+        {
+            if (!pickup.gameObject.activeSelf) continue;
+            
+            string tag = pickup.gameObject.name.Replace("(Clone)", "").Trim();
+
+            ActiveItemSaveData itemData = new ActiveItemSaveData
+            {
+                poolTag = tag,
+                posX = pickup.transform.position.x,
+                posY = pickup.transform.position.y,
+                posZ = pickup.transform.position.z
+            };
+            saveData.activeItems.Add(itemData);
+        }
 
         string jsonString = JsonUtility.ToJson(saveData, true);
         

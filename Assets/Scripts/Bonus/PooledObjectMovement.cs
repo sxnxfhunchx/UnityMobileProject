@@ -21,6 +21,14 @@ public class PooledObjectMovement : MonoBehaviour
         }
     }
     
+    private void OnEnable()
+    {
+        if (string.IsNullOrEmpty(currentPoolTag))
+        {
+            currentPoolTag = gameObject.name.Replace("(Clone)", "").Trim();
+        }
+    }
+    
     private void ReturnToPool()
     {
         if (ObjectPooler.Instance == null || string.IsNullOrEmpty(currentPoolTag))
