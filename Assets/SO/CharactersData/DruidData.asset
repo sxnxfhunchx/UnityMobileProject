@@ -18,3 +18,4 @@ MonoBehaviour:
   gameplayPrefab: {fileID: 4310660035597209531, guid: 98d9bb8ffd4cb284898a3a540b89eb45, type: 3}
   speed: 5
   health: 35
+  characterPrice: 75
