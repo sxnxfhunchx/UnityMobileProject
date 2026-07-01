@@ -178,8 +178,13 @@ public class QuestManager : MonoBehaviour
 
     private void LoadMetaProgress()
     {
-        if (!File.Exists(saveFilePath)) return;
-
+        if (!File.Exists(saveFilePath)) 
+        {
+            metaProgressData = new MetaProgressSaveData();
+            metaProgressData.totalGold = 0;
+            metaProgressData.unlockedCharacterIds = new List<string> { "barbarian" };
+            return; 
+        }
         try
         {
             string jsonString = File.ReadAllText(saveFilePath, Encoding.UTF8);
@@ -211,6 +216,9 @@ public class QuestManager : MonoBehaviour
         metaProgressData.chainProgresses.Clear();
         metaProgressData.totalGold = 0; 
 
+        metaProgressData.unlockedCharacterIds.Clear();
+        metaProgressData.unlockedCharacterIds.Add("0"); 
+
         foreach (var config in questChains)
         {
             if (config == null || string.IsNullOrEmpty(config.chainID)) continue;
@@ -230,5 +238,26 @@ public class QuestManager : MonoBehaviour
 
         SaveMetaProgress();
         OnProgressUpdated?.Invoke();
+    }
+    
+    public void SpendGold(int amount)
+    {
+        metaProgressData.totalGold -= amount;
+        SaveMetaProgress();
+        OnProgressUpdated?.Invoke();
+    }
+
+    public void UnlockCharacter(string characterId)
+    {
+        if (!metaProgressData.unlockedCharacterIds.Contains(characterId))
+        {
+            metaProgressData.unlockedCharacterIds.Add(characterId);
+            SaveMetaProgress();
+        }
+    }
+
+    public bool IsUnlocked(string characterId)
+    {
+        return metaProgressData.unlockedCharacterIds.Contains(characterId);
     }
 }

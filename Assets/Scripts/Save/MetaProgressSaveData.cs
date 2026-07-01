@@ -11,9 +11,12 @@ public class QuestChainProgress
     public bool isRewardAvailable;
 }
 
+
+
 [Serializable]
 public class MetaProgressSaveData
 {
     public int totalGold;
     public List<QuestChainProgress> chainProgresses = new List<QuestChainProgress>();
+    public List<string> unlockedCharacterIds = new List<string>() { "default_id" }; 
 }

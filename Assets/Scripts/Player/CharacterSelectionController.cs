@@ -5,7 +5,6 @@ using UnityEngine;
 public class CharacterSelectionController : MonoBehaviour
 {
     [SerializeField] private CharactersDatabase characterDatabase;
-
     private int currentIndex;
 
     public event Action<CharacterData> OnCharacterSelected;
@@ -14,6 +13,7 @@ public class CharacterSelectionController : MonoBehaviour
 
     private void Start()
     {
+        QuestManager.Instance.UnlockCharacter("0"); 
         SelectCharacter(0);
     }
 
@@ -32,15 +32,26 @@ public class CharacterSelectionController : MonoBehaviour
         if (characterDatabase == null || characterDatabase.Characters == null || characterDatabase.Characters.Length == 0)
             return;
 
-        if (index < 0)
-            index = characterDatabase.Characters.Length - 1;
-
-        if (index >= characterDatabase.Characters.Length)
-            index = 0;
+        if (index < 0) index = characterDatabase.Characters.Length - 1;
+        if (index >= characterDatabase.Characters.Length) index = 0;
 
         currentIndex = index;
 
         OnCharacterSelected?.Invoke(CurrentCharacter);
+    }
+    
+    public bool IsUnlocked(string characterId)
+    {
+        return QuestManager.Instance.IsUnlocked(characterId); 
+    }
+    
+    public void TryPurchaseCharacter(string characterId)
+    {
+        if (QuestManager.Instance.GetTotalGold() >= 50)
+        {
+            QuestManager.Instance.SpendGold(50);
+            QuestManager.Instance.UnlockCharacter(characterId);
+        }
     }
     
     
