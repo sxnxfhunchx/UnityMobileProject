@@ -114,7 +114,7 @@ public class MenuUIController : MonoBehaviour
         }
         else
         {
-            if (startBuyButtonText != null) startBuyButtonText.text = "50";
+            if (startBuyButtonText != null) startBuyButtonText.text = current.characterPrice.ToString();
             if (coinIcon != null) coinIcon.gameObject.SetActive(true); 
             if (lockedCharacterOverlay != null) lockedCharacterOverlay.SetActive(true); 
 

@@ -13,5 +13,8 @@ namespace SO
         [Header("Stats")]
         public float speed;
         public int health;
+        
+        [Header("Shop Settings")]
+        public int characterPrice = 50;
     }
 }

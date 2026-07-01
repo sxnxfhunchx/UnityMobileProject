@@ -47,9 +47,11 @@ public class CharacterSelectionController : MonoBehaviour
     
     public void TryPurchaseCharacter(string characterId)
     {
-        if (QuestManager.Instance.GetTotalGold() >= 50)
+        int price = CurrentCharacter.characterPrice; 
+
+        if (QuestManager.Instance.GetTotalGold() >= price)
         {
-            QuestManager.Instance.SpendGold(50);
+            QuestManager.Instance.SpendGold(price);
             QuestManager.Instance.UnlockCharacter(characterId);
         }
     }
