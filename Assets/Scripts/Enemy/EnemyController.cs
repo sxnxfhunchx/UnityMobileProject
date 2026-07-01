@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour
     
     private Vector3 moveDirection = Vector3.back;
     private bool hasLockedTarget;
+    private bool isDead = false;
     
     private Coroutine hitFlashCoroutine;
     
@@ -26,6 +27,7 @@ public class EnemyController : MonoBehaviour
 
     public void Initialize(EnemyData newData, ITargetProvider targetProvider)
     {
+        isDead = false;
         data = newData;
         this.targetProvider = targetProvider;
 
@@ -119,14 +121,21 @@ public class EnemyController : MonoBehaviour
 
     private void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         if (GameManager.Instance != null && data != null)
         {
-            GameManager.Instance.AddEnemyKillScore(data.scoreValue);
+            GameManager.Instance.AddEnemyKillScore(data.scoreValue); 
         }
-        
-        SpawnDeathVFX();
-
-        ReturnToPool();
+    
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.TrackProgress(QuestType.KillEnemies, 1);
+        }
+    
+        SpawnDeathVFX(); 
+        ReturnToPool(); 
     }
 
     private void SpawnDeathVFX()
@@ -200,11 +209,20 @@ public class EnemyController : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (data == null)
-            return;
+        if (isDead || data == null) return;
         
         if (!other.TryGetComponent(out PlayerHealth player))
             return;
+
+        var abilityController = player.GetComponentInChildren<Ability.PlayerAbilityController>();
+        if (abilityController != null && abilityController.TryGetCurrentAbility<Ability.ShieldAbility>(out var shield) && shield.IsActive)
+        {
+            if (shield.TryBlockDamage())
+            {
+                Die(); 
+                return;
+            }
+        }
 
         float damageMultiplier = levelProvider != null ? 
             levelProvider.CurrentLevelSettings.enemyDamageMultiplier : 

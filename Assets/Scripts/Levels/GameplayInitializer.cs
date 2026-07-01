@@ -106,6 +106,9 @@ public class GameplayInitializer : MonoBehaviour
 
     private void StartNewGame()
     {
-        // do something here maybe
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StartGame();
+        }
     }
 }

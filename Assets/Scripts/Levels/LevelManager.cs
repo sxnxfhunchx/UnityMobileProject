@@ -39,12 +39,22 @@ public class LevelManager : MonoBehaviour, ILevelProvider
     {
         if (levelData == null || levelData.levels.Count == 0)
         {
-            Debug.LogError("Level data is missing or empty");
             enabled = false;
             return;
         }
         
-        StartLevel(0);
+        currentLevelIndex = 0; 
+        levelTimer = 0; 
+        isBossPhaseActive = false; 
+    }
+
+    private System.Collections.IEnumerator SyncFirstLevelQuest()
+    {
+        yield return new WaitForEndOfFrame();
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.TrackProgress(QuestType.ReachLevel, GetCurrentLevelNumber());
+        }
     }
 
     void Update()
@@ -65,14 +75,19 @@ public class LevelManager : MonoBehaviour, ILevelProvider
 
     void StartLevel(int index)
     {
-        currentLevelIndex = index;
-        levelTimer = 0;
-        isBossPhaseActive = false;
+        currentLevelIndex = index; 
+        levelTimer = 0; 
+        isBossPhaseActive = false; 
     }
 
     void EndLevel()
     {
         isBossPhaseActive = true;
+        
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.TrackProgress(QuestType.ReachLevel, GetCurrentLevelNumber());
+        }
         
         if (currentLevelIndex < levelData.levels.Count - 1)
         {

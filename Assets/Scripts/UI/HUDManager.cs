@@ -43,6 +43,10 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] saveButtonsTexts; 
     [SerializeField] private TextMeshProUGUI[] loadButtonsTexts; 
     [SerializeField] private Button[] loadButtons;
+    
+    [Header("Quests Menu")]
+    [SerializeField] private GameObject questsMenuPanel;
+    [SerializeField] private Button questsMenuButton;
     private void OnEnable()
     {
         abilityController.OnAbilityAvailabilityChanged += ToggleAbilityAvailability;
@@ -66,16 +70,19 @@ public class HUDManager : MonoBehaviour
         
         if (optionsMenuPanel != null)
             optionsMenuPanel.SetActive(false);
+        
+        if (questsMenuPanel != null)
+            questsMenuPanel.SetActive(false);
     }
 
     void Update()
     {
-        UpdateUI();
+            UpdateUI();
 
-        if (GameManager.Instance != null && !GameManager.Instance.IsGameActive)
-        {
-            ShowGameOver();
-        }
+            if (playerHealth != null && playerHealth.CurrentHealth <= 0)
+            {
+                ShowGameOver();
+            }
     }
 
     void UpdateUI()
@@ -208,6 +215,50 @@ public class HUDManager : MonoBehaviour
         if (SaveLoadManager.Instance != null)
         {
             SaveLoadManager.Instance.DeleteAllSaves();
+        }
+    }
+    
+    public void OpenQuestsMenu()
+    {
+        if (questsMenuPanel != null)
+        {
+            questsMenuPanel.SetActive(true);
+
+            QuestMenuController qController = questsMenuPanel.GetComponentInChildren<QuestMenuController>();
+            if (qController != null)
+            {
+                qController.RefreshQuestMenu();
+            }
+            else
+            {
+                Debug.LogError("[HUDManager] QuestMenuController not found");
+            }
+        }
+
+        Time.timeScale = 0f; 
+    }
+
+    public void CloseQuestsMenu()
+    {
+        if (questsMenuPanel != null)
+        {
+            questsMenuPanel.SetActive(false);
+        }
+
+        Time.timeScale = 1f; 
+    }
+    
+    public void OnResetQuestsButtonPressed()
+    {
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.ResetAllQuestsProgress();
+        
+            QuestMenuController controller = FindFirstObjectByType<QuestMenuController>();
+            if (controller != null)
+            {
+                controller.RefreshQuestMenu();
+            }
         }
     }
     

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45495952b64fbd45bd2b72634be306c, type: 3}
+  m_Name: Chain_SurviveTime
+  m_EditorClassIdentifier: Assembly-CSharp::SO.Quests.QuestChainConfig
+  chainID: SurviveTimeChain
+  questType: 2
+  staticSteps:
+  - stepDescription: Survive 2 minutes
+    targetValue: 120
+    goldReward: 25
+  - stepDescription: Survive 3 minutes
+    targetValue: 180
+    goldReward: 30
+  - stepDescription: Survive 4 minutes
+    targetValue: 240
+    goldReward: 30
+  - stepDescription: Survive 5 minutes
+    targetValue: 300
+    goldReward: 35
+  - stepDescription: Survive 6 minutes
+    targetValue: 360
+    goldReward: 35
+  isInfinite: 1
+  infiniteStartValue: 410
+  infiniteStepIncrement: 60
+  infiniteGoldRewardBase: 40

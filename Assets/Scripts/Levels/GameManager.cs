@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     private int bonusScore;
     private int enemiesKilledScore;
     
+    private float questTimeAccumulator;
+    
     public int Score =>  Mathf.FloorToInt(SurvivalTime) + enemiesKilledScore + bonusScore;
     
     public bool IsGameActive { get; private set; }
@@ -43,10 +45,10 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
     }
-    
+
     private void Start()
     {
-        StartGame(); 
+        IsGameActive = false;
     }
 
     private void Update()
@@ -55,6 +57,18 @@ public class GameManager : MonoBehaviour
             return;
         
         SurvivalTime +=  Time.deltaTime;
+        
+        questTimeAccumulator += Time.deltaTime;
+        if (questTimeAccumulator >= 1f)
+        {
+            int secondsPassed = Mathf.FloorToInt(questTimeAccumulator);
+            questTimeAccumulator -= secondsPassed;
+
+            if (QuestManager.Instance != null)
+            {
+                QuestManager.Instance.TrackProgress(QuestType.SurviveTime, secondsPassed);
+            }
+        }
     }
     
     public void SetPendingSave(GameplaySaveData saveData)
@@ -86,6 +100,7 @@ public class GameManager : MonoBehaviour
         SurvivalTime = 0f;
         enemiesKilledScore = 0;
         bonusScore = 0;
+        questTimeAccumulator = 0f;
     }
 
     public void GameOver()
@@ -143,4 +158,6 @@ public class GameManager : MonoBehaviour
     {
         SelectedCharacter = data;
     }
+    
+    
 }
