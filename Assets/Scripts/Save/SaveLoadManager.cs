@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Ability;
@@ -268,7 +269,9 @@ public class SaveLoadManager : MonoBehaviour
         if (!Directory.Exists(_saveFolderPath))
             return saves;
 
-        string[] files = Directory.GetFiles(_saveFolderPath, "*.json");
+        string[] files = Directory.GetFiles(_saveFolderPath, "*.json")
+            .OrderByDescending(File.GetLastWriteTime)
+            .ToArray();
 
         foreach (string file in files)
         {

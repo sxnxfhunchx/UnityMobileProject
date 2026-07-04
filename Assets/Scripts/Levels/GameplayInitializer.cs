@@ -1,10 +1,12 @@
 using System.Collections;
 using SO;
+using SO.PowerUps;
 using UnityEngine;
 
 public class GameplayInitializer : MonoBehaviour
 {
     [SerializeField] private CharactersDatabase characterDatabase;
+    [SerializeField] private PowerUpDatabase powerUpDatabase;
     
     private IEnumerator Start()
     {
@@ -68,21 +70,7 @@ public class GameplayInitializer : MonoBehaviour
 
             if (abilityController != null && lvlManagerRef != null && lvlManagerRef.CurrentLevelSettings != null)
             {
-                SO.PowerUps.PowerUpData foundPowerUp = null;
-                var powerUpsList = lvlManagerRef.CurrentLevelSettings.spawnSettings.powerUps;
-            
-                if (powerUpsList != null)
-                {
-                    foreach (var powerUp in powerUpsList)
-                    {
-                        if (powerUp != null && powerUp.poolTag == saveData.currentAbilityTag)
-                        {
-                            foundPowerUp = powerUp;
-                            break;
-                        }
-                    }
-                }
-
+                PowerUpData foundPowerUp = powerUpDatabase.GetById(saveData.currentAbilityTag);            
                 if (foundPowerUp != null)
                 {
                     abilityController.SetAbility(foundPowerUp);
@@ -150,15 +138,8 @@ public class GameplayInitializer : MonoBehaviour
                     {
                         if (itemObj.TryGetComponent(out PowerUpPickup pickup) && lvlManager != null && lvlManager.CurrentLevelSettings != null)
                         {
-                            foreach (var powerUpData in lvlManager.CurrentLevelSettings.spawnSettings.powerUps)
-                            {
-                                string uniqueTag = string.IsNullOrEmpty(powerUpData.poolTag) ? powerUpData.name : powerUpData.poolTag;
-                                if (uniqueTag == item.poolTag)
-                                {
-                                    pickup.Initialize(powerUpData);
-                                    break;
-                                }
-                            }
+                            PowerUpData powerUpData = powerUpDatabase.GetById(item.poolTag);
+                            pickup.Initialize(powerUpData);
                         }
                     }
                 }

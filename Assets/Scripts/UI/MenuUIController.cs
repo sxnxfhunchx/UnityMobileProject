@@ -18,6 +18,17 @@ public class MenuUIController : MonoBehaviour
     [Header("New Locked Overlay Settings")]
     [SerializeField] private GameObject lockedCharacterOverlay;
     
+    private void OnEnable()
+    {
+        menuObserver.OnOrientationChanged += SetMenuInteractable;
+    }
+
+    private void OnDisable()
+    {
+        menuObserver.OnOrientationChanged -= SetMenuInteractable;
+    }
+
+    
     void Start()
     {
         if (saveLoadPanel != null) saveLoadPanel.SetActive(false);
@@ -29,18 +40,17 @@ public class MenuUIController : MonoBehaviour
             selectionController.OnCharacterSelected += (data) => RefreshStartButton();
         }
             
-        RefreshStartButton();;
+        RefreshStartButton();
+        SetMenuInteractable();
     }
 
     public void OpenSaveLoadPanel()
     {
         if (saveLoadPanel == null)
             return;
-        
-        SetMenuInteractable(false);
+
         saveLoadPanel.SetActive(true);
-        
-        
+        SetMenuInteractable();
     }
     
     public void CloseSaveLoadPanel()
@@ -49,7 +59,7 @@ public class MenuUIController : MonoBehaviour
             return;
         
         saveLoadPanel.SetActive(false);
-        SetMenuInteractable(true);
+        SetMenuInteractable();
     }
     
     public void OpenSettingsPanel()
@@ -57,8 +67,8 @@ public class MenuUIController : MonoBehaviour
         if (settingsPanel == null)
             return;
         
-        SetMenuInteractable(false);
         settingsPanel.SetActive(true);
+        SetMenuInteractable();
     }
     
     public void CloseSettingsPanel()
@@ -67,18 +77,22 @@ public class MenuUIController : MonoBehaviour
             return;
         
         settingsPanel.SetActive(false);
-        SetMenuInteractable(true);
+        SetMenuInteractable();
     }
     
-    public void SetMenuInteractable(bool value)
+    public void SetMenuInteractable()
     {
-        menuObserver.ActiveMenu.SetMenuInteractable(value);
+        bool isMenuInteractable = !settingsPanel.activeSelf 
+                                  && !saveLoadPanel.activeSelf 
+                                  && !questsMenuPanel.activeSelf;
+        menuObserver.ActiveMenu.SetMenuInteractable(isMenuInteractable);
     }
+    
     public void OpenQuestsPanel()
     {
         if (questsMenuPanel == null) return;
-        SetMenuInteractable(false);
         questsMenuPanel.SetActive(true);
+        SetMenuInteractable();
 
         QuestMenuController controller = questsMenuPanel.GetComponent<QuestMenuController>();
         if (controller != null)
@@ -90,7 +104,7 @@ public class MenuUIController : MonoBehaviour
     {
         if (questsMenuPanel == null) return;
         questsMenuPanel.SetActive(false);
-        SetMenuInteractable(true);
+        SetMenuInteractable();
     }
     
     private void RefreshStartButton()
