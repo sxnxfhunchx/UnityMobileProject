@@ -260,4 +260,13 @@ public class QuestManager : MonoBehaviour
     {
         return metaProgressData.unlockedCharacterIds.Contains(characterId);
     }
+
+    public void GainGold(int rewardAmount)
+    {
+        if (rewardAmount <= 0)
+            return;
+        
+        metaProgressData.totalGold += rewardAmount;
+        OnProgressUpdated?.Invoke();
+    }
 }

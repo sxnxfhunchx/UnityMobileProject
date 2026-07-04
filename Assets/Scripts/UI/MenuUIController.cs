@@ -1,4 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using Notifications;
+using Reward;
+using SO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,9 +11,14 @@ public class MenuUIController : MonoBehaviour
 {
     [SerializeField] private GameObject saveLoadPanel;
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject rewardPanel;
     [SerializeField] private OrientationObserver menuObserver;
     [SerializeField] private GameObject questsMenuPanel;
     [SerializeField] private CharacterSelectionController selectionController;
+    
+    [Header("Reward Panel")]
+    [SerializeField] private TMP_Text rewardText;
+    [SerializeField] private Image rewardImage;
     
     [SerializeField] private Button startBuyButton; 
     [SerializeField] private TMP_Text startBuyButtonText;
@@ -29,17 +38,41 @@ public class MenuUIController : MonoBehaviour
         menuObserver.OnOrientationChanged -= SetMenuInteractable;
     }
     
-    void Start()
+    private IEnumerator Start()
     {
         if (saveLoadPanel != null) saveLoadPanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
         if (questsMenuPanel != null) questsMenuPanel.SetActive(false);
         
-        if (DailyNotificationManager.Instance != null &&
-            DailyNotificationManager.Instance.ConsumeNotificationLaunch())
+        yield return new WaitUntil(() =>
+            DailyNotificationManager.Instance != null &&
+            DailyRewardManager.Instance != null
+        );
+        
+        Debug.Log("DailyNotificationManager.Instance " + DailyNotificationManager.Instance);
+        Debug.Log("ailyRewardManager.Instance " + DailyRewardManager.Instance);
+        
+        bool openedFromNotification =
+            DailyNotificationManager.Instance != null &&
+            DailyNotificationManager.Instance.ConsumeNotificationLaunch();
+
+        bool canClaim =
+            DailyRewardManager.Instance != null &&
+            DailyRewardManager.Instance.CanClaimReward();
+
+        Debug.Log("openedFromNotification " + openedFromNotification);
+        Debug.Log("canClaim " + canClaim);
+        
+        if (openedFromNotification && canClaim)
         {
-            //OpenDailyRewardPanel();
+            OpenRewardPanel();
         }
+        else
+        {
+            CloseRewardsPanel();
+        }
+        
+        OpenRewardPanel();
         
         if (selectionController != null)
         {
@@ -85,12 +118,33 @@ public class MenuUIController : MonoBehaviour
         settingsPanel.SetActive(false);
         SetMenuInteractable();
     }
+
+    public void OpenRewardPanel()
+    {
+        if (rewardPanel == null)
+            return;
+
+        RewardData rewardData = DailyRewardManager.Instance.CurrentReward;
+        rewardText.text = rewardData.GetInfo();
+        rewardImage.sprite = rewardData.icon;
+        rewardPanel.SetActive(true);
+    }
+    
+    public void CloseRewardsPanel()
+    {
+        if (rewardPanel == null)
+            return;
+        
+        rewardPanel.SetActive(false);
+        SetMenuInteractable();
+    }
     
     public void SetMenuInteractable()
     {
         bool isMenuInteractable = !settingsPanel.activeSelf 
                                   && !saveLoadPanel.activeSelf 
-                                  && !questsMenuPanel.activeSelf;
+                                  && !questsMenuPanel.activeSelf
+                                  && !rewardPanel.activeSelf;
         menuObserver.ActiveMenu.SetMenuInteractable(isMenuInteractable);
     }
     
@@ -185,4 +239,9 @@ public class MenuUIController : MonoBehaviour
         }
     }
     
+    public void OnClaimClicked()
+    {
+        DailyRewardManager.Instance.ClaimReward();
+        CloseRewardsPanel();
+    }
 }

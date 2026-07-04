@@ -10,8 +10,19 @@ namespace SO
         public string rewardName;
         public Sprite icon;
         public int amount;
-
-        // для будущего оружия
+        
         public string itemId;
+
+        public string GetInfo()
+        {
+            switch (rewardType)
+            {
+                case RewardType.Coins:
+                    return $"{amount} {rewardName}";
+                case RewardType.Weapon:
+                    return rewardName;
+            }
+            return "";
+        }
     }
 }

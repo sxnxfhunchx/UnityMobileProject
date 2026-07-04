@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using Reward;
+using SO;
 using Unity.Notifications.Android;
 using UnityEngine;
 
@@ -12,18 +14,23 @@ namespace Notifications
         private string Title = "Daily reward is ready!";
         [SerializeField] 
         private string Text = "Come back and claim your reward.";
-            
+        
+        [SerializeField] private DailyRewardSettings dailyRewardSettings;
+        
         public static DailyNotificationManager Instance { get; private set; }
         
         private const string ChannelId = "daily_reward_channel";
         private const int DailyNotificationId = 1001;
 
         private PermissionRequest permissionRequest;
-
-        public bool openedFromNotification;
+        private bool openedFromNotification;
+        private bool permissionReady;
+        
+        private TimeSpan NotificationDelay => dailyRewardSettings.Cooldown;
         
         private void Awake()
         {
+            Debug.Log("DailyNotificationManager Awake");
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
@@ -39,7 +46,7 @@ namespace Notifications
 
             while (permissionRequest.Status == PermissionStatus.RequestPending)
                 yield return null;
-
+            
             Debug.Log($"Permission: {permissionRequest.Status}");
             if (permissionRequest.Status != PermissionStatus.Allowed)
             {
@@ -47,12 +54,15 @@ namespace Notifications
                 yield break;
             }
             
+            permissionReady = true;
+            
+            RegisterAndroidChannel();
+            
             // Check if open from notification
             var intentData = AndroidNotificationCenter.GetLastNotificationIntent();
             openedFromNotification = intentData != null;
 
             CancelDailyNotification();
-            RegisterAndroidChannel();
         }
 
         private void OnApplicationFocus(bool hasFocus)
@@ -64,13 +74,19 @@ namespace Notifications
         private void OnApplicationPause(bool pause)
         {
             if (pause)
+            {
+                SaveLastSessionTime();
                 ScheduleDailyNotification();
+            }
             else
+            {
                 CancelDailyNotification();
+            }
         }
         
         private void OnApplicationQuit()
         {
+            SaveLastSessionTime();
             ScheduleDailyNotification();
         }
         
@@ -89,17 +105,16 @@ namespace Notifications
 
         public void ScheduleDailyNotification()
         {
-            if (permissionRequest.Status != PermissionStatus.Allowed)
+            if (!permissionReady)
                 return;
             
-            AndroidNotificationCenter.CancelScheduledNotification(DailyNotificationId);
+            CancelDailyNotification();
 
             var notification = new AndroidNotification
             {
                 Title = Title,
                 Text = Text,
-                //FireTime = DateTime.Now.AddHours(24),
-                FireTime = DateTime.Now.AddMinutes(1),
+                FireTime = DateTime.Now + NotificationDelay,
                 SmallIcon = "default",
                 LargeIcon = "default"
             };
@@ -126,6 +141,16 @@ namespace Notifications
 
             openedFromNotification = false;
             return true;
+        }
+        
+        private void SaveLastSessionTime()
+        {
+            PlayerPrefs.SetString(
+                DailyRewardKeys.LastSessionTime,
+                DateTime.UtcNow.ToString("O")
+            );
+
+            PlayerPrefs.Save();
         }
     }
 }
