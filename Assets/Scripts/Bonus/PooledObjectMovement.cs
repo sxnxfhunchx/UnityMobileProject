@@ -6,6 +6,14 @@ public class PooledObjectMovement : MonoBehaviour
     [SerializeField] private float destroyZ = -10f;
     private string currentPoolTag;
 
+    private void OnEnable()
+    {
+        if (string.IsNullOrEmpty(currentPoolTag))
+        {
+            currentPoolTag = gameObject.name.Replace("(Clone)", "").Trim();
+        }
+    }
+    
     public void SetPoolTag(string tag)
     {
         currentPoolTag = tag;

@@ -8,6 +8,8 @@ public class OrientationObserver : UIBehaviour
     [SerializeField] GameObject horizontalLayout;
     [SerializeField] GameObject verticalLayout;
     
+    public event Action OnOrientationChanged;
+    
     public GameObject ActiveLayout => lastIsLandscape == true ? horizontalLayout : verticalLayout;
     public MenuController ActiveMenu => ActiveLayout.GetComponent<MenuController>();
     
@@ -36,5 +38,7 @@ public class OrientationObserver : UIBehaviour
 
         horizontalLayout.SetActive(isLandscape);
         verticalLayout.SetActive(!isLandscape);
+        
+        OnOrientationChanged?.Invoke();
     }
 }

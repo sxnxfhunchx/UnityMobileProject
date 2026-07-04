@@ -6,9 +6,21 @@ public class MenuUIController : MonoBehaviour
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private OrientationObserver menuObserver;
     
+    private void OnEnable()
+    {
+        menuObserver.OnOrientationChanged += SetMenuInteractable;
+    }
+
+    private void OnDisable()
+    {
+        menuObserver.OnOrientationChanged -= SetMenuInteractable;
+    }
+    
     void Start()
     {
         saveLoadPanel.SetActive(false);
+        settingsPanel.SetActive(false);
+        SetMenuInteractable();
     }
 
     public void OpenSaveLoadPanel()
@@ -16,10 +28,8 @@ public class MenuUIController : MonoBehaviour
         if (saveLoadPanel == null)
             return;
         
-        SetMenuInteractable(false);
         saveLoadPanel.SetActive(true);
-        
-        
+        SetMenuInteractable();
     }
     
     public void CloseSaveLoadPanel()
@@ -28,7 +38,7 @@ public class MenuUIController : MonoBehaviour
             return;
         
         saveLoadPanel.SetActive(false);
-        SetMenuInteractable(true);
+        SetMenuInteractable();
     }
     
     public void OpenSettingsPanel()
@@ -36,8 +46,8 @@ public class MenuUIController : MonoBehaviour
         if (settingsPanel == null)
             return;
         
-        SetMenuInteractable(false);
         settingsPanel.SetActive(true);
+        SetMenuInteractable();
     }
     
     public void CloseSettingsPanel()
@@ -46,11 +56,12 @@ public class MenuUIController : MonoBehaviour
             return;
         
         settingsPanel.SetActive(false);
-        SetMenuInteractable(true);
+        SetMenuInteractable();
     }
     
-    public void SetMenuInteractable(bool value)
+    public void SetMenuInteractable()
     {
-        menuObserver.ActiveMenu.SetMenuInteractable(value);
+        bool isMenuInteractable = !settingsPanel.activeSelf && !saveLoadPanel.activeSelf;
+        menuObserver.ActiveMenu.SetMenuInteractable(isMenuInteractable);
     }
 }

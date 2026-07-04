@@ -12,6 +12,15 @@ public class ActiveEntitySaveData
 }
 
 [Serializable]
+public class ActiveItemSaveData
+{
+    public string poolTag;
+    public float posX;
+    public float posY;
+    public float posZ;
+}
+
+[Serializable]
 public class GameplaySaveData
 {
     public string saveSlotID;
@@ -29,4 +38,5 @@ public class GameplaySaveData
     public string currentAbilityTag;
 
     public List<ActiveEntitySaveData> activeEnemies = new List<ActiveEntitySaveData>();
+    public List<ActiveItemSaveData> activeItems = new List<ActiveItemSaveData>(); 
 }

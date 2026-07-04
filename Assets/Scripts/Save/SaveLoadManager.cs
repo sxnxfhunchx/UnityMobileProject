@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Ability;
@@ -144,6 +145,40 @@ public class SaveLoadManager : MonoBehaviour
             saveData.activeEnemies.Add(entityData);
         }
 
+        BonusController[] activeBonuses = FindObjectsByType<BonusController>(FindObjectsSortMode.None);
+        foreach (var bonus in activeBonuses)
+        {
+            if (!bonus.gameObject.activeSelf) continue;
+            
+            string tag = bonus.gameObject.name.Replace("(Clone)", "").Trim();
+
+            ActiveItemSaveData itemData = new ActiveItemSaveData
+            {
+                poolTag = tag,
+                posX = bonus.transform.position.x,
+                posY = bonus.transform.position.y,
+                posZ = bonus.transform.position.z
+            };
+            saveData.activeItems.Add(itemData);
+        }
+
+        PowerUpPickup[] activePickups = FindObjectsByType<PowerUpPickup>(FindObjectsSortMode.None);
+        foreach (var pickup in activePickups)
+        {
+            if (!pickup.gameObject.activeSelf) continue;
+            
+            string tag = pickup.gameObject.name.Replace("(Clone)", "").Trim();
+
+            ActiveItemSaveData itemData = new ActiveItemSaveData
+            {
+                poolTag = tag,
+                posX = pickup.transform.position.x,
+                posY = pickup.transform.position.y,
+                posZ = pickup.transform.position.z
+            };
+            saveData.activeItems.Add(itemData);
+        }
+        
         string jsonString = JsonUtility.ToJson(saveData, true);
         
         string fileName = CreateFileName(GameManager.Instance.CurrentCharacter.characterName,
@@ -234,8 +269,10 @@ public class SaveLoadManager : MonoBehaviour
         if (!Directory.Exists(_saveFolderPath))
             return saves;
 
-        string[] files = Directory.GetFiles(_saveFolderPath, "*.json");
-
+        string[] files = Directory.GetFiles(_saveFolderPath, "*.json")
+            .OrderByDescending(File.GetLastWriteTime)
+            .ToArray();
+        
         foreach (string file in files)
         {
             SaveFileData saveData = new SaveFileData();

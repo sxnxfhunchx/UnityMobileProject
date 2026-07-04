@@ -15,9 +15,9 @@ MonoBehaviour:
   enemyName: SkeletonBerserk
   poolTag: Skeleton
   health: 25
-  speed: 22
+  speed: 20
   damage: 15
   scoreValue: 15
   isBerserkMode: 1
   berserkColorTint: {r: 0.7803922, g: 0.08235294, b: 0.5215687, a: 1}
-  berserkDetectionDistance: 6
+  berserkDetectionDistance: 9

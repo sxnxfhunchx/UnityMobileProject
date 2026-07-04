@@ -1,10 +1,12 @@
 using System.Collections;
 using SO;
+using SO.PowerUps;
 using UnityEngine;
 
 public class GameplayInitializer : MonoBehaviour
 {
     [SerializeField] private CharactersDatabase characterDatabase;
+    [SerializeField] private PowerUpDatabase powerUpDatabase;
     
     private IEnumerator Start()
     {
@@ -56,7 +58,25 @@ public class GameplayInitializer : MonoBehaviour
         CharacterData character = characterDatabase.GetById(saveData.characterId);
         GameManager.Instance.SetSelectedCharacter(character);
         CharacterInitializer characterInitializer = FindFirstObjectByType<CharacterInitializer>();
-        characterInitializer.Initialize();
+        if (characterInitializer != null)
+        {
+            characterInitializer.Initialize();
+        }
+        
+        if (!string.IsNullOrEmpty(saveData.currentAbilityTag))
+        {
+            Ability.PlayerAbilityController abilityController = FindFirstObjectByType<Ability.PlayerAbilityController>();
+            LevelManager lvlManagerRef = FindFirstObjectByType<LevelManager>();
+
+            if (abilityController != null && lvlManagerRef != null && lvlManagerRef.CurrentLevelSettings != null)
+            {
+                PowerUpData foundPowerUp = powerUpDatabase.GetById(saveData.currentAbilityTag);            
+                if (foundPowerUp != null)
+                {
+                    abilityController.SetAbility(foundPowerUp);
+                }
+            }
+        }
         
         if (ObjectPooler.Instance != null)
         {
@@ -99,6 +119,37 @@ public class GameplayInitializer : MonoBehaviour
                     
                     controller.SetSavedHealth(entity.currentHealth);
                     controller.ApplyEnemySettings();
+                }
+            }
+            
+            if (saveData.activeItems != null)
+            {
+                foreach (var item in saveData.activeItems)
+                {
+                    Vector3 spawnPos = new Vector3(item.posX, item.posY, item.posZ);
+                    
+                    GameObject itemObj = ObjectPooler.Instance.SpawnFromPoolWithPrefabRotation(item.poolTag, spawnPos);
+
+                    if (itemObj == null)
+                    {
+                        itemObj = ObjectPooler.Instance.SpawnFromPool(item.poolTag, spawnPos, Quaternion.identity);
+                    }
+
+                    if (itemObj != null)
+                    {
+                        if (itemObj.TryGetComponent(out PowerUpPickup pickup) && lvlManager != null && lvlManager.CurrentLevelSettings != null)
+                        {
+                            foreach (var powerUpData in powerUpDatabase.PowerUps)
+                            {
+                                string uniqueTag = string.IsNullOrEmpty(powerUpData.poolTag) ? powerUpData.name : powerUpData.poolTag;
+                                if (uniqueTag == item.poolTag)
+                                {
+                                    pickup.Initialize(powerUpData);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
