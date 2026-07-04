@@ -1,3 +1,4 @@
+using Notifications;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +28,6 @@ public class MenuUIController : MonoBehaviour
     {
         menuObserver.OnOrientationChanged -= SetMenuInteractable;
     }
-
     
     void Start()
     {
@@ -35,11 +35,17 @@ public class MenuUIController : MonoBehaviour
         if (settingsPanel != null) settingsPanel.SetActive(false);
         if (questsMenuPanel != null) questsMenuPanel.SetActive(false);
         
+        if (DailyNotificationManager.Instance != null &&
+            DailyNotificationManager.Instance.ConsumeNotificationLaunch())
+        {
+            //OpenDailyRewardPanel();
+        }
+        
         if (selectionController != null)
         {
             selectionController.OnCharacterSelected += (data) => RefreshStartButton();
         }
-            
+        
         RefreshStartButton();
         SetMenuInteractable();
     }
