@@ -8,6 +8,8 @@ namespace Reward
     {
         public static DailyRewardManager Instance { get; private set; }
 
+        private const string LastSessionTicksKey = "DailyReward_LastSessionTicks";
+        
         [SerializeField] private RewardData defaultDailyReward;
         [SerializeField] private DailyRewardSettings dailyRewardSettings;
 
@@ -17,7 +19,6 @@ namespace Reward
         
         private void Awake()
         {
-            Debug.Log("DailyRewardManager Awake");
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
@@ -29,23 +30,17 @@ namespace Reward
         
         public bool CanClaimReward()
         {
-            if (!PlayerPrefs.HasKey(DailyRewardKeys.LastSessionTime))
+            if (!TryGetLastSessionTime(out DateTime lastSessionTime))
                 return false;
 
-            string savedTime = PlayerPrefs.GetString(DailyRewardKeys.LastSessionTime);
+            TimeSpan timePassed = DateTime.UtcNow - lastSessionTime;
 
-            if (!DateTime.TryParse(savedTime, out DateTime lastSessionTime))
-                return false;
-            
-            return DateTime.UtcNow - lastSessionTime >= RewardCooldown;
+            return timePassed >= RewardCooldown;
         }
 
         public void ClaimReward()
         {
             ApplyReward(defaultDailyReward);
-
-            PlayerPrefs.SetString(DailyRewardKeys.LastSessionTime, DateTime.Now.ToString("O"));
-            PlayerPrefs.Save();
         }
         
         private void ApplyReward(RewardData reward)
@@ -53,8 +48,6 @@ namespace Reward
             switch (reward.rewardType)
             {
                 case RewardType.Coins:
-                    // CurrencyManager.Instance.AddCoins(reward.amount);
-                    Debug.Log($"Claimed coins: {reward.amount}");
                     QuestManager.Instance.GainGold(reward.amount);
                     break;
 
@@ -63,6 +56,25 @@ namespace Reward
                     Debug.Log($"Claimed weapon: {reward.itemId}");
                     break;
             }
+        }
+        
+        public void UpdateLastSessionTime()
+        {
+            PlayerPrefs.SetString(LastSessionTicksKey, DateTime.UtcNow.Ticks.ToString());
+            PlayerPrefs.Save();
+        }
+
+        private bool TryGetLastSessionTime(out DateTime lastSessionTime)
+        {
+            lastSessionTime = default;
+
+            string savedTicks = PlayerPrefs.GetString(LastSessionTicksKey, "");
+
+            if (!long.TryParse(savedTicks, out long ticks))
+                return false;
+
+            lastSessionTime = new DateTime(ticks, DateTimeKind.Utc);
+            return true;
         }
     }
 }

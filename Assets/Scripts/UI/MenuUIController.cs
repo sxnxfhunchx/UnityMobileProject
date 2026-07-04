@@ -49,9 +49,6 @@ public class MenuUIController : MonoBehaviour
             DailyRewardManager.Instance != null
         );
         
-        Debug.Log("DailyNotificationManager.Instance " + DailyNotificationManager.Instance);
-        Debug.Log("ailyRewardManager.Instance " + DailyRewardManager.Instance);
-        
         bool openedFromNotification =
             DailyNotificationManager.Instance != null &&
             DailyNotificationManager.Instance.ConsumeNotificationLaunch();
@@ -60,9 +57,6 @@ public class MenuUIController : MonoBehaviour
             DailyRewardManager.Instance != null &&
             DailyRewardManager.Instance.CanClaimReward();
 
-        Debug.Log("openedFromNotification " + openedFromNotification);
-        Debug.Log("canClaim " + canClaim);
-        
         if (openedFromNotification && canClaim)
         {
             OpenRewardPanel();
@@ -71,8 +65,6 @@ public class MenuUIController : MonoBehaviour
         {
             CloseRewardsPanel();
         }
-        
-        OpenRewardPanel();
         
         if (selectionController != null)
         {

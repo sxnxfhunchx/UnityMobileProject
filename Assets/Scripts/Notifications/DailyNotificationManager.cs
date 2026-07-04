@@ -30,7 +30,6 @@ namespace Notifications
         
         private void Awake()
         {
-            Debug.Log("DailyNotificationManager Awake");
             if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
@@ -47,10 +46,8 @@ namespace Notifications
             while (permissionRequest.Status == PermissionStatus.RequestPending)
                 yield return null;
             
-            Debug.Log($"Permission: {permissionRequest.Status}");
             if (permissionRequest.Status != PermissionStatus.Allowed)
             {
-                Debug.Log("Notification permission not granted.");
                 yield break;
             }
             
@@ -145,11 +142,7 @@ namespace Notifications
         
         private void SaveLastSessionTime()
         {
-            PlayerPrefs.SetString(
-                DailyRewardKeys.LastSessionTime,
-                DateTime.UtcNow.ToString("O")
-            );
-
+            DailyRewardManager.Instance?.UpdateLastSessionTime();
             PlayerPrefs.Save();
         }
     }

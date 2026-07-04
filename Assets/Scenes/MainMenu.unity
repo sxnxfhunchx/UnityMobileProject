@@ -4652,6 +4652,8 @@ MonoBehaviour:
   menuObserver: {fileID: 800169563}
   questsMenuPanel: {fileID: 739132374}
   selectionController: {fileID: 891372486}
+  rewardText: {fileID: 621204295}
+  rewardImage: {fileID: 1597101381}
   startBuyButton: {fileID: 644812371}
   startBuyButtonText: {fileID: 993013640}
   coinIcon: {fileID: 1107801393}
