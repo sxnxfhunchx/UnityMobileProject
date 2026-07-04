@@ -7,18 +7,23 @@ namespace SO
     public class RewardData : ScriptableObject
     {
         public RewardType rewardType;
+        
+        [Header("Display")]
         public string rewardName;
         public Sprite icon;
-        public int amount;
-        
-        public string itemId;
 
+        [Header("Coins")]
+        public int coinsAmount;
+
+        [Header("Weapon")]
+        public WeaponData weaponReward;
+        
         public string GetInfo()
         {
             switch (rewardType)
             {
                 case RewardType.Coins:
-                    return $"{amount} {rewardName}";
+                    return $"{coinsAmount} {rewardName}";
                 case RewardType.Weapon:
                     return rewardName;
             }

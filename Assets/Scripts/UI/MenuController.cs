@@ -21,6 +21,8 @@ public class MenuController : MonoBehaviour
     
     [SerializeField] private TouchObserver touchObserver;
     
+    [SerializeField] private GameObject lockPanel;
+    
     private void OnEnable()
     {
         controller.OnCharacterSelected += UpdateCharacter;
@@ -60,5 +62,10 @@ public class MenuController : MonoBehaviour
         rightButton.interactable = value;
 
         touchObserver.enabled = value;
+    }
+
+    public void LockCharacter(bool isLocked)
+    {
+        lockPanel.SetActive(isLocked);
     }
 }

@@ -344,8 +344,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91eb25144177411aa2379e905ee16976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reward.DailyRewardManager
-  defaultDailyReward: {fileID: 11400000, guid: 3b940cc5f1a759c499fca4a3d538ddf8, type: 2}
-  dailyRewardSettings: {fileID: 11400000, guid: 0a1c4faa483c2f947883a9ce6111daf4, type: 2}
+  settings: {fileID: 11400000, guid: 0a1c4faa483c2f947883a9ce6111daf4, type: 2}
+  coinIcon: {fileID: 21300000, guid: 3454a8273c502214abcf8f983c4d0b2d, type: 3}
+  minCoins: 50
+  maxCoins: 150
+  possibleWeaponRewards: {fileID: 11400000, guid: b700464d0c5c50941b13e73ff48b900a, type: 2}
+  weaponRewardChance: 1
+--- !u!1 &1685096408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1685096409}
+  - component: {fileID: 1685096410}
+  m_Layer: 0
+  m_Name: WeaponInventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1685096409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685096408}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2095635526}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1685096410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685096408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d3fda9a246c4491a635d9f0c40749be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reward.WeaponInventory
 --- !u!1 &2095635525
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,6 +429,7 @@ Transform:
   - {fileID: 108359831}
   - {fileID: 588776070}
   - {fileID: 1648838513}
+  - {fileID: 1685096409}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2095635527

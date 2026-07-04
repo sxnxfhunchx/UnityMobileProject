@@ -9,24 +9,27 @@ using UnityEngine.UI;
 
 public class MenuUIController : MonoBehaviour
 {
+    [Header("Menu Elements")]
+    [SerializeField] private Button startBuyButton; 
+    [SerializeField] private TMP_Text startBuyButtonText;
+    [SerializeField] private Image coinIcon;
+    
+    [Header("Panels")]
     [SerializeField] private GameObject saveLoadPanel;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject rewardPanel;
-    [SerializeField] private OrientationObserver menuObserver;
     [SerializeField] private GameObject questsMenuPanel;
-    [SerializeField] private CharacterSelectionController selectionController;
     
     [Header("Reward Panel")]
     [SerializeField] private TMP_Text rewardText;
     [SerializeField] private Image rewardImage;
     
-    [SerializeField] private Button startBuyButton; 
-    [SerializeField] private TMP_Text startBuyButtonText;
+    [Header("Controllers")]
+    [SerializeField] private OrientationObserver menuObserver;
+    [SerializeField] private CharacterSelectionController selectionController;
     
-    [SerializeField] private Image coinIcon;
-    
-    [Header("New Locked Overlay Settings")]
-    [SerializeField] private GameObject lockedCharacterOverlay;
+    //[Header("New Locked Overlay Settings")]
+    //[SerializeField] private GameObject lockedCharacterOverlay;
     
     private void OnEnable()
     {
@@ -48,12 +51,12 @@ public class MenuUIController : MonoBehaviour
             DailyNotificationManager.Instance != null &&
             DailyRewardManager.Instance != null
         );
-        
-        bool openedFromNotification =
+
+        bool openedFromNotification = //true;
             DailyNotificationManager.Instance != null &&
             DailyNotificationManager.Instance.ConsumeNotificationLaunch();
 
-        bool canClaim =
+        bool canClaim = //true;
             DailyRewardManager.Instance != null &&
             DailyRewardManager.Instance.CanClaimReward();
 
@@ -116,9 +119,9 @@ public class MenuUIController : MonoBehaviour
         if (rewardPanel == null)
             return;
 
-        RewardData rewardData = DailyRewardManager.Instance.CurrentReward;
-        rewardText.text = rewardData.GetInfo();
-        rewardImage.sprite = rewardData.icon;
+        Reward.Reward rewardData = DailyRewardManager.Instance.CurrentReward;
+        rewardText.text = rewardData.Name;
+        rewardImage.sprite = rewardData.Icon;
         rewardPanel.SetActive(true);
     }
     
@@ -172,7 +175,8 @@ public class MenuUIController : MonoBehaviour
         {
             if (startBuyButtonText != null) startBuyButtonText.text = "START";
             if (coinIcon != null) coinIcon.gameObject.SetActive(false); 
-            if (lockedCharacterOverlay != null) lockedCharacterOverlay.SetActive(false); 
+            menuObserver.ActiveMenu.LockCharacter(false);
+            //if (lockedCharacterOverlay != null) lockedCharacterOverlay.SetActive(false); 
 
             startBuyButton.onClick.AddListener(() => { 
                 menuObserver.ActiveMenu.StartGame(); 
@@ -182,8 +186,9 @@ public class MenuUIController : MonoBehaviour
         {
             if (startBuyButtonText != null) startBuyButtonText.text = current.characterPrice.ToString();
             if (coinIcon != null) coinIcon.gameObject.SetActive(true); 
-            if (lockedCharacterOverlay != null) lockedCharacterOverlay.SetActive(true); 
-
+            //if (lockedCharacterOverlay != null) lockedCharacterOverlay.SetActive(true); 
+            menuObserver.ActiveMenu.LockCharacter(true);
+            
             startBuyButton.onClick.AddListener(() => {
                 selectionController.TryPurchaseCharacter(current.characterId);
                 

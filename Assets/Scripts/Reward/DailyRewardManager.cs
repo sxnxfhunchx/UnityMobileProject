@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using SO;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Reward
 {
@@ -8,15 +10,33 @@ namespace Reward
     {
         public static DailyRewardManager Instance { get; private set; }
 
+        [Header("Settings")]
+        [SerializeField] private DailyRewardSettings settings;
+
+        [Header("Coins")]
+        [SerializeField] private Sprite coinIcon;
+        [SerializeField] private int minCoins = 50;
+        [SerializeField] private int maxCoins = 150;
+
+        [Header("Weapons")]
+        [SerializeField] private WeaponDatabase possibleWeaponRewards;
+        [SerializeField, Range(0f, 1f)] private float weaponRewardChance = 0.3f;
+
         private const string LastSessionTicksKey = "DailyReward_LastSessionTicks";
-        
-        [SerializeField] private RewardData defaultDailyReward;
-        [SerializeField] private DailyRewardSettings dailyRewardSettings;
 
-        public RewardData CurrentReward => defaultDailyReward;
+        private Reward currentReward;
 
-        private TimeSpan RewardCooldown => dailyRewardSettings.Cooldown;
-        
+        public Reward CurrentReward
+        {
+            get
+            {
+                if (currentReward == null)
+                    currentReward = GenerateReward();
+
+                return currentReward;
+            }
+        }
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -27,7 +47,13 @@ namespace Reward
 
             Instance = this;
         }
-        
+
+        public void UpdateLastSessionTime()
+        {
+            PlayerPrefs.SetString(LastSessionTicksKey,  DateTime.UtcNow.Ticks.ToString());
+            PlayerPrefs.Save();
+        }
+
         public bool CanClaimReward()
         {
             if (!TryGetLastSessionTime(out DateTime lastSessionTime))
@@ -35,33 +61,47 @@ namespace Reward
 
             TimeSpan timePassed = DateTime.UtcNow - lastSessionTime;
 
-            return timePassed >= RewardCooldown;
+            return timePassed >= settings.Cooldown;
         }
 
         public void ClaimReward()
         {
-            ApplyReward(defaultDailyReward);
+            CurrentReward.Apply();
+            currentReward = GenerateReward();
         }
-        
-        private void ApplyReward(RewardData reward)
-        {
-            switch (reward.rewardType)
-            {
-                case RewardType.Coins:
-                    QuestManager.Instance.GainGold(reward.amount);
-                    break;
 
-                case RewardType.Weapon:
-                    // InventoryManager.Instance.AddItem(reward.itemId);
-                    Debug.Log($"Claimed weapon: {reward.itemId}");
-                    break;
-            }
-        }
-        
-        public void UpdateLastSessionTime()
+        private Reward GenerateReward()
         {
-            PlayerPrefs.SetString(LastSessionTicksKey, DateTime.UtcNow.Ticks.ToString());
-            PlayerPrefs.Save();
+            WeaponData weapon = GetRandomLockedWeapon();
+            
+            if (weapon != null && Random.value <= weaponRewardChance)
+                return new WeaponReward(weapon);
+
+            int coins = Random.Range(minCoins, maxCoins + 1);
+            return new CoinReward(coins, coinIcon);
+        }
+
+        private WeaponData GetRandomLockedWeapon()
+        {
+            if (possibleWeaponRewards == null || possibleWeaponRewards.Weapons.Length == 0)
+                return null;
+
+            List<WeaponData> lockedWeapons = new();
+
+            foreach (WeaponData weapon in possibleWeaponRewards.Weapons)
+            {
+                if (weapon == null)
+                    continue;
+
+                if (!WeaponInventory.Instance.IsUnlocked(weapon))
+                    lockedWeapons.Add(weapon);
+            }
+
+            if (lockedWeapons.Count == 0)
+                return null;
+
+            int index = Random.Range(0, lockedWeapons.Count);
+            return lockedWeapons[index];
         }
 
         private bool TryGetLastSessionTime(out DateTime lastSessionTime)
