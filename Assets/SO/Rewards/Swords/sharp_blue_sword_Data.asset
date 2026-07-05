@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9514531b92c649d8b37f16247f8b3e30, type: 3}
+  m_Name: sharp_blue_sword_Data
+  m_EditorClassIdentifier: Assembly-CSharp::SO.WeaponData
+  WeaponId: sharp_blue_sword
+  WeaponName: Sharp Blue Sword
+  Icon: {fileID: 21300000, guid: 1700f2cf7979270499f8d47b56a87512, type: 3}
+  VisualPrefab: {fileID: 4334720229974137441, guid: 8dd1278bd62135046a6827f7b8d6b129, type: 3}
+  Damage: 10
+  FireRate: 0.2

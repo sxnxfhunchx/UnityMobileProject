@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Reward;
 using SO;
+using TMPro;
 using UnityEngine;
 
 namespace UI
@@ -9,6 +11,7 @@ namespace UI
     {
         [SerializeField] private WeaponDatabase weaponDatabase;
         [SerializeField] private WeaponSlotView weaponViewPrefab;
+        [SerializeField] private TMP_Text statusText;
         [SerializeField] private Transform content;
 
         private readonly List<WeaponSlotView> slotViews = new();
@@ -25,8 +28,19 @@ namespace UI
 
             if (weaponDatabase == null || weaponDatabase.Weapons == null)
                 return;
+
+            int total = WeaponInventory.Instance.TotalCount;
+            int unlockedCount = WeaponInventory.Instance.UnlockedCount;
             
-            foreach (WeaponData weaponData in weaponDatabase.Weapons)
+            statusText.text = $"{unlockedCount}/{total} unlocked";
+            
+            var sortedWeapons = weaponDatabase.Weapons
+                .Where(w => w != null)
+                .OrderByDescending(w => WeaponInventory.Instance.IsEquipped(w))
+                .ThenByDescending(w => WeaponInventory.Instance.IsUnlocked(w))
+                .ThenBy(w => w.WeaponName);
+            
+            foreach (WeaponData weaponData in sortedWeapons)
             {
                 if (weaponData == null)
                     continue;

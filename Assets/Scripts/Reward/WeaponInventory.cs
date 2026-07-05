@@ -19,6 +19,8 @@ namespace Reward
         private HashSet<string> unlockedWeaponIds = new();
         
         public WeaponData CurrentWeapon { get; private set; }
+        public int TotalCount => weaponDatabase.Weapons.Count;
+        public int UnlockedCount => unlockedWeaponIds.Count;
 
         private void Awake()
         {
@@ -30,9 +32,7 @@ namespace Reward
 
             Instance = this;
 
-            ResetUnlockedWeapons();
-            unlockedWeaponIds.Add("BronzeSword");
-            Save();
+            //ResetUnlockedWeapons();
             Load();
             EnsureDefaultWeapon();
         }

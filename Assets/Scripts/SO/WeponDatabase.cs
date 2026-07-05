@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace SO
 {
     [CreateAssetMenu(menuName = "Rewards/Weapon Database")]
     public class WeaponDatabase : ScriptableObject
     {
-        public WeaponData[] Weapons;
+        public List<WeaponData> Weapons = new();
         
         public WeaponData GetWeaponById(string weaponId)
         {

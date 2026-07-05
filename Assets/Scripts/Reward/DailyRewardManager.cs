@@ -83,7 +83,7 @@ namespace Reward
 
         private WeaponData GetRandomLockedWeapon()
         {
-            if (possibleWeaponRewards == null || possibleWeaponRewards.Weapons.Length == 0)
+            if (possibleWeaponRewards == null || possibleWeaponRewards.Weapons.Count == 0)
                 return null;
 
             List<WeaponData> lockedWeapons = new();

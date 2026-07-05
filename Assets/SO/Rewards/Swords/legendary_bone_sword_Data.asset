@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9514531b92c649d8b37f16247f8b3e30, type: 3}
+  m_Name: legendary_bone_sword_Data
+  m_EditorClassIdentifier: Assembly-CSharp::SO.WeaponData
+  WeaponId: legendary_bone_sword
+  WeaponName: Legendary Bone Sword
+  Icon: {fileID: 21300000, guid: 2e0e1136cf6dd6b4bba7758c231b7a27, type: 3}
+  VisualPrefab: {fileID: 5651402458575486093, guid: ff1deabe1ffa54a47a2f188b49ac69c7, type: 3}
+  Damage: 10
+  FireRate: 0.2

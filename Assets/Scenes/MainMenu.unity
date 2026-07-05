@@ -3100,7 +3100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &459336488
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4848,7 +4848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &664347596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11474,8 +11474,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e0819dee843465aafdcea1428e2c094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.WeaponListController
-  weaponDatabase: {fileID: 11400000, guid: b700464d0c5c50941b13e73ff48b900a, type: 2}
+  weaponDatabase: {fileID: 11400000, guid: 71d3b3f6c2498ac40bbbb05f00f35e64, type: 2}
   weaponViewPrefab: {fileID: 8284538785609760906, guid: 93dc292b5e28e9d4a830166e520db872, type: 3}
+  statusText: {fileID: 446288185}
   content: {fileID: 1027515853}
 --- !u!1 &1763316926
 GameObject:

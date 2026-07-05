@@ -8,9 +8,12 @@ namespace SO
         public string WeaponId;
         public string WeaponName;
         public Sprite Icon;
+        
+        [Header("Visual")]
+        public GameObject VisualPrefab;
 
-        [Header("Future gameplay stats")]
-        public int damage = 1;
-        public float cooldown = 0.5f;
+        [Header("Stats")]
+        public int Damage = 10;
+        public float FireRate = 0.2f;
     }
 }

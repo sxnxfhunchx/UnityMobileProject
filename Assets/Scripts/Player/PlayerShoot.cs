@@ -1,4 +1,6 @@
 using Ability;
+using Reward;
+using SO;
 using UnityEngine;
 
 
@@ -104,7 +106,15 @@ public class PlayerShoot : MonoBehaviour
 
         if (projectile == null)
             return;
-
+        
+        WeaponData weapon = WeaponInventory.Instance.CurrentWeapon;
+        SwordProjectile swordProjectile = projectile.GetComponent<SwordProjectile>();
+        if (swordProjectile != null)
+        {
+            swordProjectile.Initialize(weapon);
+            fireRate = weapon.FireRate;
+        }
+        
         projectile.transform.position = firePoint.position;
         projectile.transform.rotation = firePoint.rotation * Quaternion.Euler(0f, angle, 0f);
 
