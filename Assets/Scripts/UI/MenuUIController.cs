@@ -19,6 +19,7 @@ public class MenuUIController : MonoBehaviour
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject rewardPanel;
     [SerializeField] private GameObject questsMenuPanel;
+    [SerializeField] private GameObject weaponsPanel;
     
     [Header("Reward Panel")]
     [SerializeField] private TMP_Text rewardText;
@@ -46,6 +47,7 @@ public class MenuUIController : MonoBehaviour
         if (saveLoadPanel != null) saveLoadPanel.SetActive(false);
         if (settingsPanel != null) settingsPanel.SetActive(false);
         if (questsMenuPanel != null) questsMenuPanel.SetActive(false);
+        if (weaponsPanel != null) weaponsPanel.SetActive(false);
         
         yield return new WaitUntil(() =>
             DailyNotificationManager.Instance != null &&
@@ -139,7 +141,8 @@ public class MenuUIController : MonoBehaviour
         bool isMenuInteractable = !settingsPanel.activeSelf 
                                   && !saveLoadPanel.activeSelf 
                                   && !questsMenuPanel.activeSelf
-                                  && !rewardPanel.activeSelf;
+                                  && !rewardPanel.activeSelf
+                                  && !weaponsPanel.activeSelf;
         menuObserver.ActiveMenu.SetMenuInteractable(isMenuInteractable);
     }
     
@@ -240,5 +243,23 @@ public class MenuUIController : MonoBehaviour
     {
         DailyRewardManager.Instance.ClaimReward();
         CloseRewardsPanel();
+    }
+
+    public void OpenWeaponsPanel()
+    {
+        if (weaponsPanel == null)
+            return;
+
+        weaponsPanel.SetActive(true);
+        SetMenuInteractable();
+    }
+    
+    public void CloseWeaponsPanel()
+    {
+        if (weaponsPanel == null)
+            return;
+        
+        weaponsPanel.SetActive(false);
+        SetMenuInteractable();
     }
 }

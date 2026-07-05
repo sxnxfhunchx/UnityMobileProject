@@ -6,5 +6,16 @@ namespace SO
     public class WeaponDatabase : ScriptableObject
     {
         public WeaponData[] Weapons;
+        
+        public WeaponData GetWeaponById(string weaponId)
+        {
+            foreach (WeaponData weapon in Weapons)
+            {
+                if (weapon != null && weapon.WeaponId == weaponId)
+                    return weapon;
+            }
+
+            return null;
+        }
     }
 }

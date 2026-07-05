@@ -394,6 +394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3fda9a246c4491a635d9f0c40749be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reward.WeaponInventory
+  weaponDatabase: {fileID: 11400000, guid: b700464d0c5c50941b13e73ff48b900a, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: b7fd90d1a0764164d96186b99d029887, type: 2}
 --- !u!1 &2095635525
 GameObject:
   m_ObjectHideFlags: 0

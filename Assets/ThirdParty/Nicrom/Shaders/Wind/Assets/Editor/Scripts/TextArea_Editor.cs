@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Nicrom.LPW
 {
     [CustomEditor(typeof(TextArea))]
-    public class TextArea_Editor : Editor
+    public class TextArea_Editor : UnityEditor.Editor
     {
         private SerializedProperty textContent;
 

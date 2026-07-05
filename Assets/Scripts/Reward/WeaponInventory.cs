@@ -8,11 +8,17 @@ namespace Reward
 {
     public class WeaponInventory : MonoBehaviour
     {
-        public static WeaponInventory Instance { get; private set; }
-
+        private const string CurrentWeaponKey = "CurrentWeapon";
         private const string UnlockedWeaponsKey = "UnlockedWeapons";
 
+        [SerializeField] private WeaponDatabase weaponDatabase;
+        [SerializeField] private WeaponData defaultWeapon;
+        
+        public static WeaponInventory Instance { get; private set; }
+        
         private HashSet<string> unlockedWeaponIds = new();
+        
+        public WeaponData CurrentWeapon { get; private set; }
 
         private void Awake()
         {
@@ -24,8 +30,11 @@ namespace Reward
 
             Instance = this;
 
-            //ResetUnlockedWeapons();
+            ResetUnlockedWeapons();
+            unlockedWeaponIds.Add("BronzeSword");
+            Save();
             Load();
+            EnsureDefaultWeapon();
         }
 
         public void UnlockWeapon(WeaponData weapon)
@@ -58,6 +67,10 @@ namespace Reward
             unlockedWeaponIds = saved
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .ToHashSet();
+            
+            string currentWeaponId = PlayerPrefs.GetString(CurrentWeaponKey, "");
+
+            CurrentWeapon = weaponDatabase.GetWeaponById(currentWeaponId);
         }
 
         private void Save()
@@ -70,10 +83,44 @@ namespace Reward
         {
             unlockedWeaponIds.Clear();
 
+            PlayerPrefs.DeleteKey(CurrentWeaponKey);
             PlayerPrefs.DeleteKey(UnlockedWeaponsKey);
             PlayerPrefs.Save();
 
             Debug.Log("Weapon inventory reset.");
+        }
+        
+        public void EquipWeapon(WeaponData weapon)
+        {
+            if (!IsUnlocked(weapon))
+                return;
+
+            CurrentWeapon = weapon;
+
+            PlayerPrefs.SetString(CurrentWeaponKey, weapon.WeaponId);
+            PlayerPrefs.Save();
+
+            Debug.Log($"Weapon equipped: {weapon.WeaponName}");
+        }
+
+        public bool IsEquipped(WeaponData weapon)
+        {
+            return CurrentWeapon.WeaponId == weapon.WeaponId;
+        }
+
+        private void EnsureDefaultWeapon()
+        {
+            if (defaultWeapon == null)
+                return;
+            
+            unlockedWeaponIds.Add(defaultWeapon.WeaponId);
+            
+            if (CurrentWeapon == null)
+                CurrentWeapon = defaultWeapon;
+
+            Save();
+            PlayerPrefs.SetString(CurrentWeaponKey, CurrentWeapon.WeaponId);
+            PlayerPrefs.Save();
         }
     }
 }
