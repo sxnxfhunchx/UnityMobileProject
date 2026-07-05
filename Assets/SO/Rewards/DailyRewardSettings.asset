@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DailyRewardSettings
   m_EditorClassIdentifier: Assembly-CSharp::SO.DailyRewardSettings
   cooldownHours: 24
-  testMode: 0
+  testMode: 1
   testCooldownSeconds: 10
