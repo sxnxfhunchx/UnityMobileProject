@@ -64,10 +64,11 @@ namespace Reward
             return timePassed >= settings.Cooldown;
         }
 
-        public void ClaimReward()
+        public string ClaimReward()
         {
             CurrentReward.Apply();
             currentReward = GenerateReward();
+            return currentReward.Name;
         }
 
         private Reward GenerateReward()

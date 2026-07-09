@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Analytics;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
@@ -132,7 +133,8 @@ public class QuestManager : MonoBehaviour
         
         metaProgressData.totalGold += completedStep.goldReward;
         Debug.Log($"[QuestManager] Claimed {completedStep.goldReward} Gold from chain {chainID}!");
-
+        AnalyticsManager.Instance.SendDailyRewardClaimed(config.questType.ToString());
+        
         progress.isRewardAvailable = false;
         progress.currentStepIndex++;
         progress.currentProgressValue = 0; 
@@ -142,6 +144,7 @@ public class QuestManager : MonoBehaviour
         {
             progress.isChainCompleted = true;
             Debug.Log($"[QuestManager] Chain {chainID} has been fully completed!");
+            AnalyticsManager.Instance.SendQuestCompleted(config.questType.ToString());
         }
 
         SaveMetaProgress();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Analytics;
 using SO;
 using UnityEngine;
 
@@ -101,6 +102,7 @@ namespace Reward
             PlayerPrefs.Save();
 
             Debug.Log($"Weapon equipped: {weapon.WeaponName}");
+            AnalyticsManager.Instance.SendWeaponEquipped(weapon.WeaponName);
         }
 
         public bool IsEquipped(WeaponData weapon)

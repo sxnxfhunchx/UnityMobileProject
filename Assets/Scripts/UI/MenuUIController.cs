@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Analytics;
 using Notifications;
 using Reward;
 using SO;
@@ -241,8 +242,9 @@ public class MenuUIController : MonoBehaviour
     
     public void OnClaimClicked()
     {
-        DailyRewardManager.Instance.ClaimReward();
+        string claimReward = DailyRewardManager.Instance.ClaimReward();
         CloseRewardsPanel();
+        AnalyticsManager.Instance.SendDailyRewardClaimed(claimReward);
     }
 
     public void OpenWeaponsPanel()
